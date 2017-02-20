@@ -5,6 +5,7 @@ namespace SinExWebApp20272532.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
     using Models;
+    using System.Collections.Generic;
 
     internal sealed class Configuration : DbMigrationsConfiguration<SinExWebApp20272532.Models.SinExDatabaseContext>
     {
@@ -31,11 +32,36 @@ namespace SinExWebApp20272532.Migrations
             // Add package type data.
             context.PackageTypes.AddOrUpdate(
                 p => p.PackageTypeID,
-                new PackageType { PackageTypeID = 1, Type = "Envelope", Description = "for correspondence and documents only with no commercial value" },
-                new PackageType { PackageTypeID = 2, Type = "Pak", Description = "for flat, non-breakable articles including heavy documents" },
-                new PackageType { PackageTypeID = 3, Type = "Tube", Description = "for larger documents, such as blueprints, which should be rolled rather than folded" },
-                new PackageType { PackageTypeID = 4, Type = "Box", Description = "for bulky items, such as electronic parts and textile samples" },
-                new PackageType { PackageTypeID = 5, Type = "Customer", Description = "for packaging provided by customer" }
+                new PackageType
+                {
+                    PackageTypeID = 1,
+                    Type = "Envelope",
+                    Description = "for correspondence and documents only with no commercial value"
+                },
+                new PackageType
+                {
+                    PackageTypeID = 2,
+                    Type = "Pak",
+                    Description = "for flat, non-breakable articles including heavy documents"
+                },
+                new PackageType
+                {
+                    PackageTypeID = 3,
+                    Type = "Tube",
+                    Description = "for larger documents, such as blueprints, which should be rolled rather than folded"
+                },
+                new PackageType
+                {
+                    PackageTypeID = 4,
+                    Type = "Box",
+                    Description = "for bulky items, such as electronic parts and textile samples"
+                },
+                new PackageType
+                {
+                    PackageTypeID = 5,
+                    Type = "Customer",
+                    Description = "for packaging provided by customer"
+                }
                 );
 
             // Add service type data.
@@ -100,47 +126,58 @@ namespace SinExWebApp20272532.Migrations
 
             context.Destinations.AddOrUpdate(
                 p => p.DestinationID,
-                new Destination { ProvinceCode = "BJ", City = "Beijing" },
-                new Destination { ProvinceCode = "BJ", City = "Beijing" },
-                new Destination { ProvinceCode = "JL", City = "Changchun" },
-                new Destination { ProvinceCode = "HN", City = "Changsha" },
-                new Destination { ProvinceCode = "SC", City = "Chengdu" },
-                new Destination { ProvinceCode = "CQ", City = "Chongqing" },
-                new Destination { ProvinceCode = "JX", City = "Fuzhou" },
-                new Destination { ProvinceCode = "QH", City = "Golmud" },
-                new Destination { ProvinceCode = "GD", City = "Guangzhou" },
-                new Destination { ProvinceCode = "GZ", City = "Guiyang" },
-                new Destination { ProvinceCode = "HI", City = "Haikou" },
-                new Destination { ProvinceCode = "NM", City = "Hailar" },
-                new Destination { ProvinceCode = "ZJ", City = "Hangzhou" },
-                new Destination { ProvinceCode = "HL", City = "Harbin" },
-                new Destination { ProvinceCode = "AH", City = "Hefei" },
-                new Destination { ProvinceCode = "NM", City = "Hohhot" },
-                new Destination { ProvinceCode = "HK", City = "Hong Kong" },
-                new Destination { ProvinceCode = "NM", City = "Hulun Buir" },
-                new Destination { ProvinceCode = "SD", City = "Jinan" },
-                new Destination { ProvinceCode = "XJ", City = "Kashi" },
-                new Destination { ProvinceCode = "YN", City = "Kunming" },
-                new Destination { ProvinceCode = "GS", City = "Lanzhou" },
-                new Destination { ProvinceCode = "XZ", City = "Lhasa" },
-                new Destination { ProvinceCode = "MC", City = "Macau" },
-                new Destination { ProvinceCode = "JX", City = "Nanchang" },
-                new Destination { ProvinceCode = "JS", City = "Nanjing" },
-                new Destination { ProvinceCode = "JX", City = "Nanning" },
-                new Destination { ProvinceCode = "HL", City = "Qiqihar" },
-                new Destination { ProvinceCode = "SH", City = "Shanghai" },
-                new Destination { ProvinceCode = "LN", City = "Shenyang" },
-                new Destination { ProvinceCode = "HE", City = "Shijiazhuang" },
-                new Destination { ProvinceCode = "TW", City = "Taipei" },
-                new Destination { ProvinceCode = "SX", City = "Taiyuan" },
-                new Destination { ProvinceCode = "HE", City = "Tianjin" },
-                new Destination { ProvinceCode = "XJ", City = "Urumqi" },
-                new Destination { ProvinceCode = "HB", City = "Wuhan" },
-                new Destination { ProvinceCode = "SN", City = "Xi'an" },
-                new Destination { ProvinceCode = "QH", City = "Xining" },
-                new Destination { ProvinceCode = "NX", City = "Yinchuan" },
-                new Destination { ProvinceCode = "GS", City = "Yumen" },
-                new Destination { ProvinceCode = "HA", City = "Zhengzhou" }
+                new Destination { DestinationID = 1, ProvinceCode = "BJ", City = "Beijing" },
+                new Destination { DestinationID = 2, ProvinceCode = "BJ", City = "Beijing" },
+                new Destination { DestinationID = 3, ProvinceCode = "JL", City = "Changchun" },
+                new Destination { DestinationID = 4, ProvinceCode = "HN", City = "Changsha" },
+                new Destination { DestinationID = 5, ProvinceCode = "SC", City = "Chengdu" },
+                new Destination { DestinationID = 6, ProvinceCode = "CQ", City = "Chongqing" },
+                new Destination { DestinationID = 7, ProvinceCode = "JX", City = "Fuzhou" },
+                new Destination { DestinationID = 8, ProvinceCode = "QH", City = "Golmud" },
+                new Destination { DestinationID = 9, ProvinceCode = "GD", City = "Guangzhou" },
+                new Destination { DestinationID = 10, ProvinceCode = "GZ", City = "Guiyang" },
+                new Destination { DestinationID = 11, ProvinceCode = "HI", City = "Haikou" },
+                new Destination { DestinationID = 12, ProvinceCode = "NM", City = "Hailar" },
+                new Destination { DestinationID = 13, ProvinceCode = "ZJ", City = "Hangzhou" },
+                new Destination { DestinationID = 14, ProvinceCode = "HL", City = "Harbin" },
+                new Destination { DestinationID = 15, ProvinceCode = "AH", City = "Hefei" },
+                new Destination { DestinationID = 16, ProvinceCode = "NM", City = "Hohhot" },
+                new Destination { DestinationID = 17, ProvinceCode = "HK", City = "Hong Kong" },
+                new Destination { DestinationID = 18, ProvinceCode = "NM", City = "Hulun Buir" },
+                new Destination { DestinationID = 19, ProvinceCode = "SD", City = "Jinan" },
+                new Destination { DestinationID = 20, ProvinceCode = "XJ", City = "Kashi" },
+                new Destination { DestinationID = 21, ProvinceCode = "YN", City = "Kunming" },
+                new Destination { DestinationID = 22, ProvinceCode = "GS", City = "Lanzhou" },
+                new Destination { DestinationID = 23, ProvinceCode = "XZ", City = "Lhasa" },
+                new Destination { DestinationID = 24, ProvinceCode = "MC", City = "Macau" },
+                new Destination { DestinationID = 25, ProvinceCode = "JX", City = "Nanchang" },
+                new Destination { DestinationID = 26, ProvinceCode = "JS", City = "Nanjing" },
+                new Destination { DestinationID = 27, ProvinceCode = "JX", City = "Nanning" },
+                new Destination { DestinationID = 28, ProvinceCode = "HL", City = "Qiqihar" },
+                new Destination { DestinationID = 29, ProvinceCode = "SH", City = "Shanghai" },
+                new Destination { DestinationID = 30, ProvinceCode = "LN", City = "Shenyang" },
+                new Destination { DestinationID = 31, ProvinceCode = "HE", City = "Shijiazhuang" },
+                new Destination { DestinationID = 32, ProvinceCode = "TW", City = "Taipei" },
+                new Destination { DestinationID = 33, ProvinceCode = "SX", City = "Taiyuan" },
+                new Destination { DestinationID = 34, ProvinceCode = "HE", City = "Tianjin" },
+                new Destination { DestinationID = 35, ProvinceCode = "XJ", City = "Urumqi" },
+                new Destination { DestinationID = 36, ProvinceCode = "HB", City = "Wuhan" },
+                new Destination { DestinationID = 37, ProvinceCode = "SN", City = "Xi'an" },
+                new Destination { DestinationID = 38, ProvinceCode = "QH", City = "Xining" },
+                new Destination { DestinationID = 39, ProvinceCode = "NX", City = "Yinchuan" },
+                new Destination { DestinationID = 40, ProvinceCode = "GS", City = "Yumen" },
+                new Destination { DestinationID = 41, ProvinceCode = "HA", City = "Zhengzhou" }
+                );
+
+            context.PackageTypeSizes.AddOrUpdate(
+                p => p.PackageTypeSizeID,
+                new PackageTypeSize { PackageTypeSizeID = 1, Size = "250x300mm", WeightLimit = "Not Applicable", PackageTypeID = 1 },
+                new PackageTypeSize { PackageTypeSizeID = 2, Size = "small - 350x400mm", WeightLimit = "5kg", PackageTypeID = 2 },
+                new PackageTypeSize { PackageTypeSizeID = 3, Size = "large - 450x550mm", WeightLimit = "5kg", PackageTypeID = 2 },
+                new PackageTypeSize { PackageTypeSizeID = 4, Size = "1000x80mm", WeightLimit = "Not Applicable", PackageTypeID = 3 },
+                new PackageTypeSize { PackageTypeSizeID = 5, Size = "small - 300x250x150mm", WeightLimit = "10kg", PackageTypeID = 4 },
+                new PackageTypeSize { PackageTypeSizeID = 6, Size = "medium - 400x350x250mm", WeightLimit = "20kg", PackageTypeID = 4 },
+                new PackageTypeSize { PackageTypeSizeID = 7, Size = "large - 500x450x350mm", WeightLimit = "30kg", PackageTypeID = 4 }
                 );
 
             /*

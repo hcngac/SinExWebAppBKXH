@@ -10,6 +10,8 @@ namespace SinExWebApp20272532.Models
     public class PackageTypeSize
     {
         public virtual int PackageTypeSizeID { get; set; }
+        public virtual string Size { get; set; }
+        public virtual string WeightLimit { get; set; }
         public virtual int PackageTypeID { get; set; }
         public virtual PackageType PackageType { get; set; }
 
