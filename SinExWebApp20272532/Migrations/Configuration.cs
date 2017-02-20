@@ -89,6 +89,62 @@ namespace SinExWebApp20272532.Migrations
                 new ServicePackageFee { ServicePackageFeeID = 29, Fee = 30, MinimumFee = 30, ServiceTypeID = 6, PackageTypeID = 4 }, // Box
                 new ServicePackageFee { ServicePackageFeeID = 30, Fee = 30, MinimumFee = 30, ServiceTypeID = 6, PackageTypeID = 5 }  // Customer
                 );
+
+            context.Currencies.AddOrUpdate(
+                p => p.CurrencyCode,
+                new Currency { CurrencyCode = "CNY", ExchangeRate = 1.00M },
+                new Currency { CurrencyCode = "HKD", ExchangeRate = 1.13M },
+                new Currency { CurrencyCode = "TWD", ExchangeRate = 4.56M },
+                new Currency { CurrencyCode = "MOP", ExchangeRate = 1.16M }
+                );
+
+            context.Destinations.AddOrUpdate(
+                p => p.DestinationID,
+                new Destination { ProvinceCode = "BJ", City = "Beijing" },
+                new Destination { ProvinceCode = "BJ", City = "Beijing" },
+                new Destination { ProvinceCode = "JL", City = "Changchun" },
+                new Destination { ProvinceCode = "HN", City = "Changsha" },
+                new Destination { ProvinceCode = "SC", City = "Chengdu" },
+                new Destination { ProvinceCode = "CQ", City = "Chongqing" },
+                new Destination { ProvinceCode = "JX", City = "Fuzhou" },
+                new Destination { ProvinceCode = "QH", City = "Golmud" },
+                new Destination { ProvinceCode = "GD", City = "Guangzhou" },
+                new Destination { ProvinceCode = "GZ", City = "Guiyang" },
+                new Destination { ProvinceCode = "HI", City = "Haikou" },
+                new Destination { ProvinceCode = "NM", City = "Hailar" },
+                new Destination { ProvinceCode = "ZJ", City = "Hangzhou" },
+                new Destination { ProvinceCode = "HL", City = "Harbin" },
+                new Destination { ProvinceCode = "AH", City = "Hefei" },
+                new Destination { ProvinceCode = "NM", City = "Hohhot" },
+                new Destination { ProvinceCode = "HK", City = "Hong Kong" },
+                new Destination { ProvinceCode = "NM", City = "Hulun Buir" },
+                new Destination { ProvinceCode = "SD", City = "Jinan" },
+                new Destination { ProvinceCode = "XJ", City = "Kashi" },
+                new Destination { ProvinceCode = "YN", City = "Kunming" },
+                new Destination { ProvinceCode = "GS", City = "Lanzhou" },
+                new Destination { ProvinceCode = "XZ", City = "Lhasa" },
+                new Destination { ProvinceCode = "MC", City = "Macau" },
+                new Destination { ProvinceCode = "JX", City = "Nanchang" },
+                new Destination { ProvinceCode = "JS", City = "Nanjing" },
+                new Destination { ProvinceCode = "JX", City = "Nanning" },
+                new Destination { ProvinceCode = "HL", City = "Qiqihar" },
+                new Destination { ProvinceCode = "SH", City = "Shanghai" },
+                new Destination { ProvinceCode = "LN", City = "Shenyang" },
+                new Destination { ProvinceCode = "HE", City = "Shijiazhuang" },
+                new Destination { ProvinceCode = "TW", City = "Taipei" },
+                new Destination { ProvinceCode = "SX", City = "Taiyuan" },
+                new Destination { ProvinceCode = "HE", City = "Tianjin" },
+                new Destination { ProvinceCode = "XJ", City = "Urumqi" },
+                new Destination { ProvinceCode = "HB", City = "Wuhan" },
+                new Destination { ProvinceCode = "SN", City = "Xi'an" },
+                new Destination { ProvinceCode = "QH", City = "Xining" },
+                new Destination { ProvinceCode = "NX", City = "Yinchuan" },
+                new Destination { ProvinceCode = "GS", City = "Yumen" },
+                new Destination { ProvinceCode = "HA", City = "Zhengzhou" }
+                );
+
+            /*
+             */
         }
     }
 }

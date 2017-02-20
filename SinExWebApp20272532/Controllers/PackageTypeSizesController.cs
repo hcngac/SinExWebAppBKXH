@@ -10,107 +10,112 @@ using SinExWebApp20272532.Models;
 
 namespace SinExWebApp20272532.Controllers
 {
-    public class DestinationsController : Controller
+    public class PackageTypeSizesController : Controller
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
-        // GET: Destinations
+        // GET: PackageTypeSizes
         public ActionResult Index()
         {
-            return View(db.Destinations.ToList());
+            var packageTypeSizes = db.PackageTypeSizes.Include(p => p.PackageType);
+            return View(packageTypeSizes.ToList());
         }
 
-        // GET: Destinations/Details/5
+        // GET: PackageTypeSizes/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Destination destination = db.Destinations.Find(id);
-            if (destination == null)
+            PackageTypeSize packageTypeSize = db.PackageTypeSizes.Find(id);
+            if (packageTypeSize == null)
             {
                 return HttpNotFound();
             }
-            return View(destination);
+            return View(packageTypeSize);
         }
 
-        // GET: Destinations/Create
+        // GET: PackageTypeSizes/Create
         public ActionResult Create()
         {
+            ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type");
             return View();
         }
 
-        // POST: Destinations/Create
+        // POST: PackageTypeSizes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DestinationID,City,ProvinceCode")] Destination destination)
+        public ActionResult Create([Bind(Include = "PackageTypeSizeID,PackageTypeID")] PackageTypeSize packageTypeSize)
         {
             if (ModelState.IsValid)
             {
-                db.Destinations.Add(destination);
+                db.PackageTypeSizes.Add(packageTypeSize);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(destination);
+            ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", packageTypeSize.PackageTypeID);
+            return View(packageTypeSize);
         }
 
-        // GET: Destinations/Edit/5
+        // GET: PackageTypeSizes/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Destination destination = db.Destinations.Find(id);
-            if (destination == null)
+            PackageTypeSize packageTypeSize = db.PackageTypeSizes.Find(id);
+            if (packageTypeSize == null)
             {
                 return HttpNotFound();
             }
-            return View(destination);
+            ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", packageTypeSize.PackageTypeID);
+            return View(packageTypeSize);
         }
 
-        // POST: Destinations/Edit/5
+        // POST: PackageTypeSizes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DestinationID,City,ProvinceCode")] Destination destination)
+        public ActionResult Edit([Bind(Include = "PackageTypeSizeID,PackageTypeID")] PackageTypeSize packageTypeSize)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(destination).State = EntityState.Modified;
+                db.Entry(packageTypeSize).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(destination);
+            ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", packageTypeSize.PackageTypeID);
+            return View(packageTypeSize);
         }
 
-        // GET: Destinations/Delete/5
+        // GET: PackageTypeSizes/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Destination destination = db.Destinations.Find(id);
-            if (destination == null)
+            PackageTypeSize packageTypeSize = db.PackageTypeSizes.Find(id);
+            if (packageTypeSize == null)
             {
                 return HttpNotFound();
             }
-            return View(destination);
+            return View(packageTypeSize);
         }
 
-        // POST: Destinations/Delete/5
+        // POST: PackageTypeSizes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Destination destination = db.Destinations.Find(id);
-            db.Destinations.Remove(destination);
+            PackageTypeSize packageTypeSize = db.PackageTypeSizes.Find(id);
+            db.PackageTypeSizes.Remove(packageTypeSize);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
