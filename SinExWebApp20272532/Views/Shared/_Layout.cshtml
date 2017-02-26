@@ -16,6 +16,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("SinEx", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
@@ -31,6 +32,12 @@
                             <li>@Html.ActionLink("Service Types", "Index", "ServiceTypes")</li>
                             <li>@Html.ActionLink("Fees", "Index", "ServicePackageFees")</li>
                             <li>@Html.ActionLink("Currencies", "Index", "Currencies")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Shipping History", "GenerateHistoryReport", "Shipments")</li>
                         </ul>
                     </li>
                 </ul>
