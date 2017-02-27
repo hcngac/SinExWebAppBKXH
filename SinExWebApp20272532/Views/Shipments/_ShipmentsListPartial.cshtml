@@ -9,11 +9,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.WaybillId)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ServiceType)
+            <th> 
+                @Html.ActionLink("Shipped Date", "GenerateHistoryReport", { sortOrder = ViewBag.ServiceTypeSortParm, currentShippingAccountId = ViewBag.CurrentShippingAccountId})
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShippedDate)
+                @Html.ActionLink("Shipped Date", "GenerateHistoryReport", { sortOrder = ViewBag.ShippedDateSortParm, currentShippingAccountId = ViewBag.CurrentShippingAccountId})
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DeliveredDate)
