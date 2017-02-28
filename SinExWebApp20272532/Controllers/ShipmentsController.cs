@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SinExWebApp20272532.Models;
 using SinExWebApp20272532.ViewModels;
+using X.PagedList;
 
 namespace SinExWebApp20272532.Controllers
 {
@@ -117,16 +118,25 @@ namespace SinExWebApp20272532.Controllers
         }
 
         // GET: Shipments/GenerateHistoryReport
-        public ActionResult GenerateHistoryReport(int? ShippingAccountId, string sortOrder, int? currentShippingAccountId)
+        public ActionResult GenerateHistoryReport(int? ShippingAccountId, string sortOrder, int? currentShippingAccountId, int? page)
         {
             // Instantiate an instance of the ShipmentsReportViewModel and the ShipmentsSearchViewModel.
             var shipmentSearch = new ShipmentsReportViewModel();
             shipmentSearch.Shipment = new ShipmentsSearchViewModel();
 
+            // Code for paging.
+            ViewBag.CurrentSort = sortOrder;
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
             // Retain search conditions for sorting.
             if (ShippingAccountId == null)
             {
                 ShippingAccountId = currentShippingAccountId;
+            }
+            else
+            {
+                page = 1;
             }
             ViewBag.CurrentShippingAccountId = ShippingAccountId;
 
@@ -153,7 +163,6 @@ namespace SinExWebApp20272532.Controllers
             {
                 // TODO: Construct the LINQ query to retrive only the shipments for the specified shipping account id.
                 shipmentQuery = shipmentQuery.Where(s => s.ShippingAccountId == ShippingAccountId);
-                shipmentSearch.Shipments = shipmentQuery.ToList();
 
                 // Code for sorting.
                 ViewBag.WaybillIdSortParm = string.IsNullOrEmpty(sortOrder) ? "waybillId" : "";
@@ -162,7 +171,7 @@ namespace SinExWebApp20272532.Controllers
                 ViewBag.DeliveredDateSortParm = sortOrder == "deliveredDate" ? "deliveredDate_desc" : "deliveredDate";
                 ViewBag.RecipientNameSortParm = sortOrder == "recipientName" ? "recipientName_desc" : "recipientName";
                 ViewBag.OriginSortParm = sortOrder == "origin"? "origin_desc" : "origin";
-                ViewBag.DestinationSortParm = sortOrder == "destination" ? "destination_desc" : "estination";
+                ViewBag.DestinationSortParm = sortOrder == "destination" ? "destination_desc" : "destination";
                 switch (sortOrder)
                 {
                     case "waybillId":
@@ -208,11 +217,13 @@ namespace SinExWebApp20272532.Controllers
                         shipmentQuery = shipmentQuery.OrderBy(s => s.WaybillId);
                         break;
                 }
+
+                shipmentSearch.Shipments = shipmentQuery.ToPagedList(pageNumber, pageSize);
             }
             else
             {
                 // Return an empty result if no shipping account id has been selected.
-                shipmentSearch.Shipments = new ShipmentsListViewModel[0];
+                shipmentSearch.Shipments = new ShipmentsListViewModel[0].ToPagedList(pageNumber, pageSize);
             }
 
             return View(shipmentSearch);

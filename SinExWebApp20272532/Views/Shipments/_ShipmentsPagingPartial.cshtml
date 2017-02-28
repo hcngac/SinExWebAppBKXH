@@ -1,0 +1,10 @@
+﻿@model X.PagedList.IPagedList<SinExWebApp20272532.ViewModels.ShipmentsListViewModel>
+@using X.PagedList.Mvc
+
+@if (Model.PageCount > 1)
+{
+    <div class="pager">
+        @Html.PagedListPager(Model, page => Url.Action("GenerateHistoryReport", new { page, sortOrder = ViewBag.CurrentSort, currentShippingAccountId = ViewBag.CurrentShipingAccountId }))
+        Page @Model.PageNumber of @Model.PageCount
+    </div>
+}
