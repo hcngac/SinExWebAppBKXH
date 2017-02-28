@@ -10,11 +10,14 @@ namespace SinExWebApp20272532.Models
     {
         [Required]
         [StringLength(70)]
+        [Display(Name = "Contact Person Name")]
         public virtual string ContactPersonName { get; set; }
         [Required]
         [StringLength(40)]
+        [Display(Name = "Company Name")]
         public virtual string CompanyName { get; set; }
         [StringLength(30)]
+        [Display(Name = "Department Name")]
         public virtual string DepartmentName { get; set; }
     }
 }

@@ -10,62 +10,62 @@ using SinExWebApp20272532.Models;
 
 namespace SinExWebApp20272532.Controllers
 {
-    public class PersonalShippingAccountsController : Controller
+    public class BusinessShippingAccountsController : Controller
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
-        // GET: PersonalShippingAccounts/Create
+        // GET: BusinessShippingAccounts/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: PersonalShippingAccounts/Create
+        // POST: BusinessShippingAccounts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ShippingAccountId,Building,Street,City,ProvinceCode,PostalCode,CreditCardType,CreditCardNumber,CreditCardSecurityNumber,CreditCardCardholderName,CreditCardExpiryMonth,CreditCardExpiryYear,PhoneNumber,EmailAddress,FirstName,LastName")] PersonalShippingAccount personalShippingAccount)
+        public ActionResult Create([Bind(Include = "ShippingAccountId,Building,Street,City,ProvinceCode,PostalCode,CreditCardType,CreditCardNumber,CreditCardSecurityNumber,CreditCardCardholderName,CreditCardExpiryMonth,CreditCardExpiryYear,PhoneNumber,EmailAddress,ContactPersonName,CompanyName,DepartmentName")] BusinessShippingAccount businessShippingAccount)
         {
             if (ModelState.IsValid)
             {
-                //db.ShippingAccounts.Add(personalShippingAccount);
+                //db.ShippingAccounts.Add(businessShippingAccount);
                 //db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(personalShippingAccount);
+            return View(businessShippingAccount);
         }
 
-        // GET: PersonalShippingAccounts/Edit/5
+        // GET: BusinessShippingAccounts/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PersonalShippingAccount personalShippingAccount = (PersonalShippingAccount)db.ShippingAccounts.Find(id);
-            if (personalShippingAccount == null)
+            BusinessShippingAccount businessShippingAccount = (BusinessShippingAccount)db.ShippingAccounts.Find(id);
+            if (businessShippingAccount == null)
             {
                 return HttpNotFound();
             }
-            return View(personalShippingAccount);
+            return View(businessShippingAccount);
         }
 
-        // POST: PersonalShippingAccounts/Edit/5
+        // POST: BusinessShippingAccounts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ShippingAccountId,Building,Street,City,ProvinceCode,PostalCode,CreditCardType,CreditCardNumber,CreditCardSecurityNumber,CreditCardCardholderName,CreditCardExpiryMonth,CreditCardExpiryYear,PhoneNumber,EmailAddress,FirstName,LastName")] PersonalShippingAccount personalShippingAccount)
+        public ActionResult Edit([Bind(Include = "ShippingAccountId,Building,Street,City,ProvinceCode,PostalCode,CreditCardType,CreditCardNumber,CreditCardSecurityNumber,CreditCardCardholderName,CreditCardExpiryMonth,CreditCardExpiryYear,PhoneNumber,EmailAddress,ContactPersonName,CompanyName,DepartmentName")] BusinessShippingAccount businessShippingAccount)
         {
             if (ModelState.IsValid)
             {
-                //db.Entry(personalShippingAccount).State = EntityState.Modified;
+                //db.Entry(businessShippingAccount).State = EntityState.Modified;
                 //db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
-            return View(personalShippingAccount);
+            return View(businessShippingAccount);
         }
 
         protected override void Dispose(bool disposing)
