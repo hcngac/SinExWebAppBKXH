@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SinExWebApp20272532.Models;
 using SinExWebApp20272532.ViewModels;
+using X.PagedList;
 
 namespace SinExWebApp20272532.Controllers
 {
@@ -47,7 +48,7 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "WaybillId,ReferenceNumber,ServiceType,ShippedDate,DeliveredDate,RecipientName,NumberOfPackages,Origin,Destination,Status,ShippingAccoundId")] Shipment shipment)
+        public ActionResult Create([Bind(Include = "WaybillId,ReferenceNumber,ServiceType,ShippedDate,DeliveredDate,RecipientName,NumberOfPackages,Origin,Destination,Status,ShippingAccountId")] Shipment shipment)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +80,7 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "WaybillId,ReferenceNumber,ServiceType,ShippedDate,DeliveredDate,RecipientName,NumberOfPackages,Origin,Destination,Status,ShippingAccoundId")] Shipment shipment)
+        public ActionResult Edit([Bind(Include = "WaybillId,ReferenceNumber,ServiceType,ShippedDate,DeliveredDate,RecipientName,NumberOfPackages,Origin,Destination,Status,ShippingAccountId")] Shipment shipment)
         {
             if (ModelState.IsValid)
             {
@@ -117,11 +118,27 @@ namespace SinExWebApp20272532.Controllers
         }
 
         // GET: Shipments/GenerateHistoryReport
-        public ActionResult GenerateHistoryReport(int? ShippingAccountId)
+        public ActionResult GenerateHistoryReport(int? ShippingAccountId, string sortOrder, int? currentShippingAccountId, int? page)
         {
             // Instantiate an instance of the ShipmentsReportViewModel and the ShipmentsSearchViewModel.
             var shipmentSearch = new ShipmentsReportViewModel();
             shipmentSearch.Shipment = new ShipmentsSearchViewModel();
+
+            // Code for paging.
+            ViewBag.CurrentSort = sortOrder;
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
+            // Retain search conditions for sorting.
+            if (ShippingAccountId == null)
+            {
+                ShippingAccountId = currentShippingAccountId;
+            }
+            else
+            {
+                page = 1;
+            }
+            ViewBag.CurrentShippingAccountId = ShippingAccountId;
 
             // Populate the ShippingAccountId dropdown list.
             shipmentSearch.Shipment.ShippingAccounts = PopulateShippingAccountsDropdownList().ToList();
@@ -146,12 +163,67 @@ namespace SinExWebApp20272532.Controllers
             {
                 // TODO: Construct the LINQ query to retrive only the shipments for the specified shipping account id.
                 shipmentQuery = shipmentQuery.Where(s => s.ShippingAccountId == ShippingAccountId);
-                shipmentSearch.Shipments = shipmentQuery.ToList();
+
+                // Code for sorting.
+                ViewBag.WaybillIdSortParm = string.IsNullOrEmpty(sortOrder) ? "waybillId" : "";
+                ViewBag.ServiceTypeSortParm = sortOrder == "serviceType" ? "serviceType_desc" : "serviceType";
+                ViewBag.ShippedDateSortParm = sortOrder == "shippedDate" ? "shippedDate_desc" : "shippedDate";
+                ViewBag.DeliveredDateSortParm = sortOrder == "deliveredDate" ? "deliveredDate_desc" : "deliveredDate";
+                ViewBag.RecipientNameSortParm = sortOrder == "recipientName" ? "recipientName_desc" : "recipientName";
+                ViewBag.OriginSortParm = sortOrder == "origin"? "origin_desc" : "origin";
+                ViewBag.DestinationSortParm = sortOrder == "destination" ? "destination_desc" : "destination";
+                switch (sortOrder)
+                {
+                    case "waybillId":
+                        shipmentQuery = shipmentQuery.OrderBy(s => s.WaybillId);
+                        break;
+                    case "serviceType":
+                        shipmentQuery = shipmentQuery.OrderBy(s => s.ServiceType);
+                        break;
+                    case "serviceType_desc":
+                        shipmentQuery = shipmentQuery.OrderByDescending(s => s.ServiceType);
+                        break;
+                    case "shippedDate":
+                        shipmentQuery = shipmentQuery.OrderBy(s => s.ShippedDate);
+                        break;
+                    case "shippedDate_desc":
+                        shipmentQuery = shipmentQuery.OrderByDescending(s => s.ShippedDate);
+                        break;
+                    case "deliveredDate":
+                        shipmentQuery = shipmentQuery.OrderBy(s => s.DeliveredDate);
+                        break;
+                    case "deliveredDate_desc":
+                        shipmentQuery = shipmentQuery.OrderByDescending(s => s.DeliveredDate);
+                        break;
+                    case "recipientName":
+                        shipmentQuery = shipmentQuery.OrderBy(s => s.RecipientName);
+                        break;
+                    case "recipientName_desc":
+                        shipmentQuery = shipmentQuery.OrderByDescending(s => s.RecipientName);
+                        break;
+                    case "origin":
+                        shipmentQuery = shipmentQuery.OrderBy(s => s.Origin);
+                        break;
+                    case "origin_desc":
+                        shipmentQuery = shipmentQuery.OrderByDescending(s => s.Origin);
+                        break;
+                    case "destination":
+                        shipmentQuery = shipmentQuery.OrderBy(s => s.Destination);
+                        break;
+                    case "destination_desc":
+                        shipmentQuery = shipmentQuery.OrderByDescending(s => s.Destination);
+                        break;
+                    default:
+                        shipmentQuery = shipmentQuery.OrderBy(s => s.WaybillId);
+                        break;
+                }
+
+                shipmentSearch.Shipments = shipmentQuery.ToPagedList(pageNumber, pageSize);
             }
             else
             {
                 // Return an empty result if no shipping account id has been selected.
-                shipmentSearch.Shipments = new ShipmentsListViewModel[0];
+                shipmentSearch.Shipments = new ShipmentsListViewModel[0].ToPagedList(pageNumber, pageSize);
             }
 
             return View(shipmentSearch);
