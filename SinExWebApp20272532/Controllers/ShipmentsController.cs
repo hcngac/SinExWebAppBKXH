@@ -118,7 +118,7 @@ namespace SinExWebApp20272532.Controllers
         }
 
         // GET: Shipments/GenerateHistoryReport
-        public ActionResult GenerateHistoryReport(int? ShippingAccountId, string sortOrder, int? currentShippingAccountId, int? page)
+        public ActionResult GenerateHistoryReport(int? ShippingAccountId,DateTime? DateFrom, DateTime? DateTo, string sortOrder, int? currentShippingAccountId, int? page)
         {
             // Instantiate an instance of the ShipmentsReportViewModel and the ShipmentsSearchViewModel.
             var shipmentSearch = new ShipmentsReportViewModel();
@@ -163,6 +163,16 @@ namespace SinExWebApp20272532.Controllers
             {
                 // TODO: Construct the LINQ query to retrive only the shipments for the specified shipping account id.
                 shipmentQuery = shipmentQuery.Where(s => s.ShippingAccountId == ShippingAccountId);
+
+                // Code for date range search
+                if (DateFrom != null)
+                {
+                    shipmentQuery = shipmentQuery.Where(s => s.ShippedDate >= DateFrom).Where(s=>s.DeliveredDate >= DateFrom);
+                }
+                if (DateTo != null)
+                {
+                    shipmentQuery = shipmentQuery.Where(s => s.ShippedDate <= DateTo).Where(s => s.DeliveredDate <= DateTo);
+                }
 
                 // Code for sorting.
                 ViewBag.WaybillIdSortParm = string.IsNullOrEmpty(sortOrder) ? "waybillId" : "";

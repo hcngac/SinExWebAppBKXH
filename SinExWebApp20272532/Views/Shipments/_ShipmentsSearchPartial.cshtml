@@ -4,6 +4,10 @@
 {
     @Html.LabelFor(a => a.ShippingAccountId, "Shipping Account: ")
     @Html.DropDownListFor(a => a.ShippingAccountId, Model.ShippingAccounts, "Please select")
-    <input type="submit" value="Search" />
+    @Html.Label("Date From")
+    @Html.TextBox("DateFrom", "", new { @class = "datefield", type = "date" })
+    @Html.Label("Date To")
+    @Html.TextBox("DateTo", "", new { @class = "datefield", type = "date" })
+        <input type="submit" value="Search" />
 }
 
