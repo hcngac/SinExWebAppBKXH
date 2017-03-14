@@ -83,6 +83,11 @@ namespace SinExWebApp20272532.Models
         [StringLength(30)]
         [EmailAddress()]
         [Display(Name ="Email Address")]
-        public virtual string EmailAddress { get; set; }
+        public virtual string Email { get; set; }
+
+        [StringLength(10)]
+        public virtual string UserName { get; set; }
+
+        public virtual ICollection<Shipment> Shipments { get; set; }
     }
 }

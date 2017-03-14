@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="107" version="2.0">
+<workbench progressCount="142" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="584" y="-20">
 <fastViewData fastViewLocation="1024">
@@ -36,12 +36,17 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
+<part id="2"/>
+<part id="3"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="com.ibm.xtools.modeler.ui.editors.internal.ModelEditor" name="Domain Model.emx" partName="Domain Model.emx" path="C:/Users/hcngac/Source/Repos/SinExWebApp20272532/SinExModels/SinEx Requirements Models/Domain Model.emx" title="Domain Model.emx" tooltip="SinEx Requirements Models/Domain Model.emx" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SinEx Requirements Models/Domain Model.emx"/>
+</editor>
+<editor id="com.ibm.xtools.modeler.ui.editors.internal.ModelEditor" name="Use Case Model.emx" partName="Use Case Model.emx" path="C:/Users/hcngac/Source/Repos/SinExWebApp20272532/SinExModels/Miscellaneous Models/Use Case Model.emx" title="Use Case Model.emx" tooltip="Miscellaneous Models/Use Case Model.emx" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Miscellaneous Models/Use Case Model.emx"/>
 </editor>
 </editors>
 <views>
@@ -199,6 +204,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.ibm.xtools.modeler.ui.editors.internal.ModelEditor" name="Use Case Model.emx" tooltip="Miscellaneous Models/Use Case Model.emx">
+<persistable path="/Miscellaneous Models/Use Case Model.emx"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.ibm.xtools.modeler.ui.editors.internal.ModelEditor" name="Domain Model.emx" tooltip="SinEx Requirements Models/Domain Model.emx">
 <persistable path="/SinEx Requirements Models/Domain Model.emx"/>
 </file>

@@ -7,9 +7,9 @@ namespace SinExWebApp20272532.Migrations
     using Models;
     using System.Collections.Generic;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SinExWebApp20272532.Models.SinExDatabaseContext>
+    internal sealed class SinExConfiguration : DbMigrationsConfiguration<SinExWebApp20272532.Models.SinExDatabaseContext>
     {
-        public Configuration()
+        public SinExConfiguration()
         {
             AutomaticMigrationsEnabled = true;
             ContextKey = "SinExWebApp20272532.Models.SinExDatabaseContext";
@@ -180,6 +180,7 @@ namespace SinExWebApp20272532.Migrations
                 new PackageTypeSize { PackageTypeSizeID = 7, Size = "large - 500x450x350mm", WeightLimit = "30kg", PackageTypeID = 4 }
                 );
 
+            /*
             // Add shipment data.
             context.Shipments.AddOrUpdate(
                 p => p.WaybillId,
@@ -209,6 +210,9 @@ namespace SinExWebApp20272532.Migrations
                 new Shipment { WaybillId = 24, ReferenceNumber = "", ServiceType = "Ground", ShippedDate = new DateTime(2017, 01, 15), DeliveredDate = new DateTime(2017, 01, 19), RecipientName = "Peter Pang", NumberOfPackages = 3, Origin = "Beijing", Destination = "Lhasa", Status = "Delivered", ShippingAccountId = 2 },
                 new Shipment { WaybillId = 25, ReferenceNumber = "386456", ServiceType = "Same Day", ShippedDate = new DateTime(2017, 01, 05), DeliveredDate = new DateTime(2017, 01, 05), RecipientName = "Jerry Jia", NumberOfPackages = 1, Origin = "Beijing", Destination = "Hangzhou", Status = "Delivered", ShippingAccountId = 2 }
             );
+            */
+
+
 
             /*
              */
