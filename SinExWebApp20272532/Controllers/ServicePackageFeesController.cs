@@ -10,15 +10,141 @@ using SinExWebApp20272532.Models;
 
 namespace SinExWebApp20272532.Controllers
 {
+    public struct Package
+    {
+        public ServiceType serviceType;
+        public PackageType packageType;
+        public decimal weight;
+        public decimal fee;
+    }
+
     public class ServicePackageFeesController : Controller
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
+
+
         // GET: ServicePackageFees
-        public ActionResult Index()
+        public ActionResult Index(string ServiceType, string PackageType, decimal? Weight, string Currency, bool? clearPackage)
         {
+
+            //Initialization of parameter
+            if (clearPackage == null)
+            {
+                clearPackage = false;
+            }
+            if (Session["PackageList"] == null)
+            {
+                Session["PackageList"] = new List<Package>();
+            }
+            if (ServiceType == "Please Select")
+            {
+                ServiceType = null;
+            }
+            if (PackageType == "Please Select")
+            {
+                PackageType = null;
+            }
+            if (Currency == "Please Select")
+            {
+                Currency = null;
+            }
+
+            // Get list of ServiceType, PackageType, Currencies
+            List<String> stl, ptl, cl;
+            stl = db.ServiceTypes.Select(s => s.Type).Distinct().ToList();
+            ptl = db.PackageTypes.Select(s => s.Type).Distinct().ToList();
+            cl = db.Currencies.Select(s => s.CurrencyCode).Distinct().ToList();
+            stl.Insert(0, "Please Select");
+            ptl.Insert(0, "Please Select");
+            cl.Insert(0, "Please Select");
+            ViewBag.serviceTypeList = new SelectList(stl);
+            ViewBag.packageTypeList = new SelectList(ptl);
+            ViewBag.currencyList = new SelectList(cl);
+
+
+            ViewBag.ServicePackageFeeCalculated = null;
+
+            // Filter for ServicePackageFees
             var servicePackageFees = db.ServicePackageFees.Include(s => s.PackageType).Include(s => s.ServiceType);
-            return View(servicePackageFees.ToList());
+            if (ServiceType != null)
+            {
+                servicePackageFees = servicePackageFees.Where(s => s.ServiceType.Type == ServiceType);
+            }
+            if (PackageType != null)
+            {
+                servicePackageFees = servicePackageFees.Where(s => s.PackageType.Type == PackageType);
+            }
+
+            // Determine currency exchange rate
+            decimal rate = 1;
+            if (Currency != null)
+            {
+                rate = db.Currencies.Where(s => s.CurrencyCode == Currency).Select(s => s.ExchangeRate).Single();
+            }
+
+            // Add package
+            var ServicePackageFeeList = servicePackageFees.ToList();
+            if (ServicePackageFeeList.Count() == 1 && Weight != null)
+            {
+                ServicePackageFee spf = ServicePackageFeeList.First();
+                decimal PackageFee, FeePerKG, MinimumFee, MaximumWeight;
+                FeePerKG = spf.Fee;
+                try
+                {
+                    MaximumWeight = spf.PackageType.PackageTypeSizes.OrderByDescending(s => s.WeightLimit).Select(s => s.WeightLimit).First();
+                }
+                catch (Exception e)
+                {
+                    MaximumWeight = 0;
+                }
+
+                MinimumFee = spf.MinimumFee;
+                PackageFee = (decimal)Weight * FeePerKG;
+                if (PackageFee < MinimumFee)
+                {
+                    PackageFee = MinimumFee;
+                }
+                if (Weight > MaximumWeight && MaximumWeight != 0)
+                {
+                    PackageFee += 500;
+                }
+
+                List<Package> pl = (List<Package>)Session["PackageList"];
+                pl.Add(new Package
+                {
+                    serviceType = spf.ServiceType,
+                    packageType = spf.PackageType,
+                    weight = (decimal)Weight,
+                    fee = PackageFee
+                });
+            }
+
+            // Clear Package
+            if ((bool)clearPackage)
+            {
+                Session["PackageList"] = null;
+            }
+
+            // Calculate Total Fee
+            ViewBag.TotalFee = 0;
+            if (Session["PackageList"] != null)
+            {
+                foreach (var x in (List<Package>)Session["PackageList"])
+                {
+                    ViewBag.TotalFee += x.fee;
+                }
+            }
+
+            // Compute display currency
+            ViewBag.exchangeRate = rate;
+            foreach (ServicePackageFee x in ServicePackageFeeList)
+            {
+                x.Fee *= rate;
+                x.MinimumFee *= rate;
+            }
+
+            return View(ServicePackageFeeList);
         }
 
         // GET: ServicePackageFees/Details/5

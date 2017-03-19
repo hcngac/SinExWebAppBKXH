@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using SinExWebApp20272532.Models
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -8,9 +9,36 @@
     <ul class="nav navbar-nav navbar-right">
         @if (User.IsInRole("Customer"))
         {
-            // TODO
+            var db = new SinExDatabaseContext();
+            bool isBusiness = false;
+            bool isPersonal = false;
+            try
+            {
+                BusinessShippingAccount bsa = (BusinessShippingAccount)db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).First();
+                isBusiness = true;
+            }
+            catch (Exception e)
+            {
+                isBusiness = false;
+            }
+            try
+            {
+                PersonalShippingAccount bsa = (PersonalShippingAccount)db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).First();
+                isPersonal = true;
+            }
+            catch (Exception e)
+            {
+                isPersonal = false;
+            }
 
-            <li>My Shipping Account</li>
+            if (isPersonal)
+            {
+                <li>@Html.ActionLink("My Shipping Account", "GetPersonalShippingAccountRecord", "PersonalShippingAccounts")</li>
+            }
+            if (isBusiness)
+            {
+                <li>@Html.ActionLink("My Shipping Account", "GetBusinessShippingAccountRecord", "BusinessShippingAccounts")</li>
+            }
         }
         <li>
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })

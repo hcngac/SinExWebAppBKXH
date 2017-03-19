@@ -46,7 +46,6 @@ namespace SinExWebApp20272532
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
-                // TODO
                 AllowOnlyAlphanumericUserNames = true,
                 RequireUniqueEmail = true
             };
@@ -54,7 +53,6 @@ namespace SinExWebApp20272532
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                // TODO
                 RequiredLength = 8,
                 RequireNonLetterOrDigit = true,
                 RequireDigit = false,

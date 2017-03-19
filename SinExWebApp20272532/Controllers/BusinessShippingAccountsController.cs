@@ -38,6 +38,7 @@ namespace SinExWebApp20272532.Controllers
         }
 
         // GET: BusinessShippingAccounts/Edit/5
+        [Authorize(Roles ="Customer")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -45,7 +46,7 @@ namespace SinExWebApp20272532.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             BusinessShippingAccount businessShippingAccount = (BusinessShippingAccount)db.ShippingAccounts.Find(id);
-            if (businessShippingAccount == null)
+            if (businessShippingAccount == null || businessShippingAccount.UserName != User.Identity.Name)
             {
                 return HttpNotFound();
             }
@@ -59,10 +60,14 @@ namespace SinExWebApp20272532.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ShippingAccountId,Building,Street,City,ProvinceCode,PostalCode,CreditCardType,CreditCardNumber,CreditCardSecurityNumber,CreditCardCardholderName,CreditCardExpiryMonth,CreditCardExpiryYear,PhoneNumber,EmailAddress,ContactPersonName,CompanyName,DepartmentName")] BusinessShippingAccount businessShippingAccount)
         {
+            if (businessShippingAccount.UserName != User.Identity.Name)
+            {
+                return HttpNotFound();
+            }
             if (ModelState.IsValid)
             {
-                //db.Entry(businessShippingAccount).State = EntityState.Modified;
-                //db.SaveChanges();
+                db.Entry(businessShippingAccount).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
             return View(businessShippingAccount);
@@ -70,7 +75,6 @@ namespace SinExWebApp20272532.Controllers
 
         // GET: BusinessShippingAccount/GetBusinessShippingAccountRecord
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public ActionResult GetBusinessShippingAccountRecord()
         {
             string userName = System.Web.HttpContext.Current.User.Identity.Name;

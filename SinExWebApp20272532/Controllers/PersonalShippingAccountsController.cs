@@ -45,7 +45,7 @@ namespace SinExWebApp20272532.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             PersonalShippingAccount personalShippingAccount = (PersonalShippingAccount)db.ShippingAccounts.Find(id);
-            if (personalShippingAccount == null)
+            if (personalShippingAccount == null || personalShippingAccount.UserName != User.Identity.Name)
             {
                 return HttpNotFound();
             }
@@ -59,10 +59,14 @@ namespace SinExWebApp20272532.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ShippingAccountId,Building,Street,City,ProvinceCode,PostalCode,CreditCardType,CreditCardNumber,CreditCardSecurityNumber,CreditCardCardholderName,CreditCardExpiryMonth,CreditCardExpiryYear,PhoneNumber,EmailAddress,FirstName,LastName")] PersonalShippingAccount personalShippingAccount)
         {
+            if (personalShippingAccount.UserName != User.Identity.Name)
+            {
+                return HttpNotFound();
+            }
             if (ModelState.IsValid)
             {
-                //db.Entry(personalShippingAccount).State = EntityState.Modified;
-                //db.SaveChanges();
+                db.Entry(personalShippingAccount).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
             return View(personalShippingAccount);
@@ -70,7 +74,6 @@ namespace SinExWebApp20272532.Controllers
 
         // GET: BusinessShippingAccount/GetBusinessShippingAccountRecord
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public ActionResult GetPersonalShippingAccountRecord()
         {
             string userName = System.Web.HttpContext.Current.User.Identity.Name;

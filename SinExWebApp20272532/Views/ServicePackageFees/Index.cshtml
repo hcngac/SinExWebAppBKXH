@@ -1,11 +1,84 @@
 ﻿@model IEnumerable<SinExWebApp20272532.Models.ServicePackageFee>
+@using SinExWebApp20272532.Controllers
 
 @{
-    ViewBag.Title = "Service/Package Fees";
+    ViewBag.Title = "Service/Package Fees Calculator";
 }
 
-<h2>Service/Package Fees</h2>
+<h2>Service/Package Fees Calculator</h2>
 
+
+@using (Html.BeginForm("Index", "ServicePackageFees", FormMethod.Get))
+{
+    <div class="form-group col-md-12">
+        <div class="col-md-4">
+            @Html.Label("Service Type", new { @class = "form-label" })
+            @Html.DropDownList("ServiceType", (SelectList)ViewBag.serviceTypeList, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            @Html.Label("Package Type", new { @class = "form-label" })
+            @Html.DropDownList("PackageType", (SelectList)ViewBag.packageTypeList, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            @Html.Label("Weight", new { @class = "form-label" })
+            @Html.TextBox("Weight", "", htmlAttributes: new { @class = "form-control numbersOnly" })
+        </div>
+    </div>
+    <div class="form-group col-md-12">
+        <div class="col-md-4">
+            @Html.Label("Currency", new { @class = "form-label" })
+            @Html.DropDownList("Currency", (SelectList)ViewBag.currencyList, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            @Html.Label("Clear Package", new { @class = "form-label", @for = "clearPackage" })
+            @Html.CheckBox("clearPackage", false, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <input type="submit" class="btn btn-default" value="Submit" />
+        </div>
+    </div>
+}
+
+@if (Session["PackageList"] != null)
+{
+    <h3>Service/Package Fee</h3>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceType.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackageType.Type)
+            </th>
+            <th>
+                Weight
+            </th>
+            <th>
+                Package Fee
+            </th>
+        </tr>
+
+        @foreach (var item in (List<Package>)Session["PackageList"])
+        {
+            <tr>
+                <td>@item.serviceType.Type</td>
+                <td>@item.packageType.Type</td>
+                <td>@item.weight</td>
+                <td>@(item.fee * (decimal)ViewBag.exchangeRate)</td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Total: </td>
+            <td>@((decimal)ViewBag.TotalFee * (decimal)ViewBag.exchangeRate)</td>
+        </tr>
+    </table>
+}
+
+
+
+<h3>Service/Package Fee Reference</h3>
 <table class="table">
     <tr>
         <th>
@@ -23,21 +96,22 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PackageType.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ServiceType.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fee)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MinimumFee)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PackageType.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceType.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumFee)
+            </td>
+        </tr>
+    }
 
 </table>
