@@ -14,6 +14,7 @@ namespace SinExWebApp20272532.Controllers
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
+        /*
         // GET: PersonalShippingAccounts/Create
         public ActionResult Create()
         {
@@ -36,8 +37,10 @@ namespace SinExWebApp20272532.Controllers
 
             return View(personalShippingAccount);
         }
+        */
 
         // GET: PersonalShippingAccounts/Edit/5
+        [Authorize(Roles = "Customer")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -74,6 +77,7 @@ namespace SinExWebApp20272532.Controllers
 
         // GET: BusinessShippingAccount/GetBusinessShippingAccountRecord
         [HttpGet]
+        [Authorize(Roles = "Customer")]
         public ActionResult GetPersonalShippingAccountRecord()
         {
             string userName = System.Web.HttpContext.Current.User.Identity.Name;
@@ -88,7 +92,7 @@ namespace SinExWebApp20272532.Controllers
             }
             return View(personalShippingAccount);
         }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

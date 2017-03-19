@@ -14,6 +14,7 @@ namespace SinExWebApp20272532.Controllers
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
+        /*
         // GET: BusinessShippingAccounts/Create
         public ActionResult Create()
         {
@@ -36,6 +37,7 @@ namespace SinExWebApp20272532.Controllers
 
             return View(businessShippingAccount);
         }
+        */
 
         // GET: BusinessShippingAccounts/Edit/5
         [Authorize(Roles ="Customer")]
@@ -75,6 +77,7 @@ namespace SinExWebApp20272532.Controllers
 
         // GET: BusinessShippingAccount/GetBusinessShippingAccountRecord
         [HttpGet]
+        [Authorize(Roles = "Customer")]
         public ActionResult GetBusinessShippingAccountRecord()
         {
             string userName = System.Web.HttpContext.Current.User.Identity.Name;
