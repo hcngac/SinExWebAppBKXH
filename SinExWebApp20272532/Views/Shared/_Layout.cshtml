@@ -37,7 +37,15 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Shipping History", "GenerateHistoryReport", "Shipments")</li>
+                            @if (User.IsInRole("Employee"))
+                            {
+                                <li>@Html.ActionLink("All Shipping History", "GenerateHistoryReport", "Shipments")</li>
+                            }
+                            else if (User.IsInRole("Customer"))
+                            {
+                                //TODO
+                                <li>@Html.ActionLink("My Shipping History", "GenerateHistoryReport", "Shipments")</li>
+                            }
                         </ul>
                     </li>
                 </ul>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SinExWebApp20272532.Validators;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SinExWebApp20272532.Models
@@ -75,6 +76,7 @@ namespace SinExWebApp20272532.Models
 
         [Required]
         [StringLength(15, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 8)]
+        [ContainsNonAlphanumeric(2)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }

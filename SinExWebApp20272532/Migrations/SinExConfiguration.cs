@@ -127,59 +127,58 @@ namespace SinExWebApp20272532.Migrations
             context.Destinations.AddOrUpdate(
                 p => p.DestinationID,
                 new Destination { DestinationID = 1, ProvinceCode = "BJ", City = "Beijing" },
-                new Destination { DestinationID = 2, ProvinceCode = "BJ", City = "Beijing" },
-                new Destination { DestinationID = 3, ProvinceCode = "JL", City = "Changchun" },
-                new Destination { DestinationID = 4, ProvinceCode = "HN", City = "Changsha" },
-                new Destination { DestinationID = 5, ProvinceCode = "SC", City = "Chengdu" },
-                new Destination { DestinationID = 6, ProvinceCode = "CQ", City = "Chongqing" },
-                new Destination { DestinationID = 7, ProvinceCode = "JX", City = "Fuzhou" },
-                new Destination { DestinationID = 8, ProvinceCode = "QH", City = "Golmud" },
-                new Destination { DestinationID = 9, ProvinceCode = "GD", City = "Guangzhou" },
-                new Destination { DestinationID = 10, ProvinceCode = "GZ", City = "Guiyang" },
-                new Destination { DestinationID = 11, ProvinceCode = "HI", City = "Haikou" },
-                new Destination { DestinationID = 12, ProvinceCode = "NM", City = "Hailar" },
-                new Destination { DestinationID = 13, ProvinceCode = "ZJ", City = "Hangzhou" },
-                new Destination { DestinationID = 14, ProvinceCode = "HL", City = "Harbin" },
-                new Destination { DestinationID = 15, ProvinceCode = "AH", City = "Hefei" },
-                new Destination { DestinationID = 16, ProvinceCode = "NM", City = "Hohhot" },
-                new Destination { DestinationID = 17, ProvinceCode = "HK", City = "Hong Kong" },
-                new Destination { DestinationID = 18, ProvinceCode = "NM", City = "Hulun Buir" },
-                new Destination { DestinationID = 19, ProvinceCode = "SD", City = "Jinan" },
-                new Destination { DestinationID = 20, ProvinceCode = "XJ", City = "Kashi" },
-                new Destination { DestinationID = 21, ProvinceCode = "YN", City = "Kunming" },
-                new Destination { DestinationID = 22, ProvinceCode = "GS", City = "Lanzhou" },
-                new Destination { DestinationID = 23, ProvinceCode = "XZ", City = "Lhasa" },
-                new Destination { DestinationID = 24, ProvinceCode = "MC", City = "Macau" },
-                new Destination { DestinationID = 25, ProvinceCode = "JX", City = "Nanchang" },
-                new Destination { DestinationID = 26, ProvinceCode = "JS", City = "Nanjing" },
-                new Destination { DestinationID = 27, ProvinceCode = "JX", City = "Nanning" },
-                new Destination { DestinationID = 28, ProvinceCode = "HL", City = "Qiqihar" },
-                new Destination { DestinationID = 29, ProvinceCode = "SH", City = "Shanghai" },
-                new Destination { DestinationID = 30, ProvinceCode = "LN", City = "Shenyang" },
-                new Destination { DestinationID = 31, ProvinceCode = "HE", City = "Shijiazhuang" },
-                new Destination { DestinationID = 32, ProvinceCode = "TW", City = "Taipei" },
-                new Destination { DestinationID = 33, ProvinceCode = "SX", City = "Taiyuan" },
-                new Destination { DestinationID = 34, ProvinceCode = "HE", City = "Tianjin" },
-                new Destination { DestinationID = 35, ProvinceCode = "XJ", City = "Urumqi" },
-                new Destination { DestinationID = 36, ProvinceCode = "HB", City = "Wuhan" },
-                new Destination { DestinationID = 37, ProvinceCode = "SN", City = "Xi'an" },
-                new Destination { DestinationID = 38, ProvinceCode = "QH", City = "Xining" },
-                new Destination { DestinationID = 39, ProvinceCode = "NX", City = "Yinchuan" },
-                new Destination { DestinationID = 40, ProvinceCode = "GS", City = "Yumen" },
-                new Destination { DestinationID = 41, ProvinceCode = "HA", City = "Zhengzhou" }
+                new Destination { DestinationID = 2, ProvinceCode = "JL", City = "Changchun" },
+                new Destination { DestinationID = 3, ProvinceCode = "HN", City = "Changsha" },
+                new Destination { DestinationID = 4, ProvinceCode = "SC", City = "Chengdu" },
+                new Destination { DestinationID = 5, ProvinceCode = "CQ", City = "Chongqing" },
+                new Destination { DestinationID = 6, ProvinceCode = "JX", City = "Fuzhou" },
+                new Destination { DestinationID = 7, ProvinceCode = "QH", City = "Golmud" },
+                new Destination { DestinationID = 8, ProvinceCode = "GD", City = "Guangzhou" },
+                new Destination { DestinationID = 9, ProvinceCode = "GZ", City = "Guiyang" },
+                new Destination { DestinationID = 10, ProvinceCode = "HI", City = "Haikou" },
+                new Destination { DestinationID = 11, ProvinceCode = "NM", City = "Hailar" },
+                new Destination { DestinationID = 12, ProvinceCode = "ZJ", City = "Hangzhou" },
+                new Destination { DestinationID = 13, ProvinceCode = "HL", City = "Harbin" },
+                new Destination { DestinationID = 14, ProvinceCode = "AH", City = "Hefei" },
+                new Destination { DestinationID = 15, ProvinceCode = "NM", City = "Hohhot" },
+                new Destination { DestinationID = 16, ProvinceCode = "HK", City = "Hong Kong" },
+                new Destination { DestinationID = 17, ProvinceCode = "NM", City = "Hulun Buir" },
+                new Destination { DestinationID = 18, ProvinceCode = "SD", City = "Jinan" },
+                new Destination { DestinationID = 19, ProvinceCode = "XJ", City = "Kashi" },
+                new Destination { DestinationID = 20, ProvinceCode = "YN", City = "Kunming" },
+                new Destination { DestinationID = 21, ProvinceCode = "GS", City = "Lanzhou" },
+                new Destination { DestinationID = 22, ProvinceCode = "XZ", City = "Lhasa" },
+                new Destination { DestinationID = 23, ProvinceCode = "MC", City = "Macau" },
+                new Destination { DestinationID = 24, ProvinceCode = "JX", City = "Nanchang" },
+                new Destination { DestinationID = 25, ProvinceCode = "JS", City = "Nanjing" },
+                new Destination { DestinationID = 26, ProvinceCode = "JX", City = "Nanning" },
+                new Destination { DestinationID = 27, ProvinceCode = "HL", City = "Qiqihar" },
+                new Destination { DestinationID = 28, ProvinceCode = "SH", City = "Shanghai" },
+                new Destination { DestinationID = 29, ProvinceCode = "LN", City = "Shenyang" },
+                new Destination { DestinationID = 30, ProvinceCode = "HE", City = "Shijiazhuang" },
+                new Destination { DestinationID = 31, ProvinceCode = "TW", City = "Taipei" },
+                new Destination { DestinationID = 32, ProvinceCode = "SX", City = "Taiyuan" },
+                new Destination { DestinationID = 33, ProvinceCode = "HE", City = "Tianjin" },
+                new Destination { DestinationID = 34, ProvinceCode = "XJ", City = "Urumqi" },
+                new Destination { DestinationID = 35, ProvinceCode = "HB", City = "Wuhan" },
+                new Destination { DestinationID = 36, ProvinceCode = "SN", City = "Xi'an" },
+                new Destination { DestinationID = 37, ProvinceCode = "QH", City = "Xining" },
+                new Destination { DestinationID = 38, ProvinceCode = "NX", City = "Yinchuan" },
+                new Destination { DestinationID = 39, ProvinceCode = "GS", City = "Yumen" },
+                new Destination { DestinationID = 40, ProvinceCode = "HA", City = "Zhengzhou" }
                 );
 
             context.PackageTypeSizes.AddOrUpdate(
                 p => p.PackageTypeSizeID,
-                new PackageTypeSize { PackageTypeSizeID = 1, Size = "250x300mm", WeightLimit = "Not Applicable", PackageTypeID = 1 },
-                new PackageTypeSize { PackageTypeSizeID = 2, Size = "small - 350x400mm", WeightLimit = "5kg", PackageTypeID = 2 },
-                new PackageTypeSize { PackageTypeSizeID = 3, Size = "large - 450x550mm", WeightLimit = "5kg", PackageTypeID = 2 },
-                new PackageTypeSize { PackageTypeSizeID = 4, Size = "1000x80mm", WeightLimit = "Not Applicable", PackageTypeID = 3 },
-                new PackageTypeSize { PackageTypeSizeID = 5, Size = "small - 300x250x150mm", WeightLimit = "10kg", PackageTypeID = 4 },
-                new PackageTypeSize { PackageTypeSizeID = 6, Size = "medium - 400x350x250mm", WeightLimit = "20kg", PackageTypeID = 4 },
-                new PackageTypeSize { PackageTypeSizeID = 7, Size = "large - 500x450x350mm", WeightLimit = "30kg", PackageTypeID = 4 }
+                new PackageTypeSize { PackageTypeSizeID = 1, Size = "250x300mm", WeightLimit = 0, PackageTypeID = 1 },
+                new PackageTypeSize { PackageTypeSizeID = 2, Size = "small - 350x400mm", WeightLimit = 5, PackageTypeID = 2 },
+                new PackageTypeSize { PackageTypeSizeID = 3, Size = "large - 450x550mm", WeightLimit = 5, PackageTypeID = 2 },
+                new PackageTypeSize { PackageTypeSizeID = 4, Size = "1000x80mm", WeightLimit = 0, PackageTypeID = 3 },
+                new PackageTypeSize { PackageTypeSizeID = 5, Size = "small - 300x250x150mm", WeightLimit = 10, PackageTypeID = 4 },
+                new PackageTypeSize { PackageTypeSizeID = 6, Size = "medium - 400x350x250mm", WeightLimit = 20, PackageTypeID = 4 },
+                new PackageTypeSize { PackageTypeSizeID = 7, Size = "large - 500x450x350mm", WeightLimit = 30, PackageTypeID = 4 }
                 );
-
+            
             /*
             // Add shipment data.
             context.Shipments.AddOrUpdate(
@@ -210,9 +209,6 @@ namespace SinExWebApp20272532.Migrations
                 new Shipment { WaybillId = 24, ReferenceNumber = "", ServiceType = "Ground", ShippedDate = new DateTime(2017, 01, 15), DeliveredDate = new DateTime(2017, 01, 19), RecipientName = "Peter Pang", NumberOfPackages = 3, Origin = "Beijing", Destination = "Lhasa", Status = "Delivered", ShippingAccountId = 2 },
                 new Shipment { WaybillId = 25, ReferenceNumber = "386456", ServiceType = "Same Day", ShippedDate = new DateTime(2017, 01, 05), DeliveredDate = new DateTime(2017, 01, 05), RecipientName = "Jerry Jia", NumberOfPackages = 1, Origin = "Beijing", Destination = "Hangzhou", Status = "Delivered", ShippingAccountId = 2 }
             );
-            */
-
-
 
             /*
              */

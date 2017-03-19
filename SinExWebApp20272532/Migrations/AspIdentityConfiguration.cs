@@ -61,6 +61,7 @@ namespace SinExWebApp20272532.Migrations
                 manager.AddToRole(user.Id, "Employee");
             }
 
+
         }
     }
 }

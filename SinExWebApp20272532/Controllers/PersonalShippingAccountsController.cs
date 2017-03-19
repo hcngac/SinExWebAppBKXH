@@ -68,6 +68,24 @@ namespace SinExWebApp20272532.Controllers
             return View(personalShippingAccount);
         }
 
+        // GET: BusinessShippingAccount/GetBusinessShippingAccountRecord
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public ActionResult GetPersonalShippingAccountRecord()
+        {
+            string userName = System.Web.HttpContext.Current.User.Identity.Name;
+            if (userName == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PersonalShippingAccount personalShippingAccount = (PersonalShippingAccount)db.ShippingAccounts.SingleOrDefault(s => s.UserName == userName);
+            if (personalShippingAccount == null)
+            {
+                return HttpNotFound("There is no personal shipping account with user name \"" + userName + "\"");
+            }
+            return View(personalShippingAccount);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

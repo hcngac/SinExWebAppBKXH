@@ -2,12 +2,15 @@
 
 @using (Html.BeginForm("GenerateHistoryReport", "Shipments", FormMethod.Get))
 {
-    @Html.LabelFor(a => a.ShippingAccountId, "Shipping Account: ")
-    @Html.DropDownListFor(a => a.ShippingAccountId, Model.ShippingAccounts, "Please select")
+    if (User.IsInRole("Employee"))
+    {
+        @Html.LabelFor(a => a.ShippingAccountId, "Shipping Account: ")
+        @Html.DropDownListFor(a => a.ShippingAccountId, Model.ShippingAccounts, "Please select")
+    }
     @Html.Label("Date From")
     @Html.TextBox("DateFrom", "", new { @class = "datefield", type = "date" })
     @Html.Label("Date To")
     @Html.TextBox("DateTo", "", new { @class = "datefield", type = "date" })
-        <input type="submit" value="Search" />
+    <input type="submit" value="Search" />
 }
 

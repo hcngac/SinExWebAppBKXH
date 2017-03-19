@@ -48,7 +48,8 @@
     </div>
     <div class="col-md-4">
         @Html.LabelFor(model => model.BusinessInformation.ProvinceCode, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.BusinessInformation.ProvinceCode, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.DropDownListFor(model => model.BusinessInformation.ProvinceCode, (SelectList)ViewBag.ProvinceCodeList, new { @class = "form-control" })
+        <!-- @Html.EditorFor(model => model.BusinessInformation.ProvinceCode, new { htmlAttributes = new { @class = "form-control" } }) -->
         @Html.ValidationMessageFor(model => model.BusinessInformation.ProvinceCode, "", new { @class = "text-danger" })
     </div>
     <div class="col-md-4">
@@ -62,7 +63,8 @@
     <h5>Credit Card Information</h5>
     <div class="col-md-4">
         @Html.LabelFor(model => model.BusinessInformation.CreditCardType, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.BusinessInformation.CreditCardType, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.DropDownListFor(model => model.BusinessInformation.CreditCardType, (SelectList)ViewBag.CreditCardTypes, new { @class = "form-control" })
+        <!-- @Html.EditorFor(model => model.BusinessInformation.CreditCardType, new { htmlAttributes = new { @class = "form-control" } }) -->
         @Html.ValidationMessageFor(model => model.BusinessInformation.CreditCardType, "", new { @class = "text-danger" })
     </div>
     <div class="col-md-4">

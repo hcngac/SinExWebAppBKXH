@@ -118,7 +118,8 @@ namespace SinExWebApp20272532.Controllers
         }
 
         // GET: Shipments/GenerateHistoryReport
-        public ActionResult GenerateHistoryReport(int? ShippingAccountId,DateTime? DateFrom, DateTime? DateTo, string sortOrder, int? currentShippingAccountId, int? page)
+        [Authorize(Roles = "Employee,Customer")]
+        public ActionResult GenerateHistoryReport(int? ShippingAccountId, DateTime? DateFrom, DateTime? DateTo, string sortOrder, int? currentShippingAccountId, int? page)
         {
             // Instantiate an instance of the ShipmentsReportViewModel and the ShipmentsSearchViewModel.
             var shipmentSearch = new ShipmentsReportViewModel();
@@ -130,14 +131,22 @@ namespace SinExWebApp20272532.Controllers
             int pageNumber = (page ?? 1);
 
             // Retain search conditions for sorting.
-            if (ShippingAccountId == null)
+            if (User.IsInRole("Customer"))
             {
-                ShippingAccountId = currentShippingAccountId;
+                ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
             }
-            else
+            else if (User.IsInRole("Employee"))
             {
-                page = 1;
+                if (ShippingAccountId == null)
+                {
+                    ShippingAccountId = currentShippingAccountId;
+                }
+                else
+                {
+                    page = 1;
+                }
             }
+
             ViewBag.CurrentShippingAccountId = ShippingAccountId;
 
             // Populate the ShippingAccountId dropdown list.
@@ -167,7 +176,7 @@ namespace SinExWebApp20272532.Controllers
                 // Code for date range search
                 if (DateFrom != null)
                 {
-                    shipmentQuery = shipmentQuery.Where(s => s.ShippedDate >= DateFrom).Where(s=>s.DeliveredDate >= DateFrom);
+                    shipmentQuery = shipmentQuery.Where(s => s.ShippedDate >= DateFrom).Where(s => s.DeliveredDate >= DateFrom);
                 }
                 if (DateTo != null)
                 {
@@ -180,7 +189,7 @@ namespace SinExWebApp20272532.Controllers
                 ViewBag.ShippedDateSortParm = sortOrder == "shippedDate" ? "shippedDate_desc" : "shippedDate";
                 ViewBag.DeliveredDateSortParm = sortOrder == "deliveredDate" ? "deliveredDate_desc" : "deliveredDate";
                 ViewBag.RecipientNameSortParm = sortOrder == "recipientName" ? "recipientName_desc" : "recipientName";
-                ViewBag.OriginSortParm = sortOrder == "origin"? "origin_desc" : "origin";
+                ViewBag.OriginSortParm = sortOrder == "origin" ? "origin_desc" : "origin";
                 ViewBag.DestinationSortParm = sortOrder == "destination" ? "destination_desc" : "destination";
                 switch (sortOrder)
                 {

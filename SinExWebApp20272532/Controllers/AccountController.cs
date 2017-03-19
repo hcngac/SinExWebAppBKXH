@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SinExWebApp20272532.Models;
 using SinExWebApp20272532.ViewModels;
+using System.Collections.Generic;
 
 namespace SinExWebApp20272532.Controllers
 {
@@ -142,6 +143,54 @@ namespace SinExWebApp20272532.Controllers
         public ActionResult Register(string accountType)
         {
             ViewBag.AccountType = accountType;
+            SelectList creditCardTypes = new SelectList(new string[] {
+                "Please Select"     ,
+                "American Express"  ,
+                "Diners Club"       ,
+                "Discover"          ,
+                "MasterCard"        ,
+                "UnionPay"          ,
+                "Visa"
+            });
+            SelectList proviceCode = new SelectList(new List<SelectListItem> {
+                new SelectListItem {Value = "AH",Text = "Anhui Province"                          , Selected = false  },
+                new SelectListItem {Value = "BJ",Text = "Beijing Municipality"                    , Selected = false  },
+                new SelectListItem {Value = "CQ",Text = "Chongqing Municipality"                  , Selected = false  },
+                new SelectListItem {Value = "FJ",Text = "Fujian Province"                         , Selected = false  },
+                new SelectListItem {Value = "GD",Text = "Guangdong Province"                      , Selected = false  },
+                new SelectListItem {Value = "GS",Text = "Gansu Province"                          , Selected = false  },
+                new SelectListItem {Value = "GX",Text = "Guangxi Zhuang Autonomous Region"        , Selected = false  },
+                new SelectListItem {Value = "GZ",Text = "Guizhou Province"                        , Selected = false  },
+                new SelectListItem {Value = "HA",Text = "Henan Province"                          , Selected = false  },
+                new SelectListItem {Value = "HB",Text = "Hubei Province"                          , Selected = false  },
+                new SelectListItem {Value = "HE",Text = "Hebei Province"                          , Selected = false  },
+                new SelectListItem {Value = "HI",Text = "Hainan Province"                         , Selected = false  },
+                new SelectListItem {Value = "HK",Text = "Hong Kong Special Administrative Region" , Selected = false  },
+                new SelectListItem {Value = "HL",Text = "Heilongjiang Province"                   , Selected = false  },
+                new SelectListItem {Value = "HN",Text = "Hunan Province"                          , Selected = false  },
+                new SelectListItem {Value = "JL",Text = "Jilin Province"                          , Selected = false  },
+                new SelectListItem {Value = "JS",Text = "Jiangsu Province"                        , Selected = false  },
+                new SelectListItem {Value = "JX",Text = "Jiangxi Province"                        , Selected = false  },
+                new SelectListItem {Value = "LN",Text = "Liaoning Province"                       , Selected = false  },
+                new SelectListItem {Value = "MC",Text = "Macau Special Administrative Region"     , Selected = false  },
+                new SelectListItem {Value = "NM",Text = "Inner Mongolia Autonomous Region"        , Selected = false  },
+                new SelectListItem {Value = "NX",Text = "Ningxia Hui Autonomous Region"           , Selected = false  },
+                new SelectListItem {Value = "QH",Text = "Qinghai Province"                        , Selected = false  },
+                new SelectListItem {Value = "SC",Text = "Sichuan Province"                        , Selected = false  },
+                new SelectListItem {Value = "SD",Text = "Shandong Province"                       , Selected = false  },
+                new SelectListItem {Value = "SH",Text = "Shanghai Municipality"                   , Selected = false  },
+                new SelectListItem {Value = "SN",Text = "Shaanxi Province"                        , Selected = false  },
+                new SelectListItem {Value = "SX",Text = "Shanxi Province"                         , Selected = false  },
+                new SelectListItem {Value = "TJ",Text = "Tianjin Municipality"                    , Selected = false  },
+                new SelectListItem {Value = "TW",Text = "Taiwan Province"                         , Selected = false  },
+                new SelectListItem {Value = "XJ",Text = "Xinjiang Uyghur Autonomous Region"       , Selected = false  },
+                new SelectListItem {Value = "XZ",Text = "Tibet Autonomous Region"                 , Selected = false  },
+                new SelectListItem {Value = "YN",Text = "Yunnan Province"                         , Selected = false  },
+                new SelectListItem {Value = "ZJ",Text = "Zhejiang Province"                       , Selected = false  }
+            }, "Value", "Text");
+
+            ViewBag.CreditCardTypes = creditCardTypes;
+            ViewBag.ProvinceCodeList = proviceCode;
             return View(new RegisterCustomerViewModel());
         }
 
@@ -156,10 +205,12 @@ namespace SinExWebApp20272532.Controllers
             {
                 if (model.PersonalInformation != null)
                 {
+                    ViewBag.AccountType = "Personal";
                     model.LoginInformation.Email = model.PersonalInformation.Email;
                 }
                 else // AccountType = "Business"
                 {
+                    ViewBag.AccountType = "Business";
                     model.LoginInformation.Email = model.BusinessInformation.Email;
                 }
                 var user = new ApplicationUser { UserName = model.LoginInformation.UserName, Email = model.LoginInformation.Email };

@@ -63,11 +63,14 @@ namespace SinExWebApp20272532.Models
 
         [Required]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "The field {0} must be a number.")]
+        [StringLength(2)]
+        [Range(1,12)]
         [Display(Name = "Expiry Month")]
         public virtual string CreditCardExpiryMonth { get; set; }
 
         [Required]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "The field {0} must be a number.")]
+        [StringLength(2)]
         [Display(Name = "Expiry Year")]
         public virtual string CreditCardExpiryYear { get; set; }
 
