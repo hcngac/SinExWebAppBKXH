@@ -179,7 +179,7 @@ namespace SinExWebApp20272532.Migrations
                 new PackageTypeSize { PackageTypeSizeID = 7, Size = "large - 500x450x350mm", WeightLimit = 30, PackageTypeID = 4 }
                 );
             
-            
+            /*
             // Add shipment data.
             context.Shipments.AddOrUpdate(
                 p => p.WaybillId,
