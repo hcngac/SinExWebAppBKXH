@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
+using SinExWebApp20272532.Controllers;
 using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web.Mvc;
-using SinExWebApp20272532;
-using SinExWebApp20272532.Controllers;
+using System.Threading.Tasks;
 
 namespace SinExWebApp20272532.Controllers.Tests
 {
@@ -20,7 +20,7 @@ namespace SinExWebApp20272532.Controllers.Tests
         {
             BaseController baseController = new BaseController();
 
-            Assert.Equals(source * rate, baseController.CurrencyExchange(source, 1, rate));
+            Assert.LessOrEqual(Math.Abs(source * rate - baseController.CurrencyExchange(source, 1, rate)), 0.05);
         }
     }
 }

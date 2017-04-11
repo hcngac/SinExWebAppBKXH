@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SinExWebApp20272532", "SinExWebApp20272532\SinExWebApp20272532.csproj", "{86E7CAAF-309C-438B-9737-DDFFD48A5C34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SinExWebApp20272532.Tests", "SinExWebApp20272532.Tests\SinExWebApp20272532.Tests.csproj", "{C0DBAA39-8003-42A2-A4C7-988D3099E3ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SinExWebApp20272532Tests", "SinExWebApp20272532Tests\SinExWebApp20272532Tests.csproj", "{59459846-D4A7-40A5-AB75-55C55E955C13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{86E7CAAF-309C-438B-9737-DDFFD48A5C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86E7CAAF-309C-438B-9737-DDFFD48A5C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86E7CAAF-309C-438B-9737-DDFFD48A5C34}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0DBAA39-8003-42A2-A4C7-988D3099E3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0DBAA39-8003-42A2-A4C7-988D3099E3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0DBAA39-8003-42A2-A4C7-988D3099E3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0DBAA39-8003-42A2-A4C7-988D3099E3ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59459846-D4A7-40A5-AB75-55C55E955C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59459846-D4A7-40A5-AB75-55C55E955C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59459846-D4A7-40A5-AB75-55C55E955C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59459846-D4A7-40A5-AB75-55C55E955C13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
