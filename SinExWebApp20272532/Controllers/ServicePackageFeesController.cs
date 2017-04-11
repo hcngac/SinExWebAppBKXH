@@ -18,7 +18,7 @@ namespace SinExWebApp20272532.Controllers
         public decimal fee;
     }
 
-    public class ServicePackageFeesController : Controller
+    public class ServicePackageFeesController : BaseController
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
@@ -140,8 +140,8 @@ namespace SinExWebApp20272532.Controllers
             ViewBag.exchangeRate = rate;
             foreach (ServicePackageFee x in ServicePackageFeeList)
             {
-                x.Fee *= rate;
-                x.MinimumFee *= rate;
+                x.Fee = CurrencyExchange(x.Fee, 1, rate);
+                x.MinimumFee = CurrencyExchange(x.MinimumFee, 1, rate);
             }
 
             return View(ServicePackageFeeList);
