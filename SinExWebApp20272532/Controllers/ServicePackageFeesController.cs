@@ -51,6 +51,7 @@ namespace SinExWebApp20272532.Controllers
             }
 
             // Get list of ServiceType, PackageType, Currencies
+            /*
             List<String> stl, ptl, cl;
             stl = db.ServiceTypes.Select(s => s.Type).Distinct().ToList();
             ptl = db.PackageTypes.Select(s => s.Type).Distinct().ToList();
@@ -61,8 +62,12 @@ namespace SinExWebApp20272532.Controllers
             ViewBag.serviceTypeList = new SelectList(stl);
             ViewBag.packageTypeList = new SelectList(ptl);
             ViewBag.currencyList = new SelectList(cl);
+            */
 
-
+            ViewBag.serviceTypeList = Models.ServiceType.getSelectList();
+            ViewBag.packageTypeList = Models.PackageType.getSelectList();
+            ViewBag.currencyList = Models.Currency.getSelectList();
+            
             ViewBag.ServicePackageFeeCalculated = null;
 
             // Filter for ServicePackageFees
@@ -80,7 +85,7 @@ namespace SinExWebApp20272532.Controllers
             decimal rate = 1;
             if (Currency != null)
             {
-                rate = db.Currencies.Where(s => s.CurrencyCode == Currency).Select(s => s.ExchangeRate).Single();
+                rate = Models.Currency.getCachedList().Where(s => s.CurrencyCode == Currency).Select(s => s.ExchangeRate).Single();
             }
 
             // Add package
