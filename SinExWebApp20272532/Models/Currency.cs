@@ -22,7 +22,7 @@ namespace SinExWebApp20272532.Models
 
         public static List<Currency> getCachedList()
         {
-            Cache Cache = new Cache();
+            Cache Cache = HttpRuntime.Cache;
             List<Currency> currencyList = Cache["currencyList"] as List<Currency>;
             if (currencyList == null)
             {
@@ -34,8 +34,7 @@ namespace SinExWebApp20272532.Models
 
         public static SelectList getSelectList()
         {
-            Cache Cache = new Cache();
-            List<Currency> currencyList = Cache["currencyList"] as List<Currency>;
+            List<Currency> currencyList = getCachedList();
             List<string> currencyCodeList;
             if (currencyList == null)
             {

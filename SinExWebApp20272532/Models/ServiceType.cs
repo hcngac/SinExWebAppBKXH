@@ -23,7 +23,7 @@ namespace SinExWebApp20272532.Models
 
         public static List<ServiceType> getCachedList()
         {
-            Cache Cache = new Cache();
+            Cache Cache = HttpRuntime.Cache;
             SinExDatabaseContext db = new SinExDatabaseContext();
             List<ServiceType> serviceTypeList = Cache["serviceTypeList"] as List<ServiceType>;
             if (serviceTypeList == null)
@@ -35,8 +35,7 @@ namespace SinExWebApp20272532.Models
 
         public static SelectList getSelectList()
         {
-            Cache Cache = new Cache();
-            List<ServiceType> serviceTypeList = Cache["serviceTypeList"] as List<ServiceType>;
+            List<ServiceType> serviceTypeList = getCachedList();
             List<string> serviceTypeNameList;
             if (serviceTypeList == null)
             {
