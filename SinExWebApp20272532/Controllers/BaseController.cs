@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace SinExWebApp20272532.Controllers
 {
     public class BaseController : Controller
