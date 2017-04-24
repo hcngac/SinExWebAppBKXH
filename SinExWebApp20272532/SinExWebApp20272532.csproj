@@ -240,6 +240,7 @@
     <Compile Include="Models\PackageType.cs" />
     <Compile Include="Models\PackageTypeSize.cs" />
     <Compile Include="Models\PersonalShippingAccount.cs" />
+    <Compile Include="Models\Pickup.cs" />
     <Compile Include="Models\ServicePackageFee.cs" />
     <Compile Include="Models\ServiceType.cs" />
     <Compile Include="Models\Shipment.cs" />
