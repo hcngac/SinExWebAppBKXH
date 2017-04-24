@@ -16,7 +16,7 @@ namespace SinExWebApp20272532.Controllers
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
-        /*
+        
         // GET: Shipments
         public ActionResult Index()
         {
@@ -117,7 +117,7 @@ namespace SinExWebApp20272532.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        */
+        
 
         // GET: Shipments/GenerateHistoryReport
         [Authorize(Roles = "Employee,Customer")]
