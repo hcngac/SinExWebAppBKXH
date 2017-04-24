@@ -18,6 +18,7 @@ namespace SinExWebApp20272532.Models
         public virtual DateTime         DeliveredDate           { get; set; }
         public virtual string           RecipientName           { get; set; }
         public virtual int              NumberOfPackages        { get; set; }
+        public virtual List<Package>    Packages                { get; set; }
         public virtual string           Origin                  { get; set; }
         public virtual string           Destination             { get; set; }
         public virtual string           Status                  { get; set; }
