@@ -44,7 +44,6 @@ namespace SinExWebApp20272532.Models
             {
                 currencyCodeList = currencyList.Select(a => a.CurrencyCode).ToList();
             }
-            currencyCodeList.Insert(0,"Please Select");
             return new SelectList(currencyCodeList);
         }
     }

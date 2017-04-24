@@ -45,7 +45,6 @@ namespace SinExWebApp20272532.Models
             {
                 serviceTypeNameList = serviceTypeList.Select(a => a.Type).ToList();
             }
-            serviceTypeNameList.Insert(0, "Please Select");
             return new SelectList(serviceTypeNameList);
         }
     }

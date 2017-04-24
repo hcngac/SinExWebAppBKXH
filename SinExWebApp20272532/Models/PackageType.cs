@@ -44,7 +44,6 @@ namespace SinExWebApp20272532.Models
             {
                 packageTypeNameList = packageTypeList.Select(a => a.Type).ToList();
             }
-            packageTypeNameList.Insert(0, "Please Select");
             return new SelectList(packageTypeNameList);
         }
     }

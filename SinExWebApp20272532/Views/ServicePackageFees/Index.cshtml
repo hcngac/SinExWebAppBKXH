@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<SinExWebApp20272532.Models.ServicePackageFee>
 @using SinExWebApp20272532.Controllers
+@using SinExWebApp20272532.Models
 
 @{
     ViewBag.Title = "Service/Package Fees Calculator";
@@ -7,17 +8,27 @@
 
 <h2>Service/Package Fees Calculator</h2>
 
+@using (Html.BeginForm("Index", "ServicePackageFees", FormMethod.Post))
+{
+    <div class="form-group col-md-12">
+        <div class="col-md-4">
+            @Html.Label("Currency", new { @class = "form-label" })
+            @Html.DropDownList("Currency", Currency.getSelectList(), "Please select", new { @class = "form-control", onchange = @"form.submit()" })
+        </div>
+    </div>
+}
+
 
 @using (Html.BeginForm("Index", "ServicePackageFees", FormMethod.Get))
 {
     <div class="form-group col-md-12">
         <div class="col-md-4">
             @Html.Label("Service Type", new { @class = "form-label" })
-            @Html.DropDownList("ServiceType", (SelectList)ViewBag.serviceTypeList, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("ServiceType", ServiceType.getSelectList(), "Please select", new { @class = "form-control" })
         </div>
         <div class="col-md-4">
             @Html.Label("Package Type", new { @class = "form-label" })
-            @Html.DropDownList("PackageType", (SelectList)ViewBag.packageTypeList, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("PackageType", PackageType.getSelectList(), "Please select", new { @class = "form-control" })
         </div>
         <div class="col-md-4">
             @Html.Label("Weight", new { @class = "form-label" })
@@ -25,10 +36,6 @@
         </div>
     </div>
     <div class="form-group col-md-12">
-        <div class="col-md-4">
-            @Html.Label("Currency", new { @class = "form-label" })
-            @Html.DropDownList("Currency", (SelectList)ViewBag.currencyList, htmlAttributes: new { @class = "form-control" })
-        </div>
         <div class="col-md-4">
             @Html.Label("Clear Package", new { @class = "form-label", @for = "clearPackage" })
             @Html.CheckBox("clearPackage", false, htmlAttributes: new { @class = "form-control" })
@@ -64,14 +71,14 @@
                 <td>@item.serviceType.Type</td>
                 <td>@item.packageType.Type</td>
                 <td>@item.weight</td>
-                <td>@(item.fee * (decimal)ViewBag.exchangeRate)</td>
+                <td>@(item.fee * (decimal)Session["exchangeRate"])</td>
             </tr>
         }
         <tr>
             <td></td>
             <td></td>
             <td>Total: </td>
-            <td>@((decimal)ViewBag.TotalFee * (decimal)ViewBag.exchangeRate)</td>
+            <td>@((decimal)ViewBag.TotalFee * (decimal)Session["exchangeRate"])</td>
         </tr>
     </table>
 }
