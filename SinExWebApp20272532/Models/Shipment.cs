@@ -12,7 +12,10 @@ namespace SinExWebApp20272532.Models
     {
         // Auto-generated 16-digit numeric
         [Key]
+        [DisplayFormat(DataFormatString ="{0:D16}")]
         public virtual int                      WaybillId                   { get; set; }
+
+
 
         // Sender information
         [ForeignKey("Sender")]
@@ -22,18 +25,21 @@ namespace SinExWebApp20272532.Models
         [RegularExpression("[a-zA-Z0-9]*", ErrorMessage ="The {0} field must contain only alphanumeric characters.")]
         public virtual string                   ReferenceNumber             { get; set; }
         
+
+
         // Recipient information
         [Required]
         [StringLength(70)]
         [Display(Name = "Recipient Name")]
         public virtual string                   RecipientName               { get; set; }
-        [Required]
         [StringLength(40)]
         [Display(Name = "Company Name")]
         public virtual string                   CompanyName                 { get; set; }
         [StringLength(30)]
         [Display(Name = "Department Name")]
         public virtual string                   DepartmentName              { get; set; }
+        [ForeignKey("DeliveryAddress")]
+        public virtual int                      DeliveryAddressId           { get; set; }
         public virtual Address                  DeliveryAddress             { get; set; }
         [Required]
         [StringLength(14, MinimumLength = 8)]
@@ -45,22 +51,28 @@ namespace SinExWebApp20272532.Models
         [EmailAddress()]
         [Display(Name = "Email Address")]
         public virtual string EmailAddress { get; set; }
-        [ForeignKey("Recipient")]
-        public virtual int                      RecipientId                 { get; set; }
+        //[ForeignKey("Recipient")]
+        //public virtual int                      RecipientId                 { get; set; }
         public virtual ShippingAccount          Recipient                   { get; set; }
+
+
 
         // Service information
         public virtual string                   ServiceType                 { get; set; }
-        [ForeignKey("ShipmentPayer")]
-        public virtual int                      ShipmentPayerId             { get; set; }
+        //[ForeignKey("ShipmentPayer")]
+        //public virtual int                      ShipmentPayerId             { get; set; }
         public virtual ShippingAccount          ShipmentPayer               { get; set; }
-        [ForeignKey("TaxesDutiesPayer")]
-        public virtual int                      TaxesDutiesPayerId          { get; set; }
+        //[ForeignKey("TaxesDutiesPayer")]
+        //public virtual int                      TaxesDutiesPayerId          { get; set; }
         public virtual ShippingAccount          TaxesDutiesPayer            { get; set; }
+
+
 
         // Packages information
         public virtual int                      NumberOfPackages            { get; set; }
         public virtual ICollection<Package>     Packages                    { get; set; }
+
+
 
         // Meta information
         public virtual DateTime                 ShippedDate                 { get; set; }

@@ -416,6 +416,7 @@
     <Content Include="Views\Shared\_RegisterLoginPartial.cshtml" />
     <Content Include="Views\BusinessShippingAccounts\GetBusinessShippingAccountRecord.cshtml" />
     <Content Include="Views\PersonalShippingAccounts\GetPersonalShippingAccountRecord.cshtml" />
+    <Content Include="Views\Shipments\_RecipientAddressPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

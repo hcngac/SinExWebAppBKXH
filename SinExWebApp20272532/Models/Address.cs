@@ -10,6 +10,9 @@ namespace SinExWebApp20272532.Models
     [Table("Address")]
     public class Address
     {
+        public virtual int AddressId { get; set; }
+        public virtual string AddressName { get; set; }
+
         [StringLength(50)]
         [Display(Name = "Building")]
         public virtual string Building { get; set; }

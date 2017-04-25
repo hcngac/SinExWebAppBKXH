@@ -41,6 +41,43 @@ namespace SinExWebApp20272532.Controllers
         // GET: Shipments/Create
         public ActionResult Create()
         {
+            SelectList proviceCode = new SelectList(new List<SelectListItem> {
+                new SelectListItem {Value = "AH",Text = "Anhui Province"                          , Selected = false  },
+                new SelectListItem {Value = "BJ",Text = "Beijing Municipality"                    , Selected = false  },
+                new SelectListItem {Value = "CQ",Text = "Chongqing Municipality"                  , Selected = false  },
+                new SelectListItem {Value = "FJ",Text = "Fujian Province"                         , Selected = false  },
+                new SelectListItem {Value = "GD",Text = "Guangdong Province"                      , Selected = false  },
+                new SelectListItem {Value = "GS",Text = "Gansu Province"                          , Selected = false  },
+                new SelectListItem {Value = "GX",Text = "Guangxi Zhuang Autonomous Region"        , Selected = false  },
+                new SelectListItem {Value = "GZ",Text = "Guizhou Province"                        , Selected = false  },
+                new SelectListItem {Value = "HA",Text = "Henan Province"                          , Selected = false  },
+                new SelectListItem {Value = "HB",Text = "Hubei Province"                          , Selected = false  },
+                new SelectListItem {Value = "HE",Text = "Hebei Province"                          , Selected = false  },
+                new SelectListItem {Value = "HI",Text = "Hainan Province"                         , Selected = false  },
+                new SelectListItem {Value = "HK",Text = "Hong Kong Special Administrative Region" , Selected = false  },
+                new SelectListItem {Value = "HL",Text = "Heilongjiang Province"                   , Selected = false  },
+                new SelectListItem {Value = "HN",Text = "Hunan Province"                          , Selected = false  },
+                new SelectListItem {Value = "JL",Text = "Jilin Province"                          , Selected = false  },
+                new SelectListItem {Value = "JS",Text = "Jiangsu Province"                        , Selected = false  },
+                new SelectListItem {Value = "JX",Text = "Jiangxi Province"                        , Selected = false  },
+                new SelectListItem {Value = "LN",Text = "Liaoning Province"                       , Selected = false  },
+                new SelectListItem {Value = "MC",Text = "Macau Special Administrative Region"     , Selected = false  },
+                new SelectListItem {Value = "NM",Text = "Inner Mongolia Autonomous Region"        , Selected = false  },
+                new SelectListItem {Value = "NX",Text = "Ningxia Hui Autonomous Region"           , Selected = false  },
+                new SelectListItem {Value = "QH",Text = "Qinghai Province"                        , Selected = false  },
+                new SelectListItem {Value = "SC",Text = "Sichuan Province"                        , Selected = false  },
+                new SelectListItem {Value = "SD",Text = "Shandong Province"                       , Selected = false  },
+                new SelectListItem {Value = "SH",Text = "Shanghai Municipality"                   , Selected = false  },
+                new SelectListItem {Value = "SN",Text = "Shaanxi Province"                        , Selected = false  },
+                new SelectListItem {Value = "SX",Text = "Shanxi Province"                         , Selected = false  },
+                new SelectListItem {Value = "TJ",Text = "Tianjin Municipality"                    , Selected = false  },
+                new SelectListItem {Value = "TW",Text = "Taiwan Province"                         , Selected = false  },
+                new SelectListItem {Value = "XJ",Text = "Xinjiang Uyghur Autonomous Region"       , Selected = false  },
+                new SelectListItem {Value = "XZ",Text = "Tibet Autonomous Region"                 , Selected = false  },
+                new SelectListItem {Value = "YN",Text = "Yunnan Province"                         , Selected = false  },
+                new SelectListItem {Value = "ZJ",Text = "Zhejiang Province"                       , Selected = false  }
+            }, "Value", "Text");
+            ViewBag.ProvinceCodeList = proviceCode;
             return View();
         }
 
@@ -49,10 +86,15 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "WaybillId,ReferenceNumber,ServiceType,ShippedDate,DeliveredDate,RecipientName,NumberOfPackages,Origin,Destination,Status,ShippingAccountId")] Shipment shipment)
+        public ActionResult Create(
+            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment,
+            [Bind(Include = "Building,Street,City,ProvinceCode,PostalCode")] Address DeliveryAddress
+            )
         {
             if (ModelState.IsValid)
             {
+
+                shipment.DeliveryAddress = DeliveryAddress;
                 db.Shipments.Add(shipment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -166,7 +208,7 @@ namespace SinExWebApp20272532.Controllers
                                     NumberOfPackages = s.NumberOfPackages,
                                     Origin = s.Origin,
                                     Destination = s.Destination,
-                                    ShippingAccountId = s.ShippingAccountId
+                                    ShippingAccountId = s.SenderId
                                 };
 
             // Add the condition to select a spefic shipping account if shipping account id is not null.
@@ -253,7 +295,7 @@ namespace SinExWebApp20272532.Controllers
         private SelectList PopulateShippingAccountsDropdownList()
         {
             // TODO: Construct the LINQ query to retrieve the unique list of shipping account ids.
-            var shippingAccountQuery = db.Shipments.Select(s => s.ShippingAccountId).Distinct().OrderBy(s => s);
+            var shippingAccountQuery = db.Shipments.Select(s => s.SenderId).Distinct().OrderBy(s => s);
             return new SelectList(shippingAccountQuery);
         }
 
