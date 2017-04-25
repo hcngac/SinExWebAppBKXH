@@ -75,6 +75,8 @@ namespace SinExWebApp20272532.Models
 
 
         // Meta information
+        public virtual decimal                  TotalTaxes                  { get; set; }
+        public virtual decimal                  TotalDuties                 { get; set; }
         public virtual DateTime                 ShippedDate                 { get; set; }
         public virtual DateTime                 DeliveredDate               { get; set; }
         public virtual string                   Origin                      { get; set; }
