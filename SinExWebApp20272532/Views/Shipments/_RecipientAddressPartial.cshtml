@@ -1,0 +1,31 @@
+﻿@model SinExWebApp20272532.Models.Shipment
+
+<div class="form-group">
+    <h5>Recipient Address</h5>
+    <div class="col-md-4">
+        @Html.LabelFor(model => model.DeliveryAddress.Building, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.DeliveryAddress.Building, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DeliveryAddress.Building, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-4">
+        @Html.LabelFor(model => model.DeliveryAddress.Street, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.DeliveryAddress.Street, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DeliveryAddress.Street, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-4">
+        @Html.LabelFor(model => model.DeliveryAddress.City, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.DeliveryAddress.City, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DeliveryAddress.City, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-4">
+        @Html.LabelFor(model => model.DeliveryAddress.ProvinceCode, htmlAttributes: new { @class = "control-label" })
+        @Html.DropDownListFor(model => model.DeliveryAddress.ProvinceCode, (SelectList)ViewBag.ProvinceCodeList, new { @class = "form-control" })
+        <!-- @Html.EditorFor(model => model.DeliveryAddress.ProvinceCode, new { htmlAttributes = new { @class = "form-control" } }) -->
+        @Html.ValidationMessageFor(model => model.DeliveryAddress.ProvinceCode, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-4">
+        @Html.LabelFor(model => model.DeliveryAddress.PostalCode, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.DeliveryAddress.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DeliveryAddress.PostalCode, "", new { @class = "text-danger" })
+    </div>
+</div>

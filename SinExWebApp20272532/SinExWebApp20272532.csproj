@@ -231,14 +231,17 @@
     <Compile Include="Migrations\AspIdentityConfiguration.cs" />
     <Compile Include="Migrations\SinExConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\BusinessShippingAccount.cs" />
     <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\Destination.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Package.cs" />
     <Compile Include="Models\PackageType.cs" />
     <Compile Include="Models\PackageTypeSize.cs" />
     <Compile Include="Models\PersonalShippingAccount.cs" />
+    <Compile Include="Models\Pickup.cs" />
     <Compile Include="Models\ServicePackageFee.cs" />
     <Compile Include="Models\ServiceType.cs" />
     <Compile Include="Models\Shipment.cs" />
@@ -413,6 +416,7 @@
     <Content Include="Views\Shared\_RegisterLoginPartial.cshtml" />
     <Content Include="Views\BusinessShippingAccounts\GetBusinessShippingAccountRecord.cshtml" />
     <Content Include="Views\PersonalShippingAccounts\GetPersonalShippingAccountRecord.cshtml" />
+    <Content Include="Views\Shipments\_RecipientAddressPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
