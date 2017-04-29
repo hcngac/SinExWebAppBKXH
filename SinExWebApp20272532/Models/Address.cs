@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SinExWebApp20272532.Models
 {
@@ -40,5 +41,19 @@ namespace SinExWebApp20272532.Models
         [ForeignKey("ShippingAccount")]
         public virtual int ShippingAccountId { get; set; }
         public virtual ShippingAccount ShippingAccount { get; set; }
+
+        public static SelectList GetSelectList(int shippingAccountId)
+        {
+            var db = new SinExDatabaseContext();
+            var addressListQuery = from s in db.Addresses
+                              where s.ShippingAccountId == shippingAccountId
+                              select new SelectListItem
+                              {
+                                  Value = s.AddressId.ToString(),
+                                  Text = s.AddressName,
+                                  Selected = false,
+                              };
+            return new SelectList(addressListQuery.ToList(),"Value","Text");
+        }
     }
 }

@@ -78,6 +78,10 @@ namespace SinExWebApp20272532.Controllers
                 new SelectListItem {Value = "ZJ",Text = "Zhejiang Province"                       , Selected = false  }
             }, "Value", "Text");
             ViewBag.ProvinceCodeList = proviceCode;
+
+            int ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
+            ViewBag.AddressList = Address.GetSelectList(ShippingAccountId);
+
             return View();
         }
 
@@ -87,14 +91,12 @@ namespace SinExWebApp20272532.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
-            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment,
-            [Bind(Include = "Building,Street,City,ProvinceCode,PostalCode")] Address DeliveryAddress
+            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
             )
         {
             if (ModelState.IsValid)
             {
-
-                shipment.DeliveryAddress = DeliveryAddress;
+                
                 db.Shipments.Add(shipment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
