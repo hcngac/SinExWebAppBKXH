@@ -36,5 +36,9 @@ namespace SinExWebApp20272532.Models
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "The field {0} must be a number.")]
         [Display(Name = "Postal Code")]
         public virtual string PostalCode { get; set; }
+
+        [ForeignKey("ShippingAccount")]
+        public virtual int ShippingAccountId { get; set; }
+        public virtual ShippingAccount ShippingAccount { get; set; }
     }
 }

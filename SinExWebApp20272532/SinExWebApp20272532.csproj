@@ -213,6 +213,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BusinessShippingAccountsController.cs" />
     <Compile Include="Controllers\CurrenciesController.cs" />
@@ -417,6 +418,11 @@
     <Content Include="Views\BusinessShippingAccounts\GetBusinessShippingAccountRecord.cshtml" />
     <Content Include="Views\PersonalShippingAccounts\GetPersonalShippingAccountRecord.cshtml" />
     <Content Include="Views\Shipments\_RecipientAddressPartial.cshtml" />
+    <Content Include="Views\Addresses\Create.cshtml" />
+    <Content Include="Views\Addresses\Delete.cshtml" />
+    <Content Include="Views\Addresses\Details.cshtml" />
+    <Content Include="Views\Addresses\Edit.cshtml" />
+    <Content Include="Views\Addresses\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
