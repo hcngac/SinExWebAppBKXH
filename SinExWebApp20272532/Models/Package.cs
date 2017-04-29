@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SinExWebApp20272532.Models
 {
-    [Table("Package")]
+    [Table("Packages")]
     public class Package
     {
         [Key]
