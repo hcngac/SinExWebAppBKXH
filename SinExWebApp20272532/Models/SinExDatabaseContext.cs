@@ -38,5 +38,7 @@ namespace SinExWebApp20272532.Models
         public System.Data.Entity.DbSet<SinExWebApp20272532.Models.Address> Addresses { get; set; }
 
         public System.Data.Entity.DbSet<SinExWebApp20272532.Models.ShippingAccount> ShippingAccounts { get; set; }
+
+        public System.Data.Entity.DbSet<SinExWebApp20272532.Models.Pickup> Pickups { get; set; }
     }
 }

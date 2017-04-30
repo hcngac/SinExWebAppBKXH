@@ -224,6 +224,7 @@
     <Compile Include="Controllers\PackageTypesController.cs" />
     <Compile Include="Controllers\PackageTypeSizesController.cs" />
     <Compile Include="Controllers\PersonalShippingAccountsController.cs" />
+    <Compile Include="Controllers\PickupsController.cs" />
     <Compile Include="Controllers\ServicePackageFeesController.cs" />
     <Compile Include="Controllers\ServiceTypesController.cs" />
     <Compile Include="Controllers\ShipmentsController.cs" />
@@ -429,6 +430,11 @@
     <Content Include="Views\Packages\Details.cshtml" />
     <Content Include="Views\Packages\Edit.cshtml" />
     <Content Include="Views\Packages\Index.cshtml" />
+    <Content Include="Views\Pickups\Create.cshtml" />
+    <Content Include="Views\Pickups\Delete.cshtml" />
+    <Content Include="Views\Pickups\Details.cshtml" />
+    <Content Include="Views\Pickups\Edit.cshtml" />
+    <Content Include="Views\Pickups\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
