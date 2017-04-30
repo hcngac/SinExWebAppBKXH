@@ -105,6 +105,7 @@ namespace SinExWebApp20272532.Controllers
 
                 db.Shipments.Add(shipment);
                 db.SaveChanges();
+                Session["HandlingWaybillId"] = shipment.WaybillId;
                 return RedirectToAction("Index","Packages",new { waybillId = shipment.WaybillId});
             }
 
@@ -123,6 +124,8 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
+
+            Session["HandlingWaybillId"] = shipment.WaybillId;
             return View(shipment);
         }
 

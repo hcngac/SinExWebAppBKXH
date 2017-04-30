@@ -15,8 +15,10 @@ namespace SinExWebApp20272532.Controllers
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
         // GET: Packages
-        public ActionResult Index(int? waybillId)
+        public ActionResult Index()
         {
+            int waybillId = (int)Session["HandlingWaybillId"];
+
             if (waybillId == null)
                 return View(new List<Package>());
 
@@ -28,9 +30,9 @@ namespace SinExWebApp20272532.Controllers
                     return View(new List<Package>());
 
                 var packages = db.Packages.Where(s => s.WaybillId == waybillId).Include(p => p.PackageType).Include(p => p.Shipment);
-                return View(new List<Package>());
+                return View(packages.ToList());
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return View(new List<Package>());
             }
@@ -54,9 +56,13 @@ namespace SinExWebApp20272532.Controllers
         // GET: Packages/Create
         public ActionResult Create()
         {
-            ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type");
-            ViewBag.WaybillId = new SelectList(db.Shipments, "WaybillId", "ReferenceNumber");
-            return View();
+            if (Session["HandlingWaybillId"] != null)
+            {
+
+                ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type");
+                return View();
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
         // POST: Packages/Create
@@ -64,17 +70,22 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PackageId,WaybillId,PackageTypeID,Description,ValueOfContent,EstimatedWeight,Weight")] Package package)
+        public ActionResult Create([Bind(Include = "PackageId,PackageTypeID,Description,ValueOfContent,EstimatedWeight")] Package package)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && Session["HandlingWaybillId"] != null)
             {
+                package.WaybillId = (int)Session["HandlingWaybillId"];
                 db.Packages.Add(package);
                 db.SaveChanges();
-                return RedirectToAction("Index","Pakcages");
+                return RedirectToAction("Index", "Packages");
+            }
+
+            if (Session["HandlingWaybillId"] == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", package.PackageTypeID);
-            ViewBag.WaybillId = new SelectList(db.Shipments, "WaybillId", "ReferenceNumber", package.WaybillId);
             return View(package);
         }
 
@@ -85,13 +96,17 @@ namespace SinExWebApp20272532.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            if (Session["HandlingWaybillId"] == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             Package package = db.Packages.Find(id);
             if (package == null)
             {
                 return HttpNotFound();
             }
             ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", package.PackageTypeID);
-            ViewBag.WaybillId = new SelectList(db.Shipments, "WaybillId", "ReferenceNumber", package.WaybillId);
             return View(package);
         }
 
@@ -100,16 +115,20 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PackageId,WaybillId,PackageTypeID,Description,ValueOfContent,EstimatedWeight,Weight")] Package package)
+        public ActionResult Edit([Bind(Include = "PackageId,PackageTypeID,Description,ValueOfContent,EstimatedWeight,Weight")] Package package)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && Session["HandlingWaybillId"] != null)
             {
+                package.WaybillId = (int)Session["HandlingWaybillId"];
                 db.Entry(package).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            if (Session["HandlingWaybillId"] == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", package.PackageTypeID);
-            ViewBag.WaybillId = new SelectList(db.Shipments, "WaybillId", "ReferenceNumber", package.WaybillId);
             return View(package);
         }
 
