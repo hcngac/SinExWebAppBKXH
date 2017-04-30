@@ -17,10 +17,10 @@ namespace SinExWebApp20272532.Controllers
         // GET: Packages
         public ActionResult Index()
         {
-            int waybillId = (int)Session["HandlingWaybillId"];
-
-            if (waybillId == null)
+            if (Session["HandlingWaybillId"] == null)
                 return View(new List<Package>());
+
+            int waybillId = (int)Session["HandlingWaybillId"];
 
             try
             {
@@ -76,6 +76,10 @@ namespace SinExWebApp20272532.Controllers
             {
                 package.WaybillId = (int)Session["HandlingWaybillId"];
                 db.Packages.Add(package);
+                db.SaveChanges();
+                Shipment relatedShipment = db.Shipments.Find(package.WaybillId);
+                relatedShipment.NumberOfPackages = relatedShipment.Packages.Count();
+                db.Entry(relatedShipment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Packages");
             }
@@ -154,6 +158,9 @@ namespace SinExWebApp20272532.Controllers
         {
             Package package = db.Packages.Find(id);
             db.Packages.Remove(package);
+            db.SaveChanges();
+            package.Shipment.NumberOfPackages = package.Shipment.Packages.Count();
+            db.Entry(package.Shipment).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
