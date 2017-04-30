@@ -16,30 +16,7 @@ namespace SinExWebApp20272532.Controllers
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
-        
-        // GET: Shipments
-        public ActionResult Index()
-        {
-            return View(db.Shipments.ToList());
-        }
-
-        // GET: Shipments/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Shipment shipment = db.Shipments.Find(id);
-            if (shipment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(shipment);
-        }
-
-        // GET: Shipments/Create
-        public ActionResult Create()
+        private void GenerateProvinceCodeList()
         {
             SelectList proviceCode = new SelectList(new List<SelectListItem> {
                 new SelectListItem {Value = "AH",Text = "Anhui Province"                          , Selected = false  },
@@ -78,10 +55,39 @@ namespace SinExWebApp20272532.Controllers
                 new SelectListItem {Value = "ZJ",Text = "Zhejiang Province"                       , Selected = false  }
             }, "Value", "Text");
             ViewBag.ProvinceCodeList = proviceCode;
-
+        }
+        private void GenerateAddressList()
+        {
             int ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
             ViewBag.AddressList = Address.GetSelectList(ShippingAccountId);
+        }
 
+        // GET: Shipments
+        public ActionResult Index()
+        {
+            return View(db.Shipments.ToList());
+        }
+
+        // GET: Shipments/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Shipment shipment = db.Shipments.Find(id);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(shipment);
+        }
+
+        // GET: Shipments/Create
+        public ActionResult Create()
+        {
+            GenerateProvinceCodeList();
+            GenerateAddressList();
             return View();
         }
 
@@ -108,7 +114,8 @@ namespace SinExWebApp20272532.Controllers
                 Session["HandlingWaybillId"] = shipment.WaybillId;
                 return RedirectToAction("Index","Packages",new { waybillId = shipment.WaybillId});
             }
-
+            GenerateProvinceCodeList();
+            GenerateAddressList();
             return View(shipment);
         }
 
@@ -124,7 +131,8 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
-
+            GenerateProvinceCodeList();
+            GenerateAddressList();
             Session["HandlingWaybillId"] = shipment.WaybillId;
             return View(shipment);
         }
@@ -134,7 +142,9 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "WaybillId,ReferenceNumber,ServiceType,ShippedDate,DeliveredDate,RecipientName,NumberOfPackages,Origin,Destination,Status,ShippingAccountId")] Shipment shipment)
+        public ActionResult Edit(
+            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
+            )
         {
             if (ModelState.IsValid)
             {
@@ -142,6 +152,8 @@ namespace SinExWebApp20272532.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            GenerateProvinceCodeList();
+            GenerateAddressList();
             return View(shipment);
         }
 

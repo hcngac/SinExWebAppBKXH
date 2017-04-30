@@ -14,5 +14,6 @@ namespace SinExWebApp20272532.Models
         public virtual DateTime PickupTime { get; set; }
         public virtual bool IsImmediatePickup { get; set; }
         public virtual ICollection<Shipment> Shipments { get; set; }
+        public virtual int ShippingAccountId { get; set; }
     }
 }

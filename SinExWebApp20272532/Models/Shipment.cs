@@ -67,7 +67,7 @@ namespace SinExWebApp20272532.Models
 
 
         // Meta information
-        public virtual int                      PickupId                    { get; set; }
+        public virtual int                      PickupArrangementId         { get; set; }
         public virtual decimal                  TotalTaxes                  { get; set; }
         public virtual decimal                  TotalDuties                 { get; set; }
         public virtual DateTime                 ShippedDate                 { get; set; }
