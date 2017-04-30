@@ -49,7 +49,7 @@ namespace SinExWebApp20272532.Models
         [EmailAddress()]
         [Display(Name = "Email Address")]
         public virtual string EmailAddress { get; set; }
-        public virtual ShippingAccount          Recipient                   { get; set; }
+        public virtual int                      RecipientId                 { get; set; }
 
 
 
@@ -68,7 +68,6 @@ namespace SinExWebApp20272532.Models
 
         // Meta information
         public virtual int                      PickupId                    { get; set; }
-        public virtual Pickup                   Pickup                      { get; set; }
         public virtual decimal                  TotalTaxes                  { get; set; }
         public virtual decimal                  TotalDuties                 { get; set; }
         public virtual DateTime                 ShippedDate                 { get; set; }

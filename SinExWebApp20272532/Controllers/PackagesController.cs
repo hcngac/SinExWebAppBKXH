@@ -15,10 +15,25 @@ namespace SinExWebApp20272532.Controllers
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
         // GET: Packages
-        public ActionResult Index()
+        public ActionResult Index(int? waybillId)
         {
-            var packages = db.Packages.Include(p => p.PackageType).Include(p => p.Shipment);
-            return View(packages.ToList());
+            if (waybillId == null)
+                return View(new List<Package>());
+
+            try
+            {
+                int ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
+                int ShipmentShipmentAccountId = db.Shipments.Where(s => s.WaybillId == waybillId).Single().SenderId;
+                if (ShippingAccountId != ShipmentShipmentAccountId)
+                    return View(new List<Package>());
+
+                var packages = db.Packages.Where(s => s.WaybillId == waybillId).Include(p => p.PackageType).Include(p => p.Shipment);
+                return View(new List<Package>());
+            }
+            catch(Exception)
+            {
+                return View(new List<Package>());
+            }
         }
 
         // GET: Packages/Details/5
@@ -55,7 +70,7 @@ namespace SinExWebApp20272532.Controllers
             {
                 db.Packages.Add(package);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Pakcages");
             }
 
             ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", package.PackageTypeID);

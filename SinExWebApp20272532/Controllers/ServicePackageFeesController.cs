@@ -94,7 +94,7 @@ namespace SinExWebApp20272532.Controllers
                 {
                     MaximumWeight = spf.PackageType.PackageTypeSizes.OrderByDescending(s => s.WeightLimit).Select(s => s.WeightLimit).First();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     MaximumWeight = 0;
                 }

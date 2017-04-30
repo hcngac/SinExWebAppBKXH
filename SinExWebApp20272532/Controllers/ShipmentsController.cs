@@ -96,10 +96,16 @@ namespace SinExWebApp20272532.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                shipment.TotalDuties = -1;
+                shipment.TotalTaxes = -1;
+                shipment.ShippedDate = new DateTime(1990,1,1);
+                shipment.DeliveredDate = new DateTime(1990, 1, 1);
+                shipment.Status = "Created";
+                shipment.SenderId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
+
                 db.Shipments.Add(shipment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Packages",new { waybillId = shipment.WaybillId});
             }
 
             return View(shipment);
