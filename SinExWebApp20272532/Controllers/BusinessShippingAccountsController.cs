@@ -60,7 +60,7 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ShippingAccountId,Building,Street,City,ProvinceCode,PostalCode,CreditCardType,CreditCardNumber,CreditCardSecurityNumber,CreditCardCardholderName,CreditCardExpiryMonth,CreditCardExpiryYear,PhoneNumber,EmailAddress,ContactPersonName,CompanyName,DepartmentName")] BusinessShippingAccount businessShippingAccount)
+        public ActionResult Edit([Bind(Include = "UserName,ShippingAccountId,Building,Street,City,ProvinceCode,PostalCode,CreditCardType,CreditCardNumber,CreditCardSecurityNumber,CreditCardCardholderName,CreditCardExpiryMonth,CreditCardExpiryYear,PhoneNumber,Email,ContactPersonName,CompanyName,DepartmentName")] BusinessShippingAccount businessShippingAccount)
         {
             if (businessShippingAccount.UserName != User.Identity.Name)
             {
