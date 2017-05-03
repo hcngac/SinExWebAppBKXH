@@ -37,32 +37,25 @@ namespace SinExWebApp20272532.Controllers
             {
                 Session["PackageList"] = new List<Package>();
             }
-            if (ServiceType == "Please Select")
+            if (Session["exchangeRate"] == null)
+            {
+                Session["exchangeRate"] = (decimal)0;
+            }
+            if (ServiceType == "")
             {
                 ServiceType = null;
             }
-            if (PackageType == "Please Select")
+            if (PackageType == "")
             {
                 PackageType = null;
             }
-            if (Currency == "Please Select")
+            if (Currency == "")
             {
                 Currency = null;
             }
 
             // Get list of ServiceType, PackageType, Currencies
-            List<String> stl, ptl, cl;
-            stl = db.ServiceTypes.Select(s => s.Type).Distinct().ToList();
-            ptl = db.PackageTypes.Select(s => s.Type).Distinct().ToList();
-            cl = db.Currencies.Select(s => s.CurrencyCode).Distinct().ToList();
-            stl.Insert(0, "Please Select");
-            ptl.Insert(0, "Please Select");
-            cl.Insert(0, "Please Select");
-            ViewBag.serviceTypeList = new SelectList(stl);
-            ViewBag.packageTypeList = new SelectList(ptl);
-            ViewBag.currencyList = new SelectList(cl);
-
-
+            
             ViewBag.ServicePackageFeeCalculated = null;
 
             // Filter for ServicePackageFees
@@ -77,10 +70,9 @@ namespace SinExWebApp20272532.Controllers
             }
 
             // Determine currency exchange rate
-            decimal rate = 1;
             if (Currency != null)
             {
-                rate = db.Currencies.Where(s => s.CurrencyCode == Currency).Select(s => s.ExchangeRate).Single();
+                Session["exchangeRate"] = Models.Currency.getCachedList().Where(s => s.CurrencyCode == Currency).Select(s => s.ExchangeRate).Single();
             }
 
             // Add package
@@ -137,11 +129,10 @@ namespace SinExWebApp20272532.Controllers
             }
 
             // Compute display currency
-            ViewBag.exchangeRate = rate;
             foreach (ServicePackageFee x in ServicePackageFeeList)
             {
-                x.Fee = CurrencyExchange(x.Fee, 1, rate);
-                x.MinimumFee = CurrencyExchange(x.MinimumFee, 1, rate);
+                x.Fee = CurrencyExchange(x.Fee, 1, (decimal)Session["exchangeRate"]);
+                x.MinimumFee = CurrencyExchange(x.MinimumFee, 1, (decimal)Session["exchangeRate"]);
             }
 
             return View(ServicePackageFeeList);

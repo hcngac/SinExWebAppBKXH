@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Caching;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SinExWebApp20272532.Validators;
+using System.Web.Mvc;
 
 namespace SinExWebApp20272532.Models
 {
@@ -92,5 +94,34 @@ namespace SinExWebApp20272532.Models
         public virtual string UserName { get; set; }
 
         public virtual ICollection<Shipment> Shipments { get; set; }
+
+        public static List<ShippingAccount> getCachedList()
+        {
+            Cache Cache = HttpRuntime.Cache;
+            List<ShippingAccount> shippingAccountList = Cache["shippingAccountList"] as List<ShippingAccount>;
+            if (shippingAccountList == null)
+            {
+                SinExDatabaseContext db = new SinExDatabaseContext();
+                shippingAccountList = db.ShippingAccounts.ToList();
+            }
+            return shippingAccountList;
+        }
+
+        public static SelectList getSelectList()
+        {
+            List<ShippingAccount> shippingAccountList = getCachedList();
+            List<string> shippingAccountIdList;
+            if (shippingAccountList == null)
+            {
+                shippingAccountIdList = new List<string>();
+            }
+            else
+            {
+                List<int> raw_shippingAccountIdList = shippingAccountList.Select(a => a.ShippingAccountId).ToList();
+                shippingAccountIdList = raw_shippingAccountIdList.ConvertAll<string>(delegate(int i) { return i.ToString(); });
+            }
+            shippingAccountIdList.Insert(0, "Please Select");
+            return new SelectList(shippingAccountIdList);
+        }
     }
 }

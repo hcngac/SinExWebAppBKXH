@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Caching;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace SinExWebApp20272532.Models
 {
@@ -18,5 +20,32 @@ namespace SinExWebApp20272532.Models
         [Display(Name = "Delivery Time")]
         public virtual string DeliveryTime { get; set; }
         public virtual ICollection<ServicePackageFee> ServicePackageFees { get; set; }
+
+        public static List<ServiceType> getCachedList()
+        {
+            Cache Cache = HttpRuntime.Cache;
+            SinExDatabaseContext db = new SinExDatabaseContext();
+            List<ServiceType> serviceTypeList = Cache["serviceTypeList"] as List<ServiceType>;
+            if (serviceTypeList == null)
+            {
+                serviceTypeList = db.ServiceTypes.ToList();
+            }
+            return serviceTypeList;
+        }
+
+        public static SelectList getSelectList()
+        {
+            List<ServiceType> serviceTypeList = getCachedList();
+            List<string> serviceTypeNameList;
+            if (serviceTypeList == null)
+            {
+                serviceTypeNameList = new List<string>();
+            }
+            else
+            {
+                serviceTypeNameList = serviceTypeList.Select(a => a.Type).ToList();
+            }
+            return new SelectList(serviceTypeNameList);
+        }
     }
 }
