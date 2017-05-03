@@ -91,6 +91,7 @@ namespace SinExWebApp20272532.Models
         public virtual string Email { get; set; }
 
         [StringLength(10)]
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "The field {0} must be a alphanumeric.")]
         public virtual string UserName { get; set; }
 
         public virtual ICollection<Shipment> Shipments { get; set; }
