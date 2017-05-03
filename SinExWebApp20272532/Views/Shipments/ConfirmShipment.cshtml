@@ -1,0 +1,184 @@
+﻿@model SinExWebApp20272532.Models.Shipment
+
+@{
+    ViewBag.Title = "ConfirmShipment";
+}
+
+<h2>ConfirmShipment</h2>
+
+<h3>Are you sure you want to confirm the shipment?</h3>
+<div>
+    <h4>Shipment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Sender.Building)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sender.Building)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferenceNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferenceNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RecipientName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecipientName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartmentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RecipientId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecipientId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServiceType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfPackages)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfPackages)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PickupArrangementId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PickupArrangementId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalTaxes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalTaxes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalDuties)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalDuties)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeliveredDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeliveredDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Origin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Origin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Destination)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Destination)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PickupEmailNotification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PickupEmailNotification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeliveryEmailNotification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeliveryEmailNotification)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="ConfirmShipment" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
