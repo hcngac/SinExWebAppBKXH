@@ -10,7 +10,7 @@ using SinExWebApp20272532.Models;
 
 namespace SinExWebApp20272532.Controllers
 {
-    public struct Package
+    public struct DummyPackage
     {
         public ServiceType serviceType;
         public PackageType packageType;
@@ -86,7 +86,7 @@ namespace SinExWebApp20272532.Controllers
                 {
                     MaximumWeight = spf.PackageType.PackageTypeSizes.OrderByDescending(s => s.WeightLimit).Select(s => s.WeightLimit).First();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     MaximumWeight = 0;
                 }
@@ -102,8 +102,8 @@ namespace SinExWebApp20272532.Controllers
                     PackageFee += 500;
                 }
 
-                List<Package> pl = (List<Package>)Session["PackageList"];
-                pl.Add(new Package
+                List<DummyPackage> pl = (List<DummyPackage>)Session["PackageList"];
+                pl.Add(new DummyPackage
                 {
                     serviceType = spf.ServiceType,
                     packageType = spf.PackageType,
@@ -122,7 +122,7 @@ namespace SinExWebApp20272532.Controllers
             ViewBag.TotalFee = 0;
             if (Session["PackageList"] != null)
             {
-                foreach (var x in (List<Package>)Session["PackageList"])
+                foreach (var x in (List<DummyPackage>)Session["PackageList"])
                 {
                     ViewBag.TotalFee += x.fee;
                 }
