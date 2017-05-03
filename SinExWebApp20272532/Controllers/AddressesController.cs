@@ -15,9 +15,17 @@ namespace SinExWebApp20272532.Controllers
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
         // GET: Addresses
-        public ActionResult Index()
+        public ActionResult Index(string AddressType)
         {
             var addresses = db.Addresses.Include(a => a.ShippingAccount);
+            if (AddressType == "RecipientAddress")
+            {
+                addresses = addresses.Where(s => s.isRecipientAddress == true);
+            }
+            else if (AddressType == "PickupAddress")
+            {
+                addresses = addresses.Where(s => s.isRecipientAddress == false);
+            }
             return View(addresses.ToList());
         }
 
