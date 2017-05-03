@@ -36,6 +36,10 @@
                             {
                                 <li>@Html.ActionLink("Create Shipment", "Create", "Shipments")</li>
                             }
+                            @if (User.IsInRole("Employee"))
+                            {
+                                <li>@Html.ActionLink("Enter Shipment Fee and Weight", "EnterFeeAndWeight", "Shipments")</li>
+                            }
                         </ul>
                     </li>
                     @if (User.IsInRole("Employee") || User.IsInRole("Customer"))
