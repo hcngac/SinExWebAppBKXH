@@ -35,6 +35,8 @@
                             @if (User.IsInRole("Customer"))
                             {
                                 <li>@Html.ActionLink("Create Shipment", "Create", "Shipments")</li>
+                                <li>@Html.ActionLink("My Recipient Addresses", "Index", "Addresses", routeValues: new { AddressType = "RecipientAddress" }, htmlAttributes: new { })</li>
+                                <li>@Html.ActionLink("My Pickup Addresses", "Index", "Addresses", routeValues: new { AddressType = "PickupAddress" }, htmlAttributes: new { })</li>
                             }
                         </ul>
                     </li>
@@ -50,8 +52,6 @@
                                 else if (User.IsInRole("Customer"))
                                 {
                                     <li>@Html.ActionLink("My Shipping History", "GenerateHistoryReport", "Shipments")</li>
-                                    <li>@Html.ActionLink("My Recipient Addresses", "Index", "Addresses", routeValues : new { AddressType="RecipientAddress" },htmlAttributes:new { })</li>
-                                    <li>@Html.ActionLink("My Pickup Addresses", "Index", "Addresses", routeValues : new { AddressType="PickupAddress" }, htmlAttributes: new { })</li>
                                 }
                             </ul>
                         </li>
