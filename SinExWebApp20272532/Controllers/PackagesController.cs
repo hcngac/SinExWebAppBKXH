@@ -29,7 +29,7 @@ namespace SinExWebApp20272532.Controllers
                 if (ShippingAccountId != ShipmentShipmentAccountId)
                     return View(new List<Package>());
 
-                var packages = db.Packages.Where(s => s.WaybillId == waybillId).Include(p => p.PackageType).Include(p => p.Shipment);
+                var packages = db.Packages.Where(s => s.WaybillId == waybillId).Include(p => p.PackageTypeSize.PackageType).Include(p => p.Shipment);
                 return View(packages.ToList());
             }
             catch (Exception)
@@ -59,7 +59,7 @@ namespace SinExWebApp20272532.Controllers
             if (Session["HandlingWaybillId"] != null)
             {
 
-                ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type");
+                ViewBag.PackageTypeSizeId = PackageTypeSize.GetSelectList();
                 return View();
             }
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -70,7 +70,7 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PackageId,PackageTypeID,Description,ValueOfContent,EstimatedWeight")] Package package)
+        public ActionResult Create([Bind(Include = "PackageId,PackageTypeSizeId,Description,ValueOfContent,EstimatedWeight")] Package package)
         {
             if (ModelState.IsValid && Session["HandlingWaybillId"] != null)
             {
@@ -89,7 +89,7 @@ namespace SinExWebApp20272532.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", package.PackageTypeID);
+            ViewBag.PackageTypeSizeId = PackageTypeSize.GetSelectList(package.PackageTypeSizeId);
             return View(package);
         }
 
@@ -110,7 +110,7 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", package.PackageTypeID);
+            ViewBag.PackageTypeSizeId = PackageTypeSize.GetSelectList(package.PackageTypeSizeId);
             return View(package);
         }
 
@@ -119,7 +119,7 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PackageId,PackageTypeID,Description,ValueOfContent,EstimatedWeight,Weight")] Package package)
+        public ActionResult Edit([Bind(Include = "PackageId,PackageTypeSizeId,Description,ValueOfContent,EstimatedWeight,Weight")] Package package)
         {
             if (ModelState.IsValid && Session["HandlingWaybillId"] != null)
             {
@@ -132,7 +132,7 @@ namespace SinExWebApp20272532.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.PackageTypeID = new SelectList(db.PackageTypes, "PackageTypeID", "Type", package.PackageTypeID);
+            ViewBag.PackageTypeSizeId = PackageTypeSize.GetSelectList(package.PackageTypeSizeId);
             return View(package);
         }
 

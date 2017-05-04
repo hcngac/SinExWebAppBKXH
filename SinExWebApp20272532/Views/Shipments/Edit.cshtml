@@ -51,8 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DeliveryAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("DeliveryAddress", (SelectList)ViewBag.AddressList, "Please Select", new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ActionLink("Manage Addresses", "Index", "Addresses")
+                @Html.DropDownList("DeliveryAddress", (SelectList)ViewBag.RecipientAddressList, "Please Select", new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 
@@ -81,17 +80,40 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Packages", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RecipientPaysShipment, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.ActionLink("Manage Packages","Index","Packages")
+                @Html.EditorFor(model => model.RecipientPaysShipment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RecipientPaysShipment, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PickupArrangementId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RecipientPaysTaxesDuties, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PickupArrangementId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PickupArrangementId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.RecipientPaysTaxesDuties, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RecipientPaysTaxesDuties, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecipientId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RecipientId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RecipientId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Packages", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                Save the package edit would take you to package management.
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PickupAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("PickupAddress", (SelectList)ViewBag.PickupAddressList, "Please Select", new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 

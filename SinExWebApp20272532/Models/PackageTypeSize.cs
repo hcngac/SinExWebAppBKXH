@@ -19,7 +19,7 @@ namespace SinExWebApp20272532.Models
         public virtual int PackageTypeID { get; set; }
         public virtual PackageType PackageType { get; set; }
 
-        public static SelectList GetSelectList()
+        public static SelectList GetSelectList(int selectedValue = -1)
         {
             var db = new Models.SinExDatabaseContext();
             List<Object> PackageTypeSizeSelectList = new List<Object>();
@@ -30,8 +30,14 @@ namespace SinExWebApp20272532.Models
                 int value = x.PackageTypeSizeID;
                 PackageTypeSizeSelectList.Add(new { Text = name, Value = value.ToString() });
             }
-
-            return new SelectList(PackageTypeSizeSelectList,"Value","Text");
+            if (selectedValue == -1)
+            {
+                return new SelectList(PackageTypeSizeSelectList, "Value", "Text");
+            }
+            else
+            {
+                return new SelectList(PackageTypeSizeSelectList, "Value", "Text",selectedValue);
+            }
         }
 
     }

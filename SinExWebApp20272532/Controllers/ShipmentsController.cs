@@ -9,10 +9,11 @@ using System.Web.Mvc;
 using SinExWebApp20272532.Models;
 using SinExWebApp20272532.ViewModels;
 using X.PagedList;
+using System.Data.Entity.Infrastructure;
 
 namespace SinExWebApp20272532.Controllers
 {
-    public class ShipmentsController : Controller
+    public class ShipmentsController : BaseController
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
@@ -59,13 +60,31 @@ namespace SinExWebApp20272532.Controllers
         private void GenerateAddressList()
         {
             int ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
-            ViewBag.AddressList = Address.GetSelectList(ShippingAccountId);
+            ViewBag.RecipientAddressList = Address.GetSelectList(ShippingAccountId, true);
+            ViewBag.PickupAddressList = Address.GetSelectList(ShippingAccountId, false);
+        }
+        private Address GetAddressEntity(int AddressId)
+        {
+            return db.Addresses.Find(AddressId);
+        }
+        private bool isPersonalShippingAccount(int ShippingAccountId)
+        {
+            var shippingAccount = db.ShippingAccounts.Find(ShippingAccountId);
+            try
+            {
+                var personalShippingAccount = (PersonalShippingAccount)shippingAccount;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         // GET: Shipments
         public ActionResult Index()
         {
-            return View(db.Shipments.Where(s => s.Status != "Confirmed").ToList());
+            return View(db.Shipments.Where(s => s.isConfirmed == false).ToList());
         }
 
         public ActionResult ConfirmShipment(int? id)
@@ -79,18 +98,84 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
+            Session["HandlingWaybillId"] = id;
+            ViewBag.DeliveryAddressEntity = GetAddressEntity(shipment.DeliveryAddress);
+            ViewBag.PickupAddressEntity = GetAddressEntity(shipment.PickupAddress);
+            if (isPersonalShippingAccount(shipment.SenderId))
+            {
+                ViewBag.SenderName = ((PersonalShippingAccount)shipment.Sender).FirstName + " " + ((PersonalShippingAccount)shipment.Sender).LastName;
+            }
+            else
+            {
+                ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
+            }
             return View(shipment);
         }
 
-        [HttpPost,ActionName("ConfirmShipment")]
+        [HttpPost, ActionName("ConfirmShipment")]
         [ValidateAntiForgeryToken]
-        public ActionResult ConfirmingShipment(int? id)
+        public ActionResult ConfirmingShipment(int? id, bool? IsImmediatePickup, DateTime PickupTime)
         {
+            if (id == null || IsImmediatePickup == null || PickupTime == null)
+            {
+                return RedirectToAction("ConfirmShipment");
+            }
+            List<string> errorList = new List<string>();
+            if (!(bool)IsImmediatePickup)
+            {
+                if (PickupTime < DateTime.Now)
+                {
+                    errorList.Add("Pickup can only be arranged in the future.");
+                }
+                else if (PickupTime.Subtract(DateTime.Now).Days > 4)
+                {
+                    errorList.Add("Pickup can only be arranged within 5 days.");
+                }
+            }
             Shipment shipment = db.Shipments.Find(id);
-            shipment.Status = "Confirmed";
-            db.Entry(shipment).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (shipment.NumberOfPackages == 0)
+            {
+                errorList.Add("You don't have any package in this shipment.");
+            }
+            else if (shipment.NumberOfPackages > 10)
+            {
+                errorList.Add("You can have at most 10 packages.");
+            }
+            if (shipment.RecipientPaysShipment || shipment.RecipientPaysTaxesDuties)
+            {
+                ShippingAccount Recipient = db.ShippingAccounts.Find(shipment.RecipientId);
+                if (Recipient == null)
+                {
+                    errorList.Add("No valid recipient shipping account found.");
+                }
+            }
+            if (errorList.Count == 0)
+            {
+                shipment.Status = "Confirmed";
+                shipment.isConfirmed = true;
+                shipment.IsImmediatePickup = (bool)IsImmediatePickup;
+                shipment.PickupTime = PickupTime;
+
+                db.Entry(shipment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                Session["HandlingWaybillId"] = id;
+                ViewBag.DeliveryAddressEntity = GetAddressEntity(shipment.DeliveryAddress);
+                ViewBag.PickupAddressEntity = GetAddressEntity(shipment.PickupAddress);
+                if (isPersonalShippingAccount(shipment.SenderId))
+                {
+                    ViewBag.SenderName = ((PersonalShippingAccount)shipment.Sender).FirstName + " " + ((PersonalShippingAccount)shipment.Sender).LastName;
+                }
+                else
+                {
+                    ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
+                }
+                ViewBag.confirmErrorList = errorList;
+                return View(shipment);
+            }
         }
 
         // GET: Shipments/Details/5
@@ -105,6 +190,17 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
+            Session["HandlingWaybillId"] = id;
+            ViewBag.DeliveryAddressEntity = GetAddressEntity(shipment.DeliveryAddress);
+            ViewBag.PickupAddressEntity = GetAddressEntity(shipment.PickupAddress);
+            if (isPersonalShippingAccount(shipment.SenderId))
+            {
+                ViewBag.SenderName = ((PersonalShippingAccount)shipment.Sender).FirstName + " " + ((PersonalShippingAccount)shipment.Sender).LastName;
+            }
+            else
+            {
+                ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
+            }
             return View(shipment);
         }
 
@@ -112,6 +208,7 @@ namespace SinExWebApp20272532.Controllers
         public ActionResult Create()
         {
             GenerateProvinceCodeList();
+            ViewBag.ServiceTypeList = ServiceType.getSelectList();
             GenerateAddressList();
             return View();
         }
@@ -122,24 +219,27 @@ namespace SinExWebApp20272532.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
-            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
+            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,DeliveryAddress,PhoneNumber,EmailAddress,ServiceType,RecipientPaysShipment,RecipientPaysTaxesDuties,RecipientId,PickupAddress,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
             )
         {
+            shipment.NumberOfPackages = 0;
+            shipment.TotalDuties = -1;
+            shipment.TotalTaxes = -1;
+            shipment.PickupTime = new DateTime(1990, 1, 1);
+            shipment.ShippedDate = new DateTime(1990, 1, 1);
+            shipment.DeliveredDate = new DateTime(1990, 1, 1);
+            shipment.Status = "Created";
+            shipment.SenderId = GetCurrentShippingAccountId();
+            shipment.isConfirmed = false;
             if (ModelState.IsValid)
             {
-                shipment.TotalDuties = -1;
-                shipment.TotalTaxes = -1;
-                shipment.ShippedDate = new DateTime(1990,1,1);
-                shipment.DeliveredDate = new DateTime(1990, 1, 1);
-                shipment.Status = "Created";
-                shipment.SenderId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
-
                 db.Shipments.Add(shipment);
                 db.SaveChanges();
                 Session["HandlingWaybillId"] = shipment.WaybillId;
-                return RedirectToAction("Index","Packages",new { waybillId = shipment.WaybillId});
+                return RedirectToAction("Index", "Packages");
             }
             GenerateProvinceCodeList();
+            ViewBag.ServiceTypeList = ServiceType.getSelectList();
             GenerateAddressList();
             return View(shipment);
         }
@@ -147,19 +247,38 @@ namespace SinExWebApp20272532.Controllers
         // GET: Shipments/Edit/5
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Shipment shipment = db.Shipments.Find(id);
+            Session["HandlingWaybillId"] = id;
             if (shipment == null)
             {
                 return HttpNotFound();
             }
             GenerateProvinceCodeList();
             GenerateAddressList();
-            Session["HandlingWaybillId"] = shipment.WaybillId;
             return View(shipment);
+        }
+
+        void ResolveShipmentDifference(Shipment newValues, Shipment oldValues)
+        {
+            oldValues.ReferenceNumber = newValues.ReferenceNumber;
+            oldValues.RecipientName = newValues.RecipientName;
+            oldValues.CompanyName = newValues.CompanyName;
+            oldValues.DepartmentName = newValues.DepartmentName;
+            oldValues.DeliveryAddress = newValues.DeliveryAddress;
+            oldValues.PhoneNumber = newValues.PhoneNumber;
+            oldValues.EmailAddress = newValues.EmailAddress;
+            oldValues.RecipientId = newValues.RecipientId;
+            oldValues.ServiceType = newValues.ServiceType;
+            oldValues.PickupAddress = newValues.PickupAddress;
+            oldValues.Origin = newValues.Origin;
+            oldValues.Destination = newValues.Destination;
+            oldValues.DeliveryEmailNotification = newValues.DeliveryEmailNotification;
+            oldValues.PickupEmailNotification = newValues.PickupEmailNotification;
         }
 
         // POST: Shipments/Edit/5
@@ -168,14 +287,20 @@ namespace SinExWebApp20272532.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(
-            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
+            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,DeliveryAddress,PhoneNumber,EmailAddress,ServiceType,RecipientPaysShipment,RecipientPaysTaxesDuties,RecipientId,PickupAddress,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
             )
         {
+            shipment.WaybillId = (int)Session["HandlingWaybillId"];
+            Shipment oldShipment = db.Shipments.Find(shipment.WaybillId);
+            ResolveShipmentDifference(shipment, oldShipment);
+
             if (ModelState.IsValid)
             {
-                db.Entry(shipment).State = EntityState.Modified;
+                db.Entry(oldShipment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                Session["HandlingWaybillId"] = shipment.WaybillId;
+                return RedirectToAction("Index", "Packages");
             }
             GenerateProvinceCodeList();
             GenerateAddressList();
@@ -243,6 +368,17 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
+            Session["HandlingWaybillId"] = id;
+            ViewBag.DeliveryAddressEntity = GetAddressEntity(shipment.DeliveryAddress);
+            ViewBag.PickupAddressEntity = GetAddressEntity(shipment.PickupAddress);
+            if (isPersonalShippingAccount(shipment.SenderId))
+            {
+                ViewBag.SenderName = ((PersonalShippingAccount)shipment.Sender).FirstName + " " + ((PersonalShippingAccount)shipment.Sender).LastName;
+            }
+            else
+            {
+                ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
+            }
             return View(shipment);
         }
 
@@ -256,7 +392,7 @@ namespace SinExWebApp20272532.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        
+
 
         // GET: Shipments/GenerateHistoryReport
         [Authorize(Roles = "Employee,Customer")]

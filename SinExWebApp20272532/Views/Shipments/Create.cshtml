@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Shipment</h4>
         <hr />
@@ -51,11 +51,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DeliveryAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("DeliveryAddress",(SelectList)ViewBag.AddressList,"Please Select", new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ActionLink("Manage Addresses","Index","Addresses")
+                @Html.DropDownList("DeliveryAddress", (SelectList)ViewBag.RecipientAddressList, "Please Select", new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -75,8 +74,32 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ServiceType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ServiceType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("ServiceType", (SelectList)ViewBag.ServiceTypeList, "Please select", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ServiceType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecipientPaysShipment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RecipientPaysShipment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RecipientPaysShipment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecipientPaysTaxesDuties, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RecipientPaysTaxesDuties, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RecipientPaysTaxesDuties, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecipientId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RecipientId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RecipientId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -88,9 +111,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PickupArrangementId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PickupAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                You may manage the pickup for this shipment after you create the shipment waybill.
+                @Html.DropDownList("PickupAddress", (SelectList)ViewBag.PickupAddressList, "Please Select", new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 
