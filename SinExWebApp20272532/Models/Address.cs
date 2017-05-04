@@ -42,11 +42,14 @@ namespace SinExWebApp20272532.Models
         public virtual int ShippingAccountId { get; set; }
         public virtual ShippingAccount ShippingAccount { get; set; }
 
-        public static SelectList GetSelectList(int shippingAccountId)
+        public virtual bool isRecipientAddress { get; set; }
+
+        public static SelectList GetSelectList(int shippingAccountId, bool isRA)
         {
             var db = new SinExDatabaseContext();
             var addressListQuery = from s in db.Addresses
                               where s.ShippingAccountId == shippingAccountId
+                              where s.isRecipientAddress == isRA
                               select new SelectListItem
                               {
                                   Value = s.AddressId.ToString(),
@@ -55,7 +58,5 @@ namespace SinExWebApp20272532.Models
                               };
             return new SelectList(addressListQuery.ToList(),"Value","Text");
         }
-
-        public virtual bool isRecipientAddress { get; set; }
     }
 }
