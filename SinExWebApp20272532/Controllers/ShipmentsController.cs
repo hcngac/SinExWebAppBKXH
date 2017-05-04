@@ -496,6 +496,9 @@ namespace SinExWebApp20272532.Controllers
                 db.Entry(shipment).State = EntityState.Modified;
             }
             db.SaveChanges();
+            UpdateShipmentFee(shipment, false);
+
+            ComposeInvoice(shipment);
             return RedirectToAction("Index");
 
 

@@ -98,5 +98,12 @@ namespace SinExWebApp20272532.Controllers
             db.Entry(shipment).State = EntityState.Modified;
             db.SaveChanges();
         }
+
+        public void ComposeInvoice(Shipment shipment)
+        {
+            Invoice invoice = new Invoice();
+            invoice.WaybillId = shipment.WaybillId;
+            invoice.ShipDate = db.TrackingSystemRecords.Where(s => s.WaybillId == shipment.WaybillId).OrderBy(S => S.DateTimeOfRecord).First().DateTimeOfRecord;
+        }
     }
 }
