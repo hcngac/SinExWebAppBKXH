@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using SinExWebApp20272532.Models;
 using SinExWebApp20272532.ViewModels;
 using System.Collections.Generic;
+using System.Net.Mail;
 
 namespace SinExWebApp20272532.Controllers
 {
@@ -201,6 +202,7 @@ namespace SinExWebApp20272532.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterCustomerViewModel model)
         {
+            ViewBag.AccountType = "Personal";
             if (ModelState.IsValid)
             {
                 if (model.PersonalInformation != null)
@@ -241,6 +243,30 @@ namespace SinExWebApp20272532.Controllers
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                        // Create an instance of MailMessage named mail.
+                        MailMessage mail = new MailMessage();
+
+                        // Create an instance of SmtpClient named emailServer.
+                        // Set the mail server to use as "smtp.ust.hk".
+                        SmtpClient emailServer = new SmtpClient("smtp.ust.hk");
+                        // Set the sender (From), receiver (To), subject and 
+                        // message body fields of the mail message.
+                        mail.From = new MailAddress("comp3111_team109@cse.ust.hk", "SinExWebAppBKXH");
+                        mail.To.Add("comp3111_team109@cse.ust.hk");
+                        mail.Subject = "You've created a shipping account in SinExWebAppBKXH";
+                        mail.Body = "Hi,\n\tThis is a validation email that you have successfully created a ";
+                        if (model.PersonalInformation != null)
+                        {
+                            mail.Body += "personal shipping account ";
+                        }
+                        else if (model.BusinessInformation != null)
+                        {
+                            mail.Body += "business shipping account ";
+                        }
+                        mail.Body += "with username " + model.LoginInformation.UserName + ". If you have not created such a account please reply immediately! Thank you!";
+                        // Send the message.
+                        emailServer.Send(mail);
+
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -252,6 +278,54 @@ namespace SinExWebApp20272532.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            SelectList creditCardTypes = new SelectList(new string[] {
+                "Please Select"     ,
+                "American Express"  ,
+                "Diners Club"       ,
+                "Discover"          ,
+                "MasterCard"        ,
+                "UnionPay"          ,
+                "Visa"
+            });
+            SelectList proviceCode = new SelectList(new List<SelectListItem> {
+                new SelectListItem {Value = "AH",Text = "Anhui Province"                          , Selected = false  },
+                new SelectListItem {Value = "BJ",Text = "Beijing Municipality"                    , Selected = false  },
+                new SelectListItem {Value = "CQ",Text = "Chongqing Municipality"                  , Selected = false  },
+                new SelectListItem {Value = "FJ",Text = "Fujian Province"                         , Selected = false  },
+                new SelectListItem {Value = "GD",Text = "Guangdong Province"                      , Selected = false  },
+                new SelectListItem {Value = "GS",Text = "Gansu Province"                          , Selected = false  },
+                new SelectListItem {Value = "GX",Text = "Guangxi Zhuang Autonomous Region"        , Selected = false  },
+                new SelectListItem {Value = "GZ",Text = "Guizhou Province"                        , Selected = false  },
+                new SelectListItem {Value = "HA",Text = "Henan Province"                          , Selected = false  },
+                new SelectListItem {Value = "HB",Text = "Hubei Province"                          , Selected = false  },
+                new SelectListItem {Value = "HE",Text = "Hebei Province"                          , Selected = false  },
+                new SelectListItem {Value = "HI",Text = "Hainan Province"                         , Selected = false  },
+                new SelectListItem {Value = "HK",Text = "Hong Kong Special Administrative Region" , Selected = false  },
+                new SelectListItem {Value = "HL",Text = "Heilongjiang Province"                   , Selected = false  },
+                new SelectListItem {Value = "HN",Text = "Hunan Province"                          , Selected = false  },
+                new SelectListItem {Value = "JL",Text = "Jilin Province"                          , Selected = false  },
+                new SelectListItem {Value = "JS",Text = "Jiangsu Province"                        , Selected = false  },
+                new SelectListItem {Value = "JX",Text = "Jiangxi Province"                        , Selected = false  },
+                new SelectListItem {Value = "LN",Text = "Liaoning Province"                       , Selected = false  },
+                new SelectListItem {Value = "MC",Text = "Macau Special Administrative Region"     , Selected = false  },
+                new SelectListItem {Value = "NM",Text = "Inner Mongolia Autonomous Region"        , Selected = false  },
+                new SelectListItem {Value = "NX",Text = "Ningxia Hui Autonomous Region"           , Selected = false  },
+                new SelectListItem {Value = "QH",Text = "Qinghai Province"                        , Selected = false  },
+                new SelectListItem {Value = "SC",Text = "Sichuan Province"                        , Selected = false  },
+                new SelectListItem {Value = "SD",Text = "Shandong Province"                       , Selected = false  },
+                new SelectListItem {Value = "SH",Text = "Shanghai Municipality"                   , Selected = false  },
+                new SelectListItem {Value = "SN",Text = "Shaanxi Province"                        , Selected = false  },
+                new SelectListItem {Value = "SX",Text = "Shanxi Province"                         , Selected = false  },
+                new SelectListItem {Value = "TJ",Text = "Tianjin Municipality"                    , Selected = false  },
+                new SelectListItem {Value = "TW",Text = "Taiwan Province"                         , Selected = false  },
+                new SelectListItem {Value = "XJ",Text = "Xinjiang Uyghur Autonomous Region"       , Selected = false  },
+                new SelectListItem {Value = "XZ",Text = "Tibet Autonomous Region"                 , Selected = false  },
+                new SelectListItem {Value = "YN",Text = "Yunnan Province"                         , Selected = false  },
+                new SelectListItem {Value = "ZJ",Text = "Zhejiang Province"                       , Selected = false  }
+            }, "Value", "Text");
+
+            ViewBag.CreditCardTypes = creditCardTypes;
+            ViewBag.ProvinceCodeList = proviceCode;
             return View(model);
         }
 

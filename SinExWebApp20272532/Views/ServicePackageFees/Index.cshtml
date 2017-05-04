@@ -118,6 +118,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.MinimumFee)
             </td>
+            <td>
+
+                @if (User.IsInRole("Employee"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ServicePackageFeeID })
+                }
+            </td>
         </tr>
     }
 
