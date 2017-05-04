@@ -39,6 +39,10 @@
                                 <li>@Html.ActionLink("My Recipient Addresses", "Index", "Addresses", routeValues: new { AddressType = "RecipientAddress" }, htmlAttributes: new { })</li>
                                 <li>@Html.ActionLink("My Pickup Addresses", "Index", "Addresses", routeValues: new { AddressType = "PickupAddress" }, htmlAttributes: new { })</li>
                             }
+                            @if (User.IsInRole("Employee"))
+                            {
+                                <li>@Html.ActionLink("Enter Shipment Fee and Weight", "EnterFeeAndWeight", "Shipments")</li>
+                            }
                         </ul>
                     </li>
                     @if (User.IsInRole("Employee") || User.IsInRole("Customer"))
