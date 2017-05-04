@@ -6,10 +6,10 @@ using System.Web;
 
 namespace SinExWebApp20272532.Models
 {
-    [Table("TrackingRecord")]
-    public class TrackingRecord
+    [Table("TrackingSystemRecord")]
+    public class TrackingSystemRecord
     {
-        public virtual int TrackingRecordId { get; set; }
+        public virtual int TrackingSystemRecordId { get; set; }
         public virtual int WaybillId { get; set; }
         public virtual DateTime DateTimeOfRecord { get; set; }
         public virtual string Activity { get; set; }
