@@ -35,6 +35,9 @@
                             @if (User.IsInRole("Customer"))
                             {
                                 <li>@Html.ActionLink("Create Shipment", "Create", "Shipments")</li>
+                                <li>@Html.ActionLink("Manage Your Shipments", "Index", "Shipments")</li>
+                                <li>@Html.ActionLink("My Recipient Addresses", "Index", "Addresses", routeValues: new { AddressType = "RecipientAddress" }, htmlAttributes: new { })</li>
+                                <li>@Html.ActionLink("My Pickup Addresses", "Index", "Addresses", routeValues: new { AddressType = "PickupAddress" }, htmlAttributes: new { })</li>
                             }
                             @if (User.IsInRole("Employee"))
                             {

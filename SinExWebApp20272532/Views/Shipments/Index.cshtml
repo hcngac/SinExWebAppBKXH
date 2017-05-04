@@ -38,9 +38,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShippingAccountId)
-        </th>
         <th></th>
     </tr>
 
@@ -74,12 +71,10 @@
             @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ShippingAccountId)
-        </td>
-        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.WaybillId }) |
             @Html.ActionLink("Details", "Details", new { id=item.WaybillId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.WaybillId })
+            @Html.ActionLink("Delete", "Delete", new { id = item.WaybillId }) |
+            @Html.ActionLink("Confirm", "ConfirmShipment", new { id = item.WaybillId })
         </td>
     </tr>
 }

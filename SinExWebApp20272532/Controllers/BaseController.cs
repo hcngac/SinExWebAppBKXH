@@ -17,5 +17,11 @@ namespace SinExWebApp20272532.Controllers
 
             return target;
         }
+
+        public int GetCurrentShippingAccountId()
+        {
+            var db = new Models.SinExDatabaseContext();
+            return db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
+        }
     }
 }

@@ -65,7 +65,32 @@ namespace SinExWebApp20272532.Controllers
         // GET: Shipments
         public ActionResult Index()
         {
-            return View(db.Shipments.ToList());
+            return View(db.Shipments.Where(s => s.Status != "Confirmed").ToList());
+        }
+
+        public ActionResult ConfirmShipment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Shipment shipment = db.Shipments.Find(id);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(shipment);
+        }
+
+        [HttpPost,ActionName("ConfirmShipment")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmingShipment(int? id)
+        {
+            Shipment shipment = db.Shipments.Find(id);
+            shipment.Status = "Confirmed";
+            db.Entry(shipment).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Shipments/Details/5

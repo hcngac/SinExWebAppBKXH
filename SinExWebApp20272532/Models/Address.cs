@@ -55,5 +55,7 @@ namespace SinExWebApp20272532.Models
                               };
             return new SelectList(addressListQuery.ToList(),"Value","Text");
         }
+
+        public virtual bool isRecipientAddress { get; set; }
     }
 }

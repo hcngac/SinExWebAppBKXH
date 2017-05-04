@@ -10,14 +10,23 @@ using SinExWebApp20272532.Models;
 
 namespace SinExWebApp20272532.Controllers
 {
-    public class AddressesController : Controller
+    public class AddressesController : BaseController
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
         // GET: Addresses
-        public ActionResult Index()
+        public ActionResult Index(string AddressType)
         {
             var addresses = db.Addresses.Include(a => a.ShippingAccount);
+            addresses = addresses.Where(t => t.ShippingAccountId == GetCurrentShippingAccountId());
+            if (AddressType == "RecipientAddress")
+            {
+                addresses = addresses.Where(s => s.isRecipientAddress == true);
+            }
+            else if (AddressType == "PickupAddress")
+            {
+                addresses = addresses.Where(s => s.isRecipientAddress == false);
+            }
             return View(addresses.ToList());
         }
 
@@ -48,10 +57,11 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AddressId,AddressName,Building,Street,City,ProvinceCode,PostalCode,ShippingAccountId")] Address address)
+        public ActionResult Create([Bind(Include = "AddressId,AddressName,Building,Street,City,ProvinceCode,PostalCode")] Address address)
         {
             if (ModelState.IsValid)
             {
+                address.ShippingAccountId = GetCurrentShippingAccountId();
                 db.Addresses.Add(address);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,10 +92,11 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AddressId,AddressName,Building,Street,City,ProvinceCode,PostalCode,ShippingAccountId")] Address address)
+        public ActionResult Edit([Bind(Include = "AddressId,AddressName,Building,Street,City,ProvinceCode,PostalCode")] Address address)
         {
             if (ModelState.IsValid)
             {
+                address.ShippingAccountId = GetCurrentShippingAccountId();
                 db.Entry(address).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
