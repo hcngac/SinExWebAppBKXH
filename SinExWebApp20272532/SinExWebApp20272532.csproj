@@ -435,6 +435,8 @@
     <Content Include="Views\Pickups\Details.cshtml" />
     <Content Include="Views\Pickups\Edit.cshtml" />
     <Content Include="Views\Pickups\Index.cshtml" />
+    <Content Include="Views\Shipments\EnterFeeAndWeight.cshtml" />
+    <Content Include="Views\Shipments\EmployeeEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,33 @@
+﻿@model SinExWebApp20272532.Models.Shipment
+
+@{
+    ViewBag.Title = "Select a Waybill Number to Enter Fee And Weight";
+}
+
+<h2>Select a Waybill Number to Enter Fee And Weight</h2>
+<script>
+function select() {
+    window.alert("Hello world!");
+}
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Label("Waybill Number")
+    <input type="text" name="idtag"><br>
+    var wid = Request.Form["idtag"];
+    @Html.ActionLink("Select", "EmployeeEdit", new { id = wid })
+
+}
+
+
+<div>
+    <br><br>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
