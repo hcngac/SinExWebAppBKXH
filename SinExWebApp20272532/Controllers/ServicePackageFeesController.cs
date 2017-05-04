@@ -76,7 +76,7 @@ namespace SinExWebApp20272532.Controllers
 
             // Add package
             var ServicePackageFeeList = servicePackageFees.ToList();
-            if (ServicePackageFeeList.Count() == 1 && Weight != null)
+            if (ServicePackageFeeList.Count() == 1 && Weight != null && Weight > 0)
             {
                 currentPackageTypeSize = db.PackageTypeSizes.Find(PackageTypeSize);
                 ServicePackageFee spf = ServicePackageFeeList.First();
