@@ -56,10 +56,10 @@ namespace SinExWebApp20272532.Controllers
             }, "Value", "Text");
             ViewBag.ProvinceCodeList = proviceCode;
         }
-        private void GenerateAddressList()
+        private void GenerateAddressList(bool isRecipientAddress)
         {
             int ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
-            ViewBag.AddressList = Address.GetSelectList(ShippingAccountId);
+            ViewBag.AddressList = Address.GetSelectList(ShippingAccountId, isRecipientAddress);
         }
 
         // GET: Shipments
@@ -82,7 +82,7 @@ namespace SinExWebApp20272532.Controllers
             return View(shipment);
         }
 
-        [HttpPost,ActionName("ConfirmShipment")]
+        [HttpPost, ActionName("ConfirmShipment")]
         [ValidateAntiForgeryToken]
         public ActionResult ConfirmingShipment(int? id)
         {
@@ -112,7 +112,7 @@ namespace SinExWebApp20272532.Controllers
         public ActionResult Create()
         {
             GenerateProvinceCodeList();
-            GenerateAddressList();
+            GenerateAddressList(true);
             return View();
         }
 
@@ -129,7 +129,7 @@ namespace SinExWebApp20272532.Controllers
             {
                 shipment.TotalDuties = -1;
                 shipment.TotalTaxes = -1;
-                shipment.ShippedDate = new DateTime(1990,1,1);
+                shipment.ShippedDate = new DateTime(1990, 1, 1);
                 shipment.DeliveredDate = new DateTime(1990, 1, 1);
                 shipment.Status = "Created";
                 shipment.SenderId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
@@ -137,10 +137,10 @@ namespace SinExWebApp20272532.Controllers
                 db.Shipments.Add(shipment);
                 db.SaveChanges();
                 Session["HandlingWaybillId"] = shipment.WaybillId;
-                return RedirectToAction("Index","Packages",new { waybillId = shipment.WaybillId});
+                return RedirectToAction("Index", "Packages", new { waybillId = shipment.WaybillId });
             }
             GenerateProvinceCodeList();
-            GenerateAddressList();
+            GenerateAddressList(true);
             return View(shipment);
         }
 
@@ -157,7 +157,7 @@ namespace SinExWebApp20272532.Controllers
                 return HttpNotFound();
             }
             GenerateProvinceCodeList();
-            GenerateAddressList();
+            GenerateAddressList(true);
             Session["HandlingWaybillId"] = shipment.WaybillId;
             return View(shipment);
         }
@@ -178,7 +178,7 @@ namespace SinExWebApp20272532.Controllers
                 return RedirectToAction("Index");
             }
             GenerateProvinceCodeList();
-            GenerateAddressList();
+            GenerateAddressList(true);
             return View(shipment);
         }
 
@@ -256,7 +256,7 @@ namespace SinExWebApp20272532.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        
+
 
         // GET: Shipments/GenerateHistoryReport
         [Authorize(Roles = "Employee,Customer")]
