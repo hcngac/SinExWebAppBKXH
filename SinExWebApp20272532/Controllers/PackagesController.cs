@@ -70,7 +70,7 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PackageId,PackageTypeID,Description,ValueOfContent,EstimatedWeight")] Package package)
+        public ActionResult Create([Bind(Include = "PackageId,PackageTypeSizeId,Description,ValueOfContent,EstimatedWeight")] Package package)
         {
             if (ModelState.IsValid && Session["HandlingWaybillId"] != null)
             {
@@ -119,7 +119,7 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PackageId,PackageTypeID,Description,ValueOfContent,EstimatedWeight,Weight")] Package package)
+        public ActionResult Edit([Bind(Include = "PackageId,PackageTypeSizeId,Description,ValueOfContent,EstimatedWeight,Weight")] Package package)
         {
             if (ModelState.IsValid && Session["HandlingWaybillId"] != null)
             {

@@ -44,12 +44,12 @@ namespace SinExWebApp20272532.Models
 
         public virtual bool isRecipientAddress { get; set; }
 
-        public static SelectList GetSelectList(int shippingAccountId, bool isRA)
+        public static SelectList GetSelectList(int shippingAccountId, bool isRecipientAddress)
         {
             var db = new SinExDatabaseContext();
             var addressListQuery = from s in db.Addresses
                               where s.ShippingAccountId == shippingAccountId
-                              where s.isRecipientAddress == isRA
+                              where s.isRecipientAddress == isRecipientAddress
                               select new SelectListItem
                               {
                                   Value = s.AddressId.ToString(),

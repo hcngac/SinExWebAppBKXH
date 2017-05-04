@@ -56,10 +56,11 @@ namespace SinExWebApp20272532.Controllers
             }, "Value", "Text");
             ViewBag.ProvinceCodeList = proviceCode;
         }
-        private void GenerateAddressList(bool isRecipientAddress)
+        private void GenerateAddressList()
         {
             int ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
-            ViewBag.AddressList = Address.GetSelectList(ShippingAccountId, isRecipientAddress);
+            ViewBag.RecipientAddressList = Address.GetSelectList(ShippingAccountId, true);
+            ViewBag.PickupAddressList = Address.GetSelectList(ShippingAccountId, false);
         }
 
         // GET: Shipments
@@ -113,7 +114,7 @@ namespace SinExWebApp20272532.Controllers
         {
             GenerateProvinceCodeList();
             ViewBag.ServiceTypeList = ServiceType.getSelectList();
-            GenerateAddressList(true);
+            GenerateAddressList();
             return View();
         }
 
@@ -123,13 +124,14 @@ namespace SinExWebApp20272532.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
-            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
+            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,PickupAddressId,ShipmentPayerId,TaxesDutiesPayerId,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
             )
         {
             if (ModelState.IsValid)
             {
                 shipment.TotalDuties = -1;
                 shipment.TotalTaxes = -1;
+                shipment.PickupTime = new DateTime(1990, 1, 1);
                 shipment.ShippedDate = new DateTime(1990, 1, 1);
                 shipment.DeliveredDate = new DateTime(1990, 1, 1);
                 shipment.Status = "Created";
@@ -142,7 +144,7 @@ namespace SinExWebApp20272532.Controllers
             }
             GenerateProvinceCodeList();
             ViewBag.ServiceTypeList = ServiceType.getSelectList();
-            GenerateAddressList(true);
+            GenerateAddressList();
             return View(shipment);
         }
 
@@ -159,7 +161,7 @@ namespace SinExWebApp20272532.Controllers
                 return HttpNotFound();
             }
             GenerateProvinceCodeList();
-            GenerateAddressList(true);
+            GenerateAddressList();
             Session["HandlingWaybillId"] = shipment.WaybillId;
             return View(shipment);
         }
@@ -170,17 +172,17 @@ namespace SinExWebApp20272532.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(
-            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
+            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,PickupAddressId,ShipmentPayerId,TaxesDutiesPayerId,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
             )
         {
             if (ModelState.IsValid)
             {
                 db.Entry(shipment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Packages", new { waybillId = shipment.WaybillId });
             }
             GenerateProvinceCodeList();
-            GenerateAddressList(true);
+            GenerateAddressList();
             return View(shipment);
         }
 
