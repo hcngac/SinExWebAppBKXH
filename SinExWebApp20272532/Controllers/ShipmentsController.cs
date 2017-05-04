@@ -84,7 +84,7 @@ namespace SinExWebApp20272532.Controllers
         // GET: Shipments
         public ActionResult Index()
         {
-            return View(db.Shipments.Where(s => s.Status != "Confirmed").ToList());
+            return View(db.Shipments.Where(s => s.isConfirmed == false).ToList());
         }
 
         public ActionResult ConfirmShipment(int? id)
@@ -114,13 +114,68 @@ namespace SinExWebApp20272532.Controllers
 
         [HttpPost, ActionName("ConfirmShipment")]
         [ValidateAntiForgeryToken]
-        public ActionResult ConfirmingShipment(int? id)
+        public ActionResult ConfirmingShipment(int? id, bool? IsImmediatePickup, DateTime PickupTime)
         {
+            if (id == null || IsImmediatePickup == null || PickupTime == null)
+            {
+                return RedirectToAction("ConfirmShipment");
+            }
+            List<string> errorList = new List<string>();
+            if (!(bool)IsImmediatePickup)
+            {
+                if (PickupTime < DateTime.Now)
+                {
+                    errorList.Add("Pickup can only be arranged in the future.");
+                }
+                else if (PickupTime.Subtract(DateTime.Now).Days > 4)
+                {
+                    errorList.Add("Pickup can only be arranged within 5 days.");
+                }
+            }
             Shipment shipment = db.Shipments.Find(id);
-            shipment.Status = "Confirmed";
-            db.Entry(shipment).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (shipment.NumberOfPackages == 0)
+            {
+                errorList.Add("You don't have any package in this shipment.");
+            }
+            else if (shipment.NumberOfPackages > 10)
+            {
+                errorList.Add("You can have at most 10 packages.");
+            }
+            if (shipment.RecipientPaysShipment || shipment.RecipientPaysTaxesDuties)
+            {
+                ShippingAccount Recipient = db.ShippingAccounts.Find(shipment.RecipientId);
+                if (Recipient == null)
+                {
+                    errorList.Add("No valid recipient shipping account found.");
+                }
+            }
+            if (errorList.Count == 0)
+            {
+                shipment.Status = "Confirmed";
+                shipment.isConfirmed = true;
+                shipment.IsImmediatePickup = (bool)IsImmediatePickup;
+                shipment.PickupTime = PickupTime;
+
+                db.Entry(shipment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                Session["HandlingWaybillId"] = id;
+                ViewBag.DeliveryAddressEntity = GetAddressEntity(shipment.DeliveryAddress);
+                ViewBag.PickupAddressEntity = GetAddressEntity(shipment.PickupAddress);
+                if (isPersonalShippingAccount(shipment.SenderId))
+                {
+                    ViewBag.SenderName = ((PersonalShippingAccount)shipment.Sender).FirstName + " " + ((PersonalShippingAccount)shipment.Sender).LastName;
+                }
+                else
+                {
+                    ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
+                }
+                ViewBag.confirmErrorList = errorList;
+                return View(shipment);
+            }
         }
 
         // GET: Shipments/Details/5
@@ -164,7 +219,7 @@ namespace SinExWebApp20272532.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
-            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,DeliveryAddress,PhoneNumber,EmailAddress,ServiceType,PickupAddress,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
+            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,DeliveryAddress,PhoneNumber,EmailAddress,ServiceType,RecipientPaysShipment,RecipientPaysTaxesDuties,RecipientId,PickupAddress,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
             )
         {
             shipment.NumberOfPackages = 0;
@@ -192,7 +247,7 @@ namespace SinExWebApp20272532.Controllers
         // GET: Shipments/Edit/5
         public ActionResult Edit(int? id)
         {
-            
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -208,7 +263,7 @@ namespace SinExWebApp20272532.Controllers
             return View(shipment);
         }
 
-        void ResolveShipmentDifference(Shipment newValues,Shipment oldValues)
+        void ResolveShipmentDifference(Shipment newValues, Shipment oldValues)
         {
             oldValues.ReferenceNumber = newValues.ReferenceNumber;
             oldValues.RecipientName = newValues.RecipientName;
@@ -232,7 +287,7 @@ namespace SinExWebApp20272532.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(
-            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,DeliveryAddress,PhoneNumber,EmailAddress,ServiceType,PickupAddress,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
+            [Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,DeliveryAddress,PhoneNumber,EmailAddress,ServiceType,RecipientPaysShipment,RecipientPaysTaxesDuties,RecipientId,PickupAddress,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
             )
         {
             shipment.WaybillId = (int)Session["HandlingWaybillId"];

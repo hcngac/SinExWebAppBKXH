@@ -1,13 +1,11 @@
 ﻿@using SinExWebApp20272532.Models
 @model SinExWebApp20272532.Models.Shipment
 @{Address DeliveryAddressEntity = (Address)ViewBag.DeliveryAddressEntity; }
-@{Address PickupAddressEntity = (Address)ViewBag.PickupAddressEntity; }
+@{Address PickupAddressEntity = (Address)ViewBag.DeliveryAddressEntity; }
 @{ string SenderName = (string)ViewBag.SenderName; }
-
 @{
     ViewBag.Title = "Delete";
 }
-
 <h2>Delete</h2>
 
 <h3>Are you sure you want to delete this?</h3>
@@ -203,19 +201,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SenderPayShipment)
+            @Html.DisplayNameFor(model => model.RecipientPaysShipment)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SenderPayShipment)
+            @Html.DisplayFor(model => model.RecipientPaysShipment)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SenderPaysTaxesDuties)
+            @Html.DisplayNameFor(model => model.RecipientPaysTaxesDuties)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SenderPaysTaxesDuties)
+            @Html.DisplayFor(model => model.RecipientPaysTaxesDuties)
         </dd>
 
         <dt>

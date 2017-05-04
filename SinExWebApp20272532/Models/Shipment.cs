@@ -18,6 +18,7 @@ namespace SinExWebApp20272532.Models
 
 
         // Sender information
+        [Required]
         [ForeignKey("Sender")]
         public virtual int SenderId { get; set; }
         public virtual ShippingAccount Sender { get; set; }
@@ -53,19 +54,24 @@ namespace SinExWebApp20272532.Models
 
 
         // Service information
+        [Required]
         public virtual string ServiceType { get; set; }
-        public virtual bool SenderPayShipment { get; set; }
-        public virtual bool SenderPaysTaxesDuties { get; set; }
+        [Required]
+        public virtual bool RecipientPaysShipment { get; set; }
+        [Required]
+        public virtual bool RecipientPaysTaxesDuties { get; set; }
 
 
 
         // Packages information
+        [Required]
         public virtual int NumberOfPackages { get; set; }
         public virtual ICollection<Package> Packages { get; set; }
 
         // Pickup informmation
         public virtual DateTime PickupTime { get; set; }
         public virtual bool IsImmediatePickup { get; set; }
+        [Required]
         public virtual int PickupAddress { get; set; }
 
         // Meta information
@@ -74,10 +80,14 @@ namespace SinExWebApp20272532.Models
         public virtual decimal TotalDuties { get; set; }
         public virtual DateTime ShippedDate { get; set; }
         public virtual DateTime DeliveredDate { get; set; }
+        [Required]
         public virtual string Origin { get; set; }
+        [Required]
         public virtual string Destination { get; set; }
         public virtual string Status { get; set; }
+        [Required]
         public virtual bool PickupEmailNotification { get; set; }
+        [Required]
         public virtual bool DeliveryEmailNotification { get; set; }
     }
 }
