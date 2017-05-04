@@ -112,6 +112,7 @@ namespace SinExWebApp20272532.Controllers
         public ActionResult Create()
         {
             GenerateProvinceCodeList();
+            ViewBag.ServiceTypeList = ServiceType.getSelectList();
             GenerateAddressList(true);
             return View();
         }
@@ -140,6 +141,7 @@ namespace SinExWebApp20272532.Controllers
                 return RedirectToAction("Index", "Packages", new { waybillId = shipment.WaybillId });
             }
             GenerateProvinceCodeList();
+            ViewBag.ServiceTypeList = ServiceType.getSelectList();
             GenerateAddressList(true);
             return View(shipment);
         }

@@ -15,8 +15,8 @@ namespace SinExWebApp20272532.Models
         [ForeignKey("Shipment")]
         public virtual int          WaybillId       { get; set; }
         public virtual Shipment     Shipment       { get; set; }
-        public virtual int PackageTypeID { get; set; }
-        public virtual PackageType  PackageType     { get; set; }
+        public virtual int PackageTypeSizeId { get; set; }
+        public virtual PackageTypeSize  PackageTypeSize     { get; set; }
         public virtual string       Description     { get; set; }
         //ValueOfContent is only stored in CNY
         public virtual decimal      ValueOfContent  { get; set; }
