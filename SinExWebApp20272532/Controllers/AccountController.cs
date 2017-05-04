@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using SinExWebApp20272532.Models;
 using SinExWebApp20272532.ViewModels;
 using System.Collections.Generic;
+using System.Net.Mail;
 
 namespace SinExWebApp20272532.Controllers
 {
@@ -241,6 +242,30 @@ namespace SinExWebApp20272532.Controllers
                         // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        // Create an instance of MailMessage named mail.
+                        MailMessage mail = new MailMessage();
+
+                        // Create an instance of SmtpClient named emailServer.
+                        // Set the mail server to use as "smtp.ust.hk".
+                        SmtpClient emailServer = new SmtpClient("smtp.ust.hk");
+                        // Set the sender (From), receiver (To), subject and 
+                        // message body fields of the mail message.
+                        mail.From = new MailAddress("comp3111_team109@cse.ust.hk", "SinExWebAppBKXH");
+                        mail.To.Add("comp3111_team109@cse.ust.hk");
+                        mail.Subject = "You've created a shipping account in SinExWebAppBKXH";
+                        mail.Body = "Hi,\n\tThis is a validation email that you have successfully created a ";
+                        if (model.PersonalInformation != null)
+                        {
+                            mail.Body += "personal shipping account ";
+                        }
+                        else if (model.BusinessInformation != null)
+                        {
+                            mail.Body += "business shipping account ";
+                        }
+                        mail.Body += "with username " + model.LoginInformation.UserName + ". If you have not created such a account please reply immediately! Thank you!";
+                        // Send the message.
+                        emailServer.Send(mail);
 
                         return RedirectToAction("Index", "Home");
                     }
