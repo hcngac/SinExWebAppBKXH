@@ -52,7 +52,7 @@ namespace SinExWebApp20272532.Controllers
             }
 
             // Get list of ServiceType, PackageType, Currencies
-            
+
             ViewBag.ServicePackageFeeCalculated = null;
 
             // Filter for ServicePackageFees
@@ -99,7 +99,7 @@ namespace SinExWebApp20272532.Controllers
                 }
                 if (Weight > MaximumWeight && MaximumWeight != 0)
                 {
-                    PackageFee += 500;
+                    PackageFee += spf.Penalty;
                 }
                 if (spf.PackageTypeID == 1)
                 {
@@ -141,6 +141,24 @@ namespace SinExWebApp20272532.Controllers
             }
 
             return View(ServicePackageFeeList);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePenalty(decimal? newPenalty)
+        {
+            if (newPenalty == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            List<ServicePackageFee> ServicePackageFeeList = db.ServicePackageFees.ToList();
+            foreach (ServicePackageFee servicePackageFee in ServicePackageFeeList)
+            {
+                servicePackageFee.Penalty = (decimal)newPenalty;
+                db.Entry(servicePackageFee).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: ServicePackageFees/Details/5

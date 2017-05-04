@@ -100,6 +100,9 @@
         <th>
             @Html.DisplayNameFor(model => model.MinimumFee)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Penalty)
+        </th>
         <th></th>
     </tr>
 
@@ -119,6 +122,9 @@
                 @Html.DisplayFor(modelItem => item.MinimumFee)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Penalty)
+            </td>
+            <td>
 
                 @if (User.IsInRole("Employee"))
                 {
@@ -129,3 +135,15 @@
     }
 
 </table>
+
+@if (User.IsInRole("Employee"))
+{
+    using (Html.BeginForm("ChangePenalty","ServicePackageFees"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Label("Change Penalty", htmlAttributes: new { @class = "form-label" })
+        @Html.TextBox("newPenalty", "", htmlAttributes: new { @class = "form-control" })
+        <input type="submit" value="ChangePenalty" class="btn btn-default" />
+    }
+
+}

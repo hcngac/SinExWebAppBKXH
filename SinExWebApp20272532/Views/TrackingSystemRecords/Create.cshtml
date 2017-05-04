@@ -6,10 +6,10 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>TrackingSystemRecord</h4>
         <hr />
@@ -17,7 +17,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.WaybillId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.WaybillId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("WaybillId", SinExWebApp20272532.Models.Shipment.GetSelectList(), "Please select", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.WaybillId, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -107,7 +107,7 @@ namespace SinExWebApp20272532.Controllers
         public ActionResult ChangeGlobalCurrency(string id)
         {
             Session["exchangeRate"] = db.Currencies.Find(id).ExchangeRate;
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Currencies/Delete/5

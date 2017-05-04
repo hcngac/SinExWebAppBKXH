@@ -21,25 +21,26 @@ namespace SinExWebApp20272532.Controllers
                 return View(new List<Package>());
 
             int waybillId = (int)Session["HandlingWaybillId"];
-
+            int ShippingAccountId = -1, SenderShippingAccountId = -2;
             try
             {
-                int ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
-                int ShipmentShipmentAccountId = db.Shipments.Where(s => s.WaybillId == waybillId).Single().SenderId;
-                if (ShippingAccountId != ShipmentShipmentAccountId)
-                    return View(new List<Package>());
+                ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
+                SenderShippingAccountId = db.Shipments.Where(s => s.WaybillId == waybillId).Single().SenderId;
 
-                var packages = db.Packages.Where(s => s.WaybillId == waybillId).Include(p => p.PackageTypeSize.PackageType).Include(p => p.Shipment);
-                foreach (Package package in packages)
-                {
-                    package.ValueOfContent = CurrencyExchange(package.ValueOfContent, db.Currencies.Find(package.ContentCurrency).ExchangeRate, (decimal)Session["exchangeRate"]);
-                }
-                return View(packages.ToList());
             }
             catch (Exception)
             {
                 return View(new List<Package>());
             }
+            if (ShippingAccountId != SenderShippingAccountId)
+                return View(new List<Package>());
+
+            var packages = db.Packages.Where(s => s.WaybillId == waybillId).Include(p => p.PackageTypeSize.PackageType).Include(p => p.Shipment).ToList();
+            foreach (Package package in packages)
+            {
+                package.ValueOfContent = CurrencyExchange(package.ValueOfContent, db.Currencies.Find(package.ContentCurrency).ExchangeRate, Session["exchangeRate"] == null ? 1 : (decimal)Session["exchangeRate"]);
+            }
+            return View(packages);
         }
 
         // GET: Packages/Details/5

@@ -1,5 +1,4 @@
 ﻿@model SinExWebApp20272532.Models.Shipment
-
 @{
     ViewBag.Title = "EmployeeEdit";
 }
@@ -17,22 +16,27 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.WaybillId)
 
-
-        @foreach (var Package in Model.Packages)
+        @{
+            var i = 0;
+        }
+        @foreach (var Package in (ICollection<SinExWebApp20272532.Models.Package>)ViewBag.PackageList)
         {
             <div class="form-group">
-                @Html.DisplayFor(modelItem => Package.PackageType)
+                @Html.DisplayFor(modelItem => Package)
                 <div class="col-md-10">
-                    @Html.EditorFor(modelItem => Package.EstimatedWeight, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(modelItem => Package.EstimatedWeight, "", new { @class = "text-danger" })
+                    @Html.Label("Weight", new { htmlAttributes = new { @class = "form-label" } })
+                    @Html.TextBox("Package" + i.ToString(), "", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.Hidden("Package" + i.ToString() + "id",Package.PackageId)
+                    @Html.ValidationMessageFor(modelItem => Package.Weight, "", new { @class = "text-danger" })
                 </div>
             </div>
+            i++;
         }
 
         <div class="form-group">
             @Html.LabelFor(model => model.TotalTaxes, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalTaxes, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBox("TotalTaxes", "", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TotalTaxes, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -40,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TotalDuties, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalDuties, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBox("TotalDuties", "", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TotalDuties, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -52,7 +56,7 @@
             </div>
         </div>
     </div>
-}
+            }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
