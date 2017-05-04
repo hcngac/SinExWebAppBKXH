@@ -117,6 +117,14 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
+            if (address.isRecipientAddress)
+            {
+                Session["AddressType"] = "RecipientAddress";
+            }
+            else if (!address.isRecipientAddress)
+            {
+                Session["AddressType"] = "PickupAddress";
+            }
             ViewBag.ShippingAccountId = new SelectList(db.ShippingAccounts, "ShippingAccountId", "Building", address.ShippingAccountId);
             return View(address);
         }
@@ -128,6 +136,18 @@ namespace SinExWebApp20272532.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AddressId,AddressName,Building,Street,City,ProvinceCode,PostalCode")] Address address)
         {
+            if ((string)Session["AddressType"] == "RecipientAddress")
+            {
+                address.isRecipientAddress = true;
+            }
+            else if ((string)Session["AddressType"] == "PickupAddress")
+            {
+                address.isRecipientAddress = false;
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             if (ModelState.IsValid)
             {
                 address.ShippingAccountId = GetCurrentShippingAccountId();
