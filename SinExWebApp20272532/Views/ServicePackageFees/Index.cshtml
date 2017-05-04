@@ -65,7 +65,7 @@
             </th>
         </tr>
 
-        @foreach (var item in (List<Package>)Session["PackageList"])
+        @foreach (var item in (List<DummyPackage>)Session["PackageList"])
         {
             <tr>
                 <td>@item.serviceType.Type</td>

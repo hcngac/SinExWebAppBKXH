@@ -35,7 +35,7 @@ namespace SinExWebApp20272532.Controllers
             }
             if (Session["PackageList"] == null)
             {
-                Session["PackageList"] = new List<Package>();
+                Session["PackageList"] = new List<DummyPackage>();
             }
             if (Session["exchangeRate"] == null)
             {

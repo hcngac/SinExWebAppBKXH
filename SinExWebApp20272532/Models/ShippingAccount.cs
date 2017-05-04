@@ -13,6 +13,8 @@ namespace SinExWebApp20272532.Models
     [Table("ShippingAccount")]
     public abstract class ShippingAccount
     {
+        [Display(Name = "Shhipping Account Id")]
+        [DisplayFormat(DataFormatString = "{0:D16}")]
         public virtual int ShippingAccountId { get; set; }
 
         // Mailing Address Information.
@@ -43,7 +45,7 @@ namespace SinExWebApp20272532.Models
         // Credit Card Information.
         [Required]
         [CreditCardType]
-        [Display(Name = "Type")]
+        [Display(Name = "Card Type")]
         public virtual string CreditCardType { get; set; }
 
         [Required]
