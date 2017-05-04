@@ -65,18 +65,21 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
-            <td>
-                @if (!item.isConfirmed)
+            @if (!item.isConfirmed)
                 {
+                <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.WaybillId }) |
                     @Html.ActionLink("Details", "Details", new { id = item.WaybillId }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.WaybillId }) |
                     @Html.ActionLink("Confirm", "ConfirmShipment", new { id = item.WaybillId })
-                }
-                else{
-                    @Html.ActionLink("Cancel", "CancelShipment", new { id = item.WaybillId })
-                }
-            </td>
+                </td>
+
+            }
+            else
+            {
+                <td>@Html.ActionLink("Cancel", "CancelShipment", new { id = item.WaybillId })</td>
+
+            }
         </tr>
     }
 

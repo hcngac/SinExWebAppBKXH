@@ -110,6 +110,18 @@ namespace SinExWebApp20272532.Controllers
             {
                 ViewBag.CancelShipmentError = "Shipment already picked up.";
             }
+
+            Session["HandlingWaybillId"] = id;
+            ViewBag.DeliveryAddressEntity = GetAddressEntity(shipment.DeliveryAddress);
+            ViewBag.PickupAddressEntity = GetAddressEntity(shipment.PickupAddress);
+            if (isPersonalShippingAccount(shipment.SenderId))
+            {
+                ViewBag.SenderName = ((PersonalShippingAccount)shipment.Sender).FirstName + " " + ((PersonalShippingAccount)shipment.Sender).LastName;
+            }
+            else
+            {
+                ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
+            }
             return View(shipment);
         }
 
@@ -126,10 +138,40 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
-            shipment.Status = "Cancelled";
-            db.Entry(shipment).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (shipment.Status == "Cancelled")
+            {
+                ViewBag.CancelShipmentError = "Shipment already cancelled";
+            }
+            else if (!shipment.isConfirmed)
+            {
+                ViewBag.CancelShipmentError = "Shipment not confirmed yet.";
+            }
+            else if (db.TrackingSystemRecords.Where(s => s.WaybillId == id).Count() != 0)
+            {
+                ViewBag.CancelShipmentError = "Shipment already picked up.";
+            }
+            if (ViewBag.CancelShipmentError == null)
+            {
+                shipment.Status = "Cancelled";
+                db.Entry(shipment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                Session["HandlingWaybillId"] = id;
+                ViewBag.DeliveryAddressEntity = GetAddressEntity(shipment.DeliveryAddress);
+                ViewBag.PickupAddressEntity = GetAddressEntity(shipment.PickupAddress);
+                if (isPersonalShippingAccount(shipment.SenderId))
+                {
+                    ViewBag.SenderName = ((PersonalShippingAccount)shipment.Sender).FirstName + " " + ((PersonalShippingAccount)shipment.Sender).LastName;
+                }
+                else
+                {
+                    ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
+                }
+                return View(shipment);
+            }
         }
 
         public ActionResult ConfirmShipment(int? id)
@@ -248,6 +290,27 @@ namespace SinExWebApp20272532.Controllers
             {
                 ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
             }
+            return View(shipment);
+        }
+
+        public ActionResult Track(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Shipment shipment = db.Shipments.Find(id);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+            Session["HandlingWaybillId"] = id;
+            var TrackingSystemRecordList = db.TrackingSystemRecords.Where(s => s.WaybillId == id).OrderByDescending(s => s.DateTimeOfRecord).ToList();
+            if (TrackingSystemRecordList.Count == 0)
+            {
+                TrackingSystemRecordList.Add(new TrackingSystemRecord { TrackingSystemRecordId = -1, DateTimeOfRecord = DateTime.Now, DeliveredTo = "", DeliveredAt = "", Activity = "", Location = "", Remarks = "", Status = "Not Picked Up", WaybillId = 0});
+            }
+            ViewBag.TrackingSystemRecordList = TrackingSystemRecordList;
             return View(shipment);
         }
 

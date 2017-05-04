@@ -446,6 +446,7 @@
     <Content Include="Views\TrackingSystemRecords\Edit.cshtml" />
     <Content Include="Views\TrackingSystemRecords\Index.cshtml" />
     <Content Include="Views\Shipments\CancelShipment.cshtml" />
+    <Content Include="Views\Shipments\Track.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
