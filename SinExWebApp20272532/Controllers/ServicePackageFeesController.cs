@@ -14,6 +14,7 @@ namespace SinExWebApp20272532.Controllers
     {
         public ServiceType serviceType;
         public PackageType packageType;
+        public PackageTypeSize packageTypeSize;
         public decimal weight;
         public decimal fee;
     }
@@ -25,7 +26,7 @@ namespace SinExWebApp20272532.Controllers
 
 
         // GET: ServicePackageFees
-        public ActionResult Index(string ServiceType, string PackageType, decimal? Weight, string Currency, bool? clearPackage)
+        public ActionResult Index(string ServiceType, int? PackageTypeSize, decimal? Weight, string Currency, bool? clearPackage)
         {
 
             //Initialization of parameter
@@ -35,19 +36,15 @@ namespace SinExWebApp20272532.Controllers
             }
             if (Session["PackageList"] == null)
             {
-                Session["PackageList"] = new List<Package>();
+                Session["PackageList"] = new List<DummyPackage>();
             }
             if (Session["exchangeRate"] == null)
             {
-                Session["exchangeRate"] = (decimal)0;
+                Session["exchangeRate"] = (decimal)1;
             }
             if (ServiceType == "")
             {
                 ServiceType = null;
-            }
-            if (PackageType == "")
-            {
-                PackageType = null;
             }
             if (Currency == "")
             {
@@ -60,13 +57,15 @@ namespace SinExWebApp20272532.Controllers
 
             // Filter for ServicePackageFees
             var servicePackageFees = db.ServicePackageFees.Include(s => s.PackageType).Include(s => s.ServiceType);
+            PackageTypeSize currentPackageTypeSize;
             if (ServiceType != null)
             {
                 servicePackageFees = servicePackageFees.Where(s => s.ServiceType.Type == ServiceType);
             }
-            if (PackageType != null)
+            if (PackageTypeSize != null)
             {
-                servicePackageFees = servicePackageFees.Where(s => s.PackageType.Type == PackageType);
+                currentPackageTypeSize = db.PackageTypeSizes.Find(PackageTypeSize);
+                servicePackageFees = servicePackageFees.Where(s => s.PackageType.PackageTypeID == currentPackageTypeSize.PackageType.PackageTypeID);
             }
 
             // Determine currency exchange rate
@@ -79,12 +78,13 @@ namespace SinExWebApp20272532.Controllers
             var ServicePackageFeeList = servicePackageFees.ToList();
             if (ServicePackageFeeList.Count() == 1 && Weight != null)
             {
+                currentPackageTypeSize = db.PackageTypeSizes.Find(PackageTypeSize);
                 ServicePackageFee spf = ServicePackageFeeList.First();
                 decimal PackageFee, FeePerKG, MinimumFee, MaximumWeight;
                 FeePerKG = spf.Fee;
                 try
                 {
-                    MaximumWeight = spf.PackageType.PackageTypeSizes.OrderByDescending(s => s.WeightLimit).Select(s => s.WeightLimit).First();
+                    MaximumWeight = currentPackageTypeSize.WeightLimit;
                 }
                 catch (Exception)
                 {
@@ -101,12 +101,17 @@ namespace SinExWebApp20272532.Controllers
                 {
                     PackageFee += 500;
                 }
+                if (spf.PackageTypeID == 1)
+                {
+                    PackageFee = MinimumFee;
+                }
 
                 List<DummyPackage> pl = (List<DummyPackage>)Session["PackageList"];
                 pl.Add(new DummyPackage
                 {
                     serviceType = spf.ServiceType,
                     packageType = spf.PackageType,
+                    packageTypeSize = currentPackageTypeSize,
                     weight = (decimal)Weight,
                     fee = PackageFee
                 });
