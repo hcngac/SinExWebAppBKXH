@@ -84,7 +84,52 @@ namespace SinExWebApp20272532.Controllers
         // GET: Shipments
         public ActionResult Index()
         {
-            return View(db.Shipments.Where(s => s.isConfirmed == false).ToList());
+            return View(db.Shipments.Where(s => s.Status != "Cancelled").ToList());
+        }
+
+        public ActionResult CancelShipment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Shipment shipment = db.Shipments.Find(id);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+            if (shipment.Status == "Cancelled")
+            {
+                ViewBag.CancelShipmentError = "Shipment already cancelled";
+            }
+            else if (!shipment.isConfirmed)
+            {
+                ViewBag.CancelShipmentError = "Shipment not confirmed yet.";
+            }
+            else if (db.TrackingSystemRecords.Where(s => s.WaybillId == id).Count() != 0)
+            {
+                ViewBag.CancelShipmentError = "Shipment already picked up.";
+            }
+            return View(shipment);
+        }
+
+        [HttpPost, ActionName("CancelShipment")]
+        [ValidateAntiForgeryToken]
+        public ActionResult CancellingShipment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Shipment shipment = db.Shipments.Find(id);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+            shipment.Status = "Cancelled";
+            db.Entry(shipment).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public ActionResult ConfirmShipment(int? id)
@@ -111,6 +156,8 @@ namespace SinExWebApp20272532.Controllers
             }
             return View(shipment);
         }
+
+
 
         [HttpPost, ActionName("ConfirmShipment")]
         [ValidateAntiForgeryToken]
@@ -388,7 +435,7 @@ namespace SinExWebApp20272532.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
 
-            
+
             ViewBag.PackageList = shipment.Packages;
             return View(shipment);
         }

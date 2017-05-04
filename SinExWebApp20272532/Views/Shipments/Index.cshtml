@@ -38,39 +38,46 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.WaybillId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReferenceNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ServiceType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RecipientName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumberOfPackages)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Origin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Destination)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.WaybillId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.WaybillId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.WaybillId }) |
-            @Html.ActionLink("Confirm", "ConfirmShipment", new { id = item.WaybillId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WaybillId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReferenceNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfPackages)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Origin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @if (!item.isConfirmed)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.WaybillId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.WaybillId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.WaybillId }) |
+                    @Html.ActionLink("Confirm", "ConfirmShipment", new { id = item.WaybillId })
+                }
+                else{
+                    @Html.ActionLink("Cancel", "CancelShipment", new { id = item.WaybillId })
+                }
+            </td>
+        </tr>
+    }
 
 </table>
