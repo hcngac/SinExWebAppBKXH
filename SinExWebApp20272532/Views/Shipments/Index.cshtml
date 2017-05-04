@@ -35,6 +35,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipmentFee)
+        </th>
         <th></th>
     </tr>
 
@@ -64,6 +67,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipmentFee)
             </td>
             @if (!item.isConfirmed)
                 {

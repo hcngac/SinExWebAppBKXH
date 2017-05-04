@@ -90,6 +90,7 @@ namespace SinExWebApp20272532.Models
         public virtual bool PickupEmailNotification { get; set; }
         [Required]
         public virtual bool DeliveryEmailNotification { get; set; }
+        public virtual decimal ShipmentFee { get; set; }
 
         public static SelectList GetSelectList()
         {
