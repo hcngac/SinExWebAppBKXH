@@ -10,7 +10,7 @@ using SinExWebApp20272532.Models;
 
 namespace SinExWebApp20272532.Controllers
 {
-    public class PackagesController : Controller
+    public class PackagesController : BaseController
     {
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
@@ -30,6 +30,10 @@ namespace SinExWebApp20272532.Controllers
                     return View(new List<Package>());
 
                 var packages = db.Packages.Where(s => s.WaybillId == waybillId).Include(p => p.PackageTypeSize.PackageType).Include(p => p.Shipment);
+                foreach (Package package in packages)
+                {
+                    package.ValueOfContent = CurrencyExchange(package.ValueOfContent, db.Currencies.Find(package.ContentCurrency).ExchangeRate, (decimal)Session["exchangeRate"]);
+                }
                 return View(packages.ToList());
             }
             catch (Exception)
@@ -50,6 +54,7 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
+            package.ValueOfContent = CurrencyExchange(package.ValueOfContent, db.Currencies.Find(package.ContentCurrency).ExchangeRate, (decimal)Session["exchangeRate"]);
             return View(package);
         }
 
@@ -70,7 +75,7 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PackageId,PackageTypeSizeId,Description,ValueOfContent,EstimatedWeight")] Package package)
+        public ActionResult Create([Bind(Include = "PackageId,PackageTypeSizeId,Description,ValueOfContent,ContentCurrency,EstimatedWeight")] Package package)
         {
             if (ModelState.IsValid && Session["HandlingWaybillId"] != null)
             {
@@ -119,7 +124,7 @@ namespace SinExWebApp20272532.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PackageId,PackageTypeSizeId,Description,ValueOfContent,EstimatedWeight,Weight")] Package package)
+        public ActionResult Edit([Bind(Include = "PackageId,PackageTypeSizeId,Description,ValueOfContent,ContentCurrency,EstimatedWeight,Weight")] Package package)
         {
             if (ModelState.IsValid && Session["HandlingWaybillId"] != null)
             {
@@ -148,6 +153,7 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
+            package.ValueOfContent = CurrencyExchange(package.ValueOfContent, db.Currencies.Find(package.ContentCurrency).ExchangeRate, (decimal)Session["exchangeRate"]);
             return View(package);
         }
 
