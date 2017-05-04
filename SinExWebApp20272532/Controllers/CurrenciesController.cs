@@ -104,6 +104,12 @@ namespace SinExWebApp20272532.Controllers
             return View(currency);
         }
 
+        public ActionResult ChangeGlobalCurrency(string id)
+        {
+            Session["exchangeRate"] = db.Currencies.Find(id).ExchangeRate;
+            return RedirectToAction("Index", "Home");
+        }
+
         // POST: Currencies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

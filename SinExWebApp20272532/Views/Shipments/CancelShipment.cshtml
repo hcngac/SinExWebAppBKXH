@@ -1,0 +1,329 @@
+﻿@using SinExWebApp20272532.Models
+@model SinExWebApp20272532.Models.Shipment
+@{Address DeliveryAddressEntity = (Address)ViewBag.DeliveryAddressEntity; }
+@{Address PickupAddressEntity = (Address)ViewBag.DeliveryAddressEntity; }
+@{ string SenderName = (string)ViewBag.SenderName; }
+
+@{
+    ViewBag.Title = "Cancel Shipment";
+}
+
+<h2>Cancel Shipment</h2>
+
+@if (ViewBag.CancelShipmentError != null)
+{
+    var errStr = (string)ViewBag.CancelShipmentError;
+    <p style="color:red">@errStr</p>
+}
+else
+{
+    <h3>Are you sure you want to cancel the shipment?</h3>
+    <div>
+        <h4>Shipment</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.WaybillId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.WaybillId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sender)
+            </dt>
+            <dd>
+            </dd>
+
+            <dt>
+                Full name
+            </dt>
+            <dd>
+                @SenderName
+            </dd>
+
+            <dt>
+                Mailing address
+            </dt>
+            <dd>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sender.Building)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sender.Building)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sender.Street)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sender.Street)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sender.City)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sender.City)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sender.ProvinceCode)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sender.ProvinceCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sender.PostalCode)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sender.PostalCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sender.PhoneNumber)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sender.PhoneNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sender.Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sender.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReferenceNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReferenceNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RecipientName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RecipientName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CompanyName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DepartmentName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DepartmentName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DeliveryAddress)
+            </dt>
+            <dd>
+            </dd>
+
+            <dt>
+                Nickname
+            </dt>
+            <dd>
+                @DeliveryAddressEntity.AddressName
+            </dd>
+
+            <dt>
+                Building
+            </dt>
+            <dd>
+                @DeliveryAddressEntity.Building
+            </dd>
+
+            <dt>
+                Street
+            </dt>
+            <dd>
+                @DeliveryAddressEntity.Street
+            </dd>
+
+            <dt>
+                City
+            </dt>
+            <dd>
+                @DeliveryAddressEntity.City
+            </dd>
+
+            <dt>
+                Province Code
+            </dt>
+            <dd>
+                @DeliveryAddressEntity.ProvinceCode
+            </dd>
+
+            <dt>
+                Postal Code
+            </dt>
+            <dd>
+                @DeliveryAddressEntity.PostalCode
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EmailAddress)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Packages)
+            </dt>
+
+            <dd>
+                @Html.ActionLink("View packages", "Index", "Packages", new { }, new { })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ServiceType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ServiceType)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RecipientPaysShipment)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RecipientPaysShipment)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RecipientPaysTaxesDuties)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RecipientPaysTaxesDuties)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RecipientId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RecipientId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PickupAddress)
+            </dt>
+            <dd>
+            </dd>
+
+            <dt>
+                Nickname
+            </dt>
+            <dd>
+                @PickupAddressEntity.AddressName
+            </dd>
+
+            <dt>
+                Building
+            </dt>
+            <dd>
+                @PickupAddressEntity.Building
+            </dd>
+
+            <dt>
+                Street
+            </dt>
+            <dd>
+                @PickupAddressEntity.Street
+            </dd>
+
+            <dt>
+                City
+            </dt>
+            <dd>
+                @PickupAddressEntity.City
+            </dd>
+
+            <dt>
+                Province Code
+            </dt>
+            <dd>
+                @PickupAddressEntity.ProvinceCode
+            </dd>
+
+            <dt>
+                Postal Code
+            </dt>
+            <dd>
+                @PickupAddressEntity.PostalCode
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Origin)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Origin)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Destination)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Destination)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DeliveryEmailNotification)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryEmailNotification)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PickupEmailNotification)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupEmailNotification)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="CancelShipment" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+}
+

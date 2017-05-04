@@ -237,9 +237,11 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\BusinessShippingAccount.cs" />
+    <Compile Include="Models\CreditCardAuthorizationAuthority.cs" />
     <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\Destination.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\PackageType.cs" />
@@ -445,6 +447,8 @@
     <Content Include="Views\TrackingSystemRecords\Details.cshtml" />
     <Content Include="Views\TrackingSystemRecords\Edit.cshtml" />
     <Content Include="Views\TrackingSystemRecords\Index.cshtml" />
+    <Content Include="Views\Shipments\CancelShipment.cshtml" />
+    <Content Include="Views\Shipments\Track.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

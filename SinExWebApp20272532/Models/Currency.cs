@@ -32,7 +32,7 @@ namespace SinExWebApp20272532.Models
             return currencyList;
         }
 
-        public static SelectList getSelectList()
+        public static List<string> getCurrencyCodeList()
         {
             List<Currency> currencyList = getCachedList();
             List<string> currencyCodeList;
@@ -44,7 +44,12 @@ namespace SinExWebApp20272532.Models
             {
                 currencyCodeList = currencyList.Select(a => a.CurrencyCode).ToList();
             }
-            return new SelectList(currencyCodeList);
+            return currencyCodeList;
+        }
+
+        public static SelectList getSelectList()
+        {
+            return new SelectList(getCurrencyCodeList());
         }
     }
 }

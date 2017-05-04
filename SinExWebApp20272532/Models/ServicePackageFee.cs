@@ -15,6 +15,7 @@ namespace SinExWebApp20272532.Models
         public virtual decimal Fee { get; set; }
         [Display(Name = "Minimum Fee")]
         public virtual decimal MinimumFee { get; set; }
+        public virtual decimal Penalty { get; set; }
         public virtual int PackageTypeID { get; set; }
         public virtual int ServiceTypeID { get; set; }
         public virtual PackageType PackageType { get; set; }

@@ -84,7 +84,94 @@ namespace SinExWebApp20272532.Controllers
         // GET: Shipments
         public ActionResult Index()
         {
-            return View(db.Shipments.Where(s => s.isConfirmed == false).ToList());
+            return View(db.Shipments.Where(s => s.Status != "Cancelled").ToList());
+        }
+
+        public ActionResult CancelShipment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Shipment shipment = db.Shipments.Find(id);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+            if (shipment.Status == "Cancelled")
+            {
+                ViewBag.CancelShipmentError = "Shipment already cancelled";
+            }
+            else if (!shipment.isConfirmed)
+            {
+                ViewBag.CancelShipmentError = "Shipment not confirmed yet.";
+            }
+            else if (db.TrackingSystemRecords.Where(s => s.WaybillId == id).Count() != 0)
+            {
+                ViewBag.CancelShipmentError = "Shipment already picked up.";
+            }
+
+            Session["HandlingWaybillId"] = id;
+            ViewBag.DeliveryAddressEntity = GetAddressEntity(shipment.DeliveryAddress);
+            ViewBag.PickupAddressEntity = GetAddressEntity(shipment.PickupAddress);
+            if (isPersonalShippingAccount(shipment.SenderId))
+            {
+                ViewBag.SenderName = ((PersonalShippingAccount)shipment.Sender).FirstName + " " + ((PersonalShippingAccount)shipment.Sender).LastName;
+            }
+            else
+            {
+                ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
+            }
+            return View(shipment);
+        }
+
+        [HttpPost, ActionName("CancelShipment")]
+        [ValidateAntiForgeryToken]
+        public ActionResult CancellingShipment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Shipment shipment = db.Shipments.Find(id);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+            if (shipment.Status == "Cancelled")
+            {
+                ViewBag.CancelShipmentError = "Shipment already cancelled";
+            }
+            else if (!shipment.isConfirmed)
+            {
+                ViewBag.CancelShipmentError = "Shipment not confirmed yet.";
+            }
+            else if (db.TrackingSystemRecords.Where(s => s.WaybillId == id).Count() != 0)
+            {
+                ViewBag.CancelShipmentError = "Shipment already picked up.";
+            }
+            if (ViewBag.CancelShipmentError == null)
+            {
+                shipment.Status = "Cancelled";
+                db.Entry(shipment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                Session["HandlingWaybillId"] = id;
+                ViewBag.DeliveryAddressEntity = GetAddressEntity(shipment.DeliveryAddress);
+                ViewBag.PickupAddressEntity = GetAddressEntity(shipment.PickupAddress);
+                if (isPersonalShippingAccount(shipment.SenderId))
+                {
+                    ViewBag.SenderName = ((PersonalShippingAccount)shipment.Sender).FirstName + " " + ((PersonalShippingAccount)shipment.Sender).LastName;
+                }
+                else
+                {
+                    ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
+                }
+                return View(shipment);
+            }
         }
 
         public ActionResult ConfirmShipment(int? id)
@@ -111,6 +198,8 @@ namespace SinExWebApp20272532.Controllers
             }
             return View(shipment);
         }
+
+
 
         [HttpPost, ActionName("ConfirmShipment")]
         [ValidateAntiForgeryToken]
@@ -201,6 +290,27 @@ namespace SinExWebApp20272532.Controllers
             {
                 ViewBag.SenderName = ((BusinessShippingAccount)shipment.Sender).ContactPersonName;
             }
+            return View(shipment);
+        }
+
+        public ActionResult Track(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Shipment shipment = db.Shipments.Find(id);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+            Session["HandlingWaybillId"] = id;
+            var TrackingSystemRecordList = db.TrackingSystemRecords.Where(s => s.WaybillId == id).OrderByDescending(s => s.DateTimeOfRecord).ToList();
+            if (TrackingSystemRecordList.Count == 0)
+            {
+                TrackingSystemRecordList.Add(new TrackingSystemRecord { TrackingSystemRecordId = -1, DateTimeOfRecord = DateTime.Now, DeliveredTo = "", DeliveredAt = "", Activity = "", Location = "", Remarks = "", Status = "Not Picked Up", WaybillId = 0});
+            }
+            ViewBag.TrackingSystemRecordList = TrackingSystemRecordList;
             return View(shipment);
         }
 
@@ -315,44 +425,84 @@ namespace SinExWebApp20272532.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EnterFeeAndWeight([Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
-            )
+        public ActionResult EnterFeeAndWeight(int? WaybillId)
 
         {
-            if (ModelState.IsValid)
+            if (WaybillId != null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("EmployeeEdit", new { id = WaybillId });
             }
-            return View(shipment);
+            return View();
         }
 
 
-        public ActionResult EmployeeEdit(string id)
+        public ActionResult EmployeeEdit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Shipment shipment = db.Shipments.Find(id);
+            Session["HandlingWaybillId"] = id;
             if (shipment == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.PackageList = shipment.Packages;
             return View(shipment);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeEdit([Bind(Include = "ReferenceNumber,RecipientName,CompanyName,DepartmentName,PhoneNumber,EmailAddress,RecipientId,ServiceType,ShipmentPayerId,TaxesDutiesPayerId,NumberOfPackages,Origin,Destination,DeliveryEmailNotification,PickupEmailNotification")] Shipment shipment
+        public ActionResult EmployeeEdit(
+            decimal? Package0, int? Package0id,
+            decimal? Package1, int? Package1id,
+            decimal? Package2, int? Package2id,
+            decimal? Package3, int? Package3id,
+            decimal? Package4, int? Package4id,
+            decimal? Package5, int? Package5id,
+            decimal? Package6, int? Package6id,
+            decimal? Package7, int? Package7id,
+            decimal? Package8, int? Package8id,
+            decimal? Package9, int? Package9id,
+            decimal? TotalTaxes,
+            decimal? TotalDuties
             )
-
         {
-            if (ModelState.IsValid)
+            if (Session["HandlingWaybillId"] == null)
             {
-                db.Entry(shipment).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            int WaybillId = (int)Session["HandlingWaybillId"];
+            Shipment shipment = db.Shipments.Find(WaybillId);
+            if (Package0id != null && Package0 != null) { Package p = db.Packages.Find((int)Package0id); p.Weight = (decimal)Package0; db.Entry(p).State = EntityState.Modified; }
+            if (Package1id != null && Package1 != null) { Package p = db.Packages.Find((int)Package1id); p.Weight = (decimal)Package1; db.Entry(p).State = EntityState.Modified; }
+            if (Package2id != null && Package2 != null) { Package p = db.Packages.Find((int)Package2id); p.Weight = (decimal)Package2; db.Entry(p).State = EntityState.Modified; }
+            if (Package3id != null && Package3 != null) { Package p = db.Packages.Find((int)Package3id); p.Weight = (decimal)Package3; db.Entry(p).State = EntityState.Modified; }
+            if (Package4id != null && Package4 != null) { Package p = db.Packages.Find((int)Package4id); p.Weight = (decimal)Package4; db.Entry(p).State = EntityState.Modified; }
+            if (Package5id != null && Package5 != null) { Package p = db.Packages.Find((int)Package5id); p.Weight = (decimal)Package5; db.Entry(p).State = EntityState.Modified; }
+            if (Package6id != null && Package6 != null) { Package p = db.Packages.Find((int)Package6id); p.Weight = (decimal)Package6; db.Entry(p).State = EntityState.Modified; }
+            if (Package7id != null && Package7 != null) { Package p = db.Packages.Find((int)Package7id); p.Weight = (decimal)Package7; db.Entry(p).State = EntityState.Modified; }
+            if (Package8id != null && Package8 != null) { Package p = db.Packages.Find((int)Package8id); p.Weight = (decimal)Package8; db.Entry(p).State = EntityState.Modified; }
+            if (Package9id != null && Package9 != null) { Package p = db.Packages.Find((int)Package9id); p.Weight = (decimal)Package9; db.Entry(p).State = EntityState.Modified; }
+            if (TotalTaxes != null)
+            {
+                shipment.TotalTaxes = (decimal)TotalTaxes;
+                db.Entry(shipment).State = EntityState.Modified;
+            }
+            if (TotalDuties != null)
+            {
+                shipment.TotalDuties = (decimal)TotalDuties;
+                db.Entry(shipment).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+            UpdateShipmentFee(shipment, false);
+
+            ComposeInvoice(shipment);
+            return RedirectToAction("Index");
+
+
+            ViewBag.PackageList = shipment.Packages;
             return View(shipment);
         }
 

@@ -1,0 +1,114 @@
+﻿@model SinExWebApp20272532.Models.Shipment
+
+@{
+    ViewBag.Title = "Track";
+    var TList = (List<SinExWebApp20272532.Models.TrackingSystemRecord>)ViewBag.TrackingSystemRecordList;
+}
+
+<h2>Track</h2>
+
+<div>
+    <h4>Shipment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WaybillId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WaybillId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => TList.First().DeliveredTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => TList.First().DeliveredTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => TList.First().DeliveredAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => TList.First().DeliveredAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => TList.First().Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => TList.First().Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServiceType)
+        </dd>
+
+        @foreach (SinExWebApp20272532.Models.Package package in Model.Packages)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => package.PackageTypeSize.PackageType.Type)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => package.PackageTypeSize.PackageType.Type)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => package.Weight)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => package.Weight)
+            </dd>
+        }
+
+
+
+    </dl>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        @if (!(TList.Count() == 1 && TList.First().TrackingSystemRecordId == -1))
+        {
+            foreach (var T in TList)
+            {
+                <tr>
+                    <td>
+                        @T.DateTimeOfRecord.Date.ToLongDateString()
+                    </td>
+                    <td>
+                        @T.DateTimeOfRecord.TimeOfDay.ToString()
+                    </td>
+                    <td>
+                        @T.Activity
+                    </td>
+                    <td>
+                        @T.Location
+                    </td>
+                    <td>
+                        @T.Remarks
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

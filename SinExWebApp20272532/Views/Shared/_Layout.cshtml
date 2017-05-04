@@ -62,9 +62,22 @@
                         </li>
                     }
                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Currency<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @{
+                                var currencyCodeList = SinExWebApp20272532.Models.Currency.getCurrencyCodeList();
+                                foreach (string currencyCode in currencyCodeList)
+                                {
+                                    <li>@Html.ActionLink(currencyCode, "ChangeGlobalCurrency", "Currencies", new { id = currencyCode }, new { })</li>
+                                }
+                            }
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Test Tools<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Enter Tracking Records", "Index", "TrackingSystemRacords")</li>
+                            <li>@Html.ActionLink("Enter Tracking Records", "Index", "TrackingSystemRecords")</li>
                         </ul>
                     </li>
 
