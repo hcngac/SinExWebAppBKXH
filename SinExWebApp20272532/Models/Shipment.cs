@@ -64,10 +64,13 @@ namespace SinExWebApp20272532.Models
         public virtual int                      NumberOfPackages            { get; set; }
         public virtual ICollection<Package>     Packages                    { get; set; }
 
-
+        // Pickup informmation
+        public virtual DateTime PickupTime { get; set; }
+        public virtual bool IsImmediatePickup { get; set; }
+        public virtual int PickupAddressId { get; set; }
 
         // Meta information
-        public virtual int                      PickupArrangementId         { get; set; }
+        public virtual bool isConfirmed { get; set; }
         public virtual decimal                  TotalTaxes                  { get; set; }
         public virtual decimal                  TotalDuties                 { get; set; }
         public virtual DateTime                 ShippedDate                 { get; set; }
