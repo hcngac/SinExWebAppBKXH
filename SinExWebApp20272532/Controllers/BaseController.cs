@@ -101,9 +101,88 @@ namespace SinExWebApp20272532.Controllers
 
         public void ComposeInvoice(Shipment shipment)
         {
-            Invoice invoice = new Invoice();
-            invoice.WaybillId = shipment.WaybillId;
-            invoice.ShipDate = db.TrackingSystemRecords.Where(s => s.WaybillId == shipment.WaybillId).OrderBy(S => S.DateTimeOfRecord).First().DateTimeOfRecord;
+            if (shipment.RecipientPaysShipment == shipment.RecipientPaysTaxesDuties)
+            {
+                Invoice invoice = new Invoice();
+                invoice.WaybillId = shipment.WaybillId;
+                invoice.ShipDate = db.TrackingSystemRecords.Where(s => s.WaybillId == shipment.WaybillId).OrderBy(S => S.DateTimeOfRecord).First().DateTimeOfRecord;
+                ShippingAccount rec;
+                if (shipment.RecipientPaysShipment)
+                {
+                    rec =  db.ShippingAccounts.Find(shipment.RecipientId);
+                }
+                else
+                {
+                    rec = shipment.Sender;
+                }
+                try
+                {
+                    BusinessShippingAccount BSA = (BusinessShippingAccount)rec;
+                    invoice.RecipientName = BSA.ContactPersonName;
+                }
+                catch (Exception)
+                {
+                    PersonalShippingAccount PSA = (PersonalShippingAccount)rec;
+                    invoice.RecipientName = PSA.FirstName + " " + PSA.LastName;
+                }
+                invoice.Origin = shipment.Origin;
+                invoice.Destination = shipment.Destination;
+                invoice.ServiceType = shipment.ServiceType;
+                invoice.InvoiceAmount = shipment.ShipmentFee + shipment.TotalTaxes + shipment.TotalDuties;
+                db.Entry(invoice).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                Invoice invoice = new Invoice();
+                Invoice invoice2 = new Invoice();
+                invoice.WaybillId = shipment.WaybillId;
+                invoice.ShipDate = db.TrackingSystemRecords.Where(s => s.WaybillId == shipment.WaybillId).OrderBy(S => S.DateTimeOfRecord).First().DateTimeOfRecord;
+                invoice2.WaybillId = shipment.WaybillId;
+                invoice2.ShipDate = db.TrackingSystemRecords.Where(s => s.WaybillId == shipment.WaybillId).OrderBy(S => S.DateTimeOfRecord).First().DateTimeOfRecord;
+                ShippingAccount sen, rec;
+                sen = shipment.Sender;
+                rec = db.ShippingAccounts.Find(shipment.RecipientId);
+                try
+                {
+                    BusinessShippingAccount BSA = (BusinessShippingAccount)sen;
+                    invoice.RecipientName = BSA.ContactPersonName;
+                }
+                catch (Exception)
+                {
+                    PersonalShippingAccount PSA = (PersonalShippingAccount)sen;
+                    invoice.RecipientName = PSA.FirstName + " " + PSA.LastName;
+                }
+                try
+                {
+                    BusinessShippingAccount BSA = (BusinessShippingAccount)rec;
+                    invoice2.RecipientName = BSA.ContactPersonName;
+                }
+                catch (Exception)
+                {
+                    PersonalShippingAccount PSA = (PersonalShippingAccount)rec;
+                    invoice2.RecipientName = PSA.FirstName + " " + PSA.LastName;
+                }
+                invoice.Origin = shipment.Origin;
+                invoice.Destination = shipment.Destination;
+                invoice.ServiceType = shipment.ServiceType;
+                invoice2.Origin = shipment.Origin;
+                invoice2.Destination = shipment.Destination;
+                invoice2.ServiceType = shipment.ServiceType;
+                if (shipment.RecipientPaysShipment)
+                {
+                    invoice.InvoiceAmount = shipment.ShipmentFee;
+                    invoice2.InvoiceAmount =  shipment.TotalTaxes + shipment.TotalDuties;
+                }
+                else
+                {
+                    invoice2.InvoiceAmount = shipment.ShipmentFee;
+                    invoice.InvoiceAmount = shipment.TotalTaxes + shipment.TotalDuties;
+                }
+                db.Entry(invoice).State = EntityState.Modified;
+                db.Entry(invoice2).State = EntityState.Modified;
+                db.SaveChanges();
+            }
         }
     }
 }
