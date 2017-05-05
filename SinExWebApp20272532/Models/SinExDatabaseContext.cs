@@ -42,5 +42,7 @@ namespace SinExWebApp20272532.Models
         public System.Data.Entity.DbSet<SinExWebApp20272532.Models.Pickup> Pickups { get; set; }
 
         public System.Data.Entity.DbSet<SinExWebApp20272532.Models.TrackingSystemRecord> TrackingSystemRecords { get; set; }
+
+        public System.Data.Entity.DbSet<SinExWebApp20272532.Models.Invoice> Invoices { get; set; }
     }
 }

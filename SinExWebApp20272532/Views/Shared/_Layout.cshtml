@@ -53,10 +53,12 @@
                                 @if (User.IsInRole("Employee"))
                                 {
                                     <li>@Html.ActionLink("All Shipping History", "GenerateHistoryReport", "Shipments")</li>
+                                    <li>@Html.ActionLink("All Invoice Report", "Index", "Invoices")</li>
                                 }
                                 else if (User.IsInRole("Customer"))
                                 {
                                     <li>@Html.ActionLink("My Shipping History", "GenerateHistoryReport", "Shipments")</li>
+                                    <li>@Html.ActionLink("My Invoice Report", "Index", "Invoices")</li>
                                 }
                             </ul>
                         </li>
