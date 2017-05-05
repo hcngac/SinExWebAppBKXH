@@ -29,12 +29,15 @@ namespace SinExWebApp20272532.Controllers
 
         public void UpdateShipmentFee(Shipment shipment, bool estimated)
         {
+            /*
             decimal fee = 0;
             foreach (var p in shipment.Packages)
             {
                 if (estimated)
                 {
-                    ServicePackageFee spf = db.ServicePackageFees.Where(s => s.ServiceType.Type == shipment.ServiceType).Where(s => s.PackageType == p.PackageTypeSize.PackageType).Single();
+                    ServiceType st = db.ServiceTypes.Where(s => s.Type == shipment.ServiceType).Single();
+                    PackageType pt = p.PackageTypeSize.PackageType;
+                    ServicePackageFee spf = db.ServicePackageFees.Where(s => s.ServiceTypeID == st.ServiceTypeID).Where(s => s.PackageTypeID == pt.PackageTypeID).Single();
                     decimal PackageFee, FeePerKG, MinimumFee, MaximumWeight;
                     FeePerKG = spf.Fee;
                     try
@@ -64,7 +67,9 @@ namespace SinExWebApp20272532.Controllers
                 }
                 else
                 {
-                    ServicePackageFee spf = db.ServicePackageFees.Where(s => s.ServiceType.Type == shipment.ServiceType).Where(s => s.PackageType == p.PackageTypeSize.PackageType).Single();
+                    ServiceType st = db.ServiceTypes.Where(s => s.Type == shipment.ServiceType).Single();
+                    PackageType pt = p.PackageTypeSize.PackageType;
+                    ServicePackageFee spf = db.ServicePackageFees.Where(s => s.ServiceTypeID == st.ServiceTypeID).Where(s => s.PackageTypeID == pt.PackageTypeID).Single();
                     decimal PackageFee, FeePerKG, MinimumFee, MaximumWeight;
                     FeePerKG = spf.Fee;
                     try
@@ -94,9 +99,11 @@ namespace SinExWebApp20272532.Controllers
                 }
 
             }
-            shipment.ShipmentFee = fee;
-            db.Entry(shipment).State = EntityState.Modified;
+            Shipment ss = db.Shipments.Find(shipment.WaybillId);
+            ss.ShipmentFee = fee;
+            db.Entry(ss).State = EntityState.Modified;
             db.SaveChanges();
+            */
         }
 
         public void ComposeInvoice(Shipment shipment)
