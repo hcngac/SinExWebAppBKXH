@@ -1,14 +1,24 @@
 ﻿@model IEnumerable<SinExWebApp20272532.Models.Invoice>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Invoice Report";
 }
 
-<h2>Index</h2>
+<h2>Invoice Report</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@using (Html.BeginForm("Index", "Invoices", FormMethod.Get))
+{
+    if (User.IsInRole("Employee"))
+    {
+        @Html.Label("Shipping Account: ")
+        @Html.DropDownList("shippingAccount",SinExWebApp20272532.Models.ShippingAccount.getSelectList(),"Please select")
+    }
+    @Html.Label("Date From")
+    @Html.TextBox("DateFrom", "", new { @class = "datefield", type = "date" })
+    @Html.Label("Date To")
+    @Html.TextBox("DateTo", "", new { @class = "datefield", type = "date" })
+    <input type="submit" value="Search" />
+}
 <table class="table">
     <tr>
         <th>

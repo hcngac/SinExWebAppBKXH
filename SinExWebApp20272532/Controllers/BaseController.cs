@@ -112,11 +112,16 @@ namespace SinExWebApp20272532.Controllers
             {
                 Invoice invoice = new Invoice();
                 invoice.WaybillId = shipment.WaybillId;
-                invoice.ShipDate = db.TrackingSystemRecords.Where(s => s.WaybillId == shipment.WaybillId).OrderBy(S => S.DateTimeOfRecord).First().DateTimeOfRecord;
+                if (db.TrackingSystemRecords.Count() == 0)
+                {
+                    invoice.ShipDate = DateTime.Now;
+                }
+                else
+                    invoice.ShipDate = db.TrackingSystemRecords.Where(s => s.WaybillId == shipment.WaybillId).OrderBy(S => S.DateTimeOfRecord).First().DateTimeOfRecord;
                 ShippingAccount rec;
                 if (shipment.RecipientPaysShipment)
                 {
-                    rec =  db.ShippingAccounts.Find(shipment.RecipientId);
+                    rec = db.ShippingAccounts.Find(shipment.RecipientId);
                 }
                 else
                 {
@@ -137,7 +142,7 @@ namespace SinExWebApp20272532.Controllers
                 invoice.Destination = shipment.Destination;
                 invoice.ServiceType = shipment.ServiceType;
                 invoice.InvoiceAmount = shipment.ShipmentFee + shipment.TotalTaxes + shipment.TotalDuties;
-                db.Entry(invoice).State = EntityState.Modified;
+                db.Invoices.Add(invoice);
                 db.SaveChanges();
             }
             else
@@ -180,15 +185,15 @@ namespace SinExWebApp20272532.Controllers
                 if (shipment.RecipientPaysShipment)
                 {
                     invoice.InvoiceAmount = shipment.ShipmentFee;
-                    invoice2.InvoiceAmount =  shipment.TotalTaxes + shipment.TotalDuties;
+                    invoice2.InvoiceAmount = shipment.TotalTaxes + shipment.TotalDuties;
                 }
                 else
                 {
                     invoice2.InvoiceAmount = shipment.ShipmentFee;
                     invoice.InvoiceAmount = shipment.TotalTaxes + shipment.TotalDuties;
                 }
-                db.Entry(invoice).State = EntityState.Modified;
-                db.Entry(invoice2).State = EntityState.Modified;
+                db.Invoices.Add(invoice);
+                db.Invoices.Add(invoice2);
                 db.SaveChanges();
             }
         }

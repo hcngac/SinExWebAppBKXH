@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<SinExWebApp20272532.Models.Package>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Manage Packages";
 }
 
-<h2>Index</h2>
+<h2>Manage Packages</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -60,7 +60,7 @@
             @if (shipment.isConfirmed)
             {
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.PackageId })
+                                        @Html.ActionLink("Details", "Details", new { id = item.PackageId })
                 </td>
             }
             else
