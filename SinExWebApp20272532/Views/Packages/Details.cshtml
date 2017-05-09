@@ -1,0 +1,74 @@
+﻿@model SinExWebApp20272532.Models.Package
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Package</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageTypeSize.PackageType.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageTypeSize.PackageType.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shipment.ReferenceNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shipment.ReferenceNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValueOfContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValueOfContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContentCurrency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContentCurrency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimatedWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimatedWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Weight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Weight)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PackageId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

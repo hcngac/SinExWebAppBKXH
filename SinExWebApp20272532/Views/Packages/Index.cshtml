@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SinExWebApp20272532.Models.Package>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PackageTypeSize.PackageType.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PackageTypeSize.Size)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValueOfContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstimatedWeight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Weight)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PackageTypeSize.PackageType.Type)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.PackageTypeSize.Size)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValueOfContent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstimatedWeight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Weight)
+        </td>
+        <td>
+            @{ 
+                var db = new SinExWebApp20272532.Models.SinExDatabaseContext();
+                var shipment = db.Shipments.Find(item.WaybillId);
+            }
+            @if (shipment.isConfirmed)
+            {
+                @Html.ActionLink("Details", "Details", new { id = item.PackageId })
+            }
+            else
+            {
+
+                @Html.ActionLink("Edit", "Edit", new { id = item.PackageId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.PackageId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.PackageId })
+            }
+        </td>
+    </tr>
+}
+
+</table>
