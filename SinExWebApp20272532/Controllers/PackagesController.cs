@@ -55,7 +55,7 @@ namespace SinExWebApp20272532.Controllers
             {
                 return HttpNotFound();
             }
-            package.ValueOfContent = CurrencyExchange(package.ValueOfContent, db.Currencies.Find(package.ContentCurrency).ExchangeRate, (decimal)Session["exchangeRate"]);
+            package.ValueOfContent = CurrencyExchange(package.ValueOfContent, db.Currencies.Find(package.ContentCurrency).ExchangeRate, Session["exchangeRate"] == null ? 1 : (decimal)Session["exchangeRate"]);
             return View(package);
         }
 
@@ -87,7 +87,7 @@ namespace SinExWebApp20272532.Controllers
                 relatedShipment.NumberOfPackages = relatedShipment.Packages.Count();
                 db.Entry(relatedShipment).State = EntityState.Modified;
                 db.SaveChanges();
-                UpdateShipmentFee(relatedShipment, true);
+                UpdateShipmentFee(relatedShipment.WaybillId, true);
                 return RedirectToAction("Index", "Packages");
             }
 
@@ -133,7 +133,7 @@ namespace SinExWebApp20272532.Controllers
                 package.WaybillId = (int)Session["HandlingWaybillId"];
                 db.Entry(package).State = EntityState.Modified;
                 db.SaveChanges();
-                UpdateShipmentFee(db.Shipments.Find(package.WaybillId), true);
+                UpdateShipmentFee(package.WaybillId, true);
                 return RedirectToAction("Index");
             }
             if (Session["HandlingWaybillId"] == null)
@@ -171,7 +171,7 @@ namespace SinExWebApp20272532.Controllers
             package.Shipment.NumberOfPackages = package.Shipment.Packages.Count();
             db.Entry(package.Shipment).State = EntityState.Modified;
             db.SaveChanges();
-            UpdateShipmentFee(db.Shipments.Find(package.WaybillId), true);
+            UpdateShipmentFee(package.WaybillId, true);
             return RedirectToAction("Index");
         }
 

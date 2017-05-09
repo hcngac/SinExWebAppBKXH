@@ -16,7 +16,7 @@ function select() {
     @Html.AntiForgeryToken()
 
     @Html.Label("Waybill Number")
-    @Html.DropDownList("WaybillId", SinExWebApp20272532.Models.Shipment.GetSelectList(), "Please select", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.DropDownList("WaybillId", (SelectList)ViewBag.saccList, "Please select", new { htmlAttributes = new { @class = "form-control" } })
     <input type="submit" value="EnterFeeAndWeight" class="btn btn-default" />
 
 }

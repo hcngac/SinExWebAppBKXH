@@ -27,83 +27,85 @@ namespace SinExWebApp20272532.Controllers
             return db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
         }
 
-        public void UpdateShipmentFee(Shipment shipment, bool estimated)
+        public void UpdateShipmentFee(int shipmentId, bool estimated)
         {
-            /*
             decimal fee = 0;
-            foreach (var p in shipment.Packages)
+            Shipment shipment = db.Shipments.Find(shipmentId);
+            if (shipment != null)
             {
-                if (estimated)
+                foreach (var p in shipment.Packages)
                 {
-                    ServiceType st = db.ServiceTypes.Where(s => s.Type == shipment.ServiceType).Single();
-                    PackageType pt = p.PackageTypeSize.PackageType;
-                    ServicePackageFee spf = db.ServicePackageFees.Where(s => s.ServiceTypeID == st.ServiceTypeID).Where(s => s.PackageTypeID == pt.PackageTypeID).Single();
-                    decimal PackageFee, FeePerKG, MinimumFee, MaximumWeight;
-                    FeePerKG = spf.Fee;
-                    try
+                    if (estimated)
                     {
-                        MaximumWeight = p.PackageTypeSize.WeightLimit;
+                        ServiceType st = db.ServiceTypes.Where(s => s.Type == shipment.ServiceType).Single();
+                        PackageType pt = p.PackageTypeSize.PackageType;
+                        ServicePackageFee spf = db.ServicePackageFees.Where(s => s.ServiceTypeID == st.ServiceTypeID).Where(s => s.PackageTypeID == pt.PackageTypeID).Single();
+                        decimal PackageFee, FeePerKG, MinimumFee, MaximumWeight;
+                        FeePerKG = spf.Fee;
+                        try
+                        {
+                            MaximumWeight = p.PackageTypeSize.WeightLimit;
+                        }
+                        catch (Exception)
+                        {
+                            MaximumWeight = 0;
+                        }
+
+                        MinimumFee = spf.MinimumFee;
+                        PackageFee = (decimal)p.EstimatedWeight * FeePerKG;
+                        if (PackageFee < MinimumFee)
+                        {
+                            PackageFee = MinimumFee;
+                        }
+                        if (p.EstimatedWeight > MaximumWeight && MaximumWeight != 0)
+                        {
+                            PackageFee += spf.Penalty;
+                        }
+                        if (spf.PackageTypeID == 1)
+                        {
+                            PackageFee = MinimumFee;
+                        }
+                        fee += PackageFee;
                     }
-                    catch (Exception)
+                    else
                     {
-                        MaximumWeight = 0;
+                        ServiceType st = db.ServiceTypes.Where(s => s.Type == shipment.ServiceType).Single();
+                        PackageType pt = p.PackageTypeSize.PackageType;
+                        ServicePackageFee spf = db.ServicePackageFees.Where(s => s.ServiceTypeID == st.ServiceTypeID).Where(s => s.PackageTypeID == pt.PackageTypeID).Single();
+                        decimal PackageFee, FeePerKG, MinimumFee, MaximumWeight;
+                        FeePerKG = spf.Fee;
+                        try
+                        {
+                            MaximumWeight = p.PackageTypeSize.WeightLimit;
+                        }
+                        catch (Exception)
+                        {
+                            MaximumWeight = 0;
+                        }
+
+                        MinimumFee = spf.MinimumFee;
+                        PackageFee = (decimal)p.Weight * FeePerKG;
+                        if (PackageFee < MinimumFee)
+                        {
+                            PackageFee = MinimumFee;
+                        }
+                        if (p.Weight > MaximumWeight && MaximumWeight != 0)
+                        {
+                            PackageFee += spf.Penalty;
+                        }
+                        if (spf.PackageTypeID == 1)
+                        {
+                            PackageFee = MinimumFee;
+                        }
+                        fee += PackageFee;
                     }
 
-                    MinimumFee = spf.MinimumFee;
-                    PackageFee = (decimal)p.EstimatedWeight * FeePerKG;
-                    if (PackageFee < MinimumFee)
-                    {
-                        PackageFee = MinimumFee;
-                    }
-                    if (p.EstimatedWeight > MaximumWeight && MaximumWeight != 0)
-                    {
-                        PackageFee += spf.Penalty;
-                    }
-                    if (spf.PackageTypeID == 1)
-                    {
-                        PackageFee = MinimumFee;
-                    }
-                    fee += PackageFee;
                 }
-                else
-                {
-                    ServiceType st = db.ServiceTypes.Where(s => s.Type == shipment.ServiceType).Single();
-                    PackageType pt = p.PackageTypeSize.PackageType;
-                    ServicePackageFee spf = db.ServicePackageFees.Where(s => s.ServiceTypeID == st.ServiceTypeID).Where(s => s.PackageTypeID == pt.PackageTypeID).Single();
-                    decimal PackageFee, FeePerKG, MinimumFee, MaximumWeight;
-                    FeePerKG = spf.Fee;
-                    try
-                    {
-                        MaximumWeight = p.PackageTypeSize.WeightLimit;
-                    }
-                    catch (Exception)
-                    {
-                        MaximumWeight = 0;
-                    }
-
-                    MinimumFee = spf.MinimumFee;
-                    PackageFee = (decimal)p.Weight * FeePerKG;
-                    if (PackageFee < MinimumFee)
-                    {
-                        PackageFee = MinimumFee;
-                    }
-                    if (p.Weight > MaximumWeight && MaximumWeight != 0)
-                    {
-                        PackageFee += spf.Penalty;
-                    }
-                    if (spf.PackageTypeID == 1)
-                    {
-                        PackageFee = MinimumFee;
-                    }
-                    fee += PackageFee;
-                }
-
+                Shipment ss = db.Shipments.Find(shipment.WaybillId);
+                ss.ShipmentFee = fee;
+                db.Entry(ss).State = EntityState.Modified;
+                db.SaveChanges();
             }
-            Shipment ss = db.Shipments.Find(shipment.WaybillId);
-            ss.ShipmentFee = fee;
-            db.Entry(ss).State = EntityState.Modified;
-            db.SaveChanges();
-            */
         }
 
         public void ComposeInvoice(Shipment shipment)

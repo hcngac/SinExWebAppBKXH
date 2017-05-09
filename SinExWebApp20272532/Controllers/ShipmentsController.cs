@@ -382,8 +382,10 @@ namespace SinExWebApp20272532.Controllers
             oldValues.DeliveryAddress = newValues.DeliveryAddress;
             oldValues.PhoneNumber = newValues.PhoneNumber;
             oldValues.EmailAddress = newValues.EmailAddress;
-            oldValues.RecipientId = newValues.RecipientId;
             oldValues.ServiceType = newValues.ServiceType;
+            oldValues.RecipientPaysShipment = newValues.RecipientPaysShipment;
+            oldValues.RecipientPaysTaxesDuties = newValues.RecipientPaysTaxesDuties;
+            oldValues.RecipientId = newValues.RecipientId;
             oldValues.PickupAddress = newValues.PickupAddress;
             oldValues.Origin = newValues.Origin;
             oldValues.Destination = newValues.Destination;
@@ -419,7 +421,7 @@ namespace SinExWebApp20272532.Controllers
 
         public ActionResult EnterFeeAndWeight()
         {
-
+            ViewBag.saccList = new SelectList(db.Shipments.Where(s => s.isConfirmed == true).Select(s => s.WaybillId).ToList());
             return View();
         }
 
@@ -496,7 +498,7 @@ namespace SinExWebApp20272532.Controllers
                 db.Entry(shipment).State = EntityState.Modified;
             }
             db.SaveChanges();
-            UpdateShipmentFee(shipment, false);
+            UpdateShipmentFee(shipment.WaybillId, false);
 
             ComposeInvoice(shipment);
             return RedirectToAction("Index");
