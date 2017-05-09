@@ -15,9 +15,102 @@ namespace SinExWebApp20272532.Controllers
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
         // GET: Invoices
-        public ActionResult Index()
+        public ActionResult Index(int? ShippingAccountId, DateTime? DateFrom, DateTime? DateTo, string sortOrder, int? currentShippingAccountId)
         {
-            return View(db.Invoices.ToList());
+            ViewBag.CurrentSort = sortOrder;
+
+            // Retain search conditions for sorting.
+            if (User.IsInRole("Customer"))
+            {
+                ShippingAccountId = db.ShippingAccounts.Where(s => s.UserName == User.Identity.Name).Select(s => s.ShippingAccountId).Single();
+            }
+            else if (User.IsInRole("Employee"))
+            {
+                if (ShippingAccountId == null)
+                {
+                    ShippingAccountId = currentShippingAccountId;
+                }
+            }
+            ViewBag.CurrentShippingAccountId = ShippingAccountId;
+
+            var invoiceQuery = from s in db.Invoices select s;
+
+            if (ShippingAccountId != null)
+            {
+                // TODO: Construct the LINQ query to retrive only the shipments for the specified shipping account id.
+                invoiceQuery = db.Invoices.Where(s => s.ShippingAccountId == ShippingAccountId);
+
+                // Code for date range search
+                if (DateFrom != null)
+                {
+                    invoiceQuery = invoiceQuery.Where(s => s.ShipDate >= DateFrom);
+                }
+                if (DateTo != null)
+                {
+                    invoiceQuery = invoiceQuery.Where(s => s.ShipDate <= DateTo);
+                }
+
+                // Code for sorting.
+                ViewBag.WaybillIdSortParm = string.IsNullOrEmpty(sortOrder) ? "waybillId" : "";
+                ViewBag.ShipDateSortParm = sortOrder == "shipDate" ? "shipDate_desc" : "shipDate";
+                ViewBag.RecipientNameSortParm = sortOrder == "recipientName" ? "recipientName_desc" : "recipientName";
+                ViewBag.OriginSortParm = sortOrder == "origin" ? "origin_desc" : "origin";
+                ViewBag.DestinationSortParm = sortOrder == "destination" ? "destination_desc" : "destination";
+                ViewBag.ServiceTypeSortParm = sortOrder == "serviceType" ? "serviceType_desc" : "serviceType";
+                ViewBag.TotalInvoiceAmountSortParm = sortOrder == "totalInvoiceAmount" ? "totalInvoiceAmount_desc" : "totalInvoiceAmount";
+                switch (sortOrder)
+                {
+                    case "waybillId":
+                        invoiceQuery = invoiceQuery.OrderBy(s => s.WaybillId);
+                        break;
+                    case "shipDate":
+                        invoiceQuery = invoiceQuery.OrderBy(s => s.ShipDate);
+                        break;
+                    case "shippedDate_desc":
+                        invoiceQuery = invoiceQuery.OrderByDescending(s => s.ShipDate);
+                        break;
+                    case "recipientName":
+                        invoiceQuery = invoiceQuery.OrderBy(s => s.RecipientName);
+                        break;
+                    case "recipientName_desc":
+                        invoiceQuery = invoiceQuery.OrderByDescending(s => s.RecipientName);
+                        break;
+                    case "origin":
+                        invoiceQuery = invoiceQuery.OrderBy(s => s.Origin);
+                        break;
+                    case "origin_desc":
+                        invoiceQuery = invoiceQuery.OrderByDescending(s => s.Origin);
+                        break;
+                    case "destination":
+                        invoiceQuery = invoiceQuery.OrderBy(s => s.Destination);
+                        break;
+                    case "destination_desc":
+                        invoiceQuery = invoiceQuery.OrderByDescending(s => s.Destination);
+                        break;
+                    case "serviceType":
+                        invoiceQuery = invoiceQuery.OrderBy(s => s.ServiceType);
+                        break;
+                    case "serviceType_desc":
+                        invoiceQuery = invoiceQuery.OrderByDescending(s => s.ServiceType);
+                        break;
+                    case "totalInvoiceAmount":
+                        invoiceQuery = invoiceQuery.OrderBy(s => s.ServiceType);
+                        break;
+                    case "totalInvoiceAmount_desc":
+                        invoiceQuery = invoiceQuery.OrderByDescending(s => s.ServiceType);
+                        break;
+                    default:
+                        invoiceQuery = invoiceQuery.OrderBy(s => s.WaybillId);
+                        break;
+                }
+            }
+            else
+            {
+                // Return an empty result if no shipping account id has been selected.
+                return View(new List<Invoice>());
+            }
+
+            return View(invoiceQuery.ToList());
         }
 
         // GET: Invoices/Details/5

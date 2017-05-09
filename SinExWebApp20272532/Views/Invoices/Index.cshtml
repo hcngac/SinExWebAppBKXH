@@ -11,7 +11,7 @@
     if (User.IsInRole("Employee"))
     {
         @Html.Label("Shipping Account: ")
-        @Html.DropDownList("shippingAccount",SinExWebApp20272532.Models.ShippingAccount.getSelectList(),"Please select")
+        @Html.DropDownList("ShippingAccountId",SinExWebApp20272532.Models.ShippingAccount.getSelectList(),"Please select")
     }
     @Html.Label("Date From")
     @Html.TextBox("DateFrom", "", new { @class = "datefield", type = "date" })
@@ -25,22 +25,22 @@
             @Html.DisplayNameFor(model => model.WaybillId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ShipDate)
+            @Html.ActionLink("Ship Date", "Index", new { sortOrder = ViewBag.ShipDateSortParm, currentShippingAccountId = ViewBag.CurrentShippingAccountId })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RecipientName)
+            @Html.ActionLink("Recipient Name", "Index", new { sortOrder = ViewBag.RecipientNameSortParm, currentShippingAccountId = ViewBag.CurrentShippingAccountId })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Origin)
+            @Html.ActionLink("Origin", "Index", new { sortOrder = ViewBag.OriginSortParm, currentShippingAccountId = ViewBag.CurrentShippingAccountId })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Destination)
+            @Html.ActionLink("Destination", "Index", new { sortOrder = ViewBag.DestinationSortParm, currentShippingAccountId = ViewBag.CurrentShippingAccountId })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ServiceType)
+            @Html.ActionLink("Service Type", "Index", new { sortOrder = ViewBag.ServiceTypeSortParm, currentShippingAccountId = ViewBag.CurrentShippingAccountId })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.InvoiceAmount)
+            @Html.ActionLink("Invoice Amount", "Index", new { sortOrder = ViewBag.TotalInvoiceAmountSortParm, currentShippingAccountId = ViewBag.CurrentShippingAccountId })
         </th>
         <th></th>
     </tr>
