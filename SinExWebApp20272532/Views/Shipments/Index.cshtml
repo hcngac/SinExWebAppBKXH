@@ -83,8 +83,10 @@
             }
             else
             {
-                <td>@Html.ActionLink("Cancel", "CancelShipment", new { id = item.WaybillId })</td>
-                <td>@Html.ActionLink("Track", "Track", new { id = item.WaybillId })</td>
+                <td>
+                    @Html.ActionLink("Cancel", "CancelShipment", new { id = item.WaybillId }) |
+                    @Html.ActionLink("Track", "Track", new { id = item.WaybillId })
+                </td>
 
             }
         </tr>
