@@ -32,44 +32,46 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PackageTypeSize.PackageType.Type)
-        </td>
-        <td>
-            @Html.DisplayNameFor(model => model.PackageTypeSize.Size)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ValueOfContent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstimatedWeight)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Weight)
-        </td>
-        <td>
-            @{ 
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PackageTypeSize.PackageType.Type)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.PackageTypeSize.Size)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValueOfContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimatedWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            @{
                 var db = new SinExWebApp20272532.Models.SinExDatabaseContext();
                 var shipment = db.Shipments.Find(item.WaybillId);
             }
             @if (shipment.isConfirmed)
             {
-                @Html.ActionLink("Details", "Details", new { id = item.PackageId })
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.PackageId })
+                </td>
             }
             else
             {
-
-                @Html.ActionLink("Edit", "Edit", new { id = item.PackageId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.PackageId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.PackageId })
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PackageId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.PackageId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PackageId }) 
+                </td>
             }
-        </td>
-    </tr>
-}
+        </tr>
+                }
 
 </table>
