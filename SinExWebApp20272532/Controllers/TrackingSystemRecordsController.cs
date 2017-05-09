@@ -104,6 +104,7 @@ namespace SinExWebApp20272532.Controllers
             return View(trackingSystemRecord);
         }
 
+
         // POST: TrackingSystemRecords/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

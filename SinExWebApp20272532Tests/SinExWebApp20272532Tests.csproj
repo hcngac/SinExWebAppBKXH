@@ -89,6 +89,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Controllers\BaseControllerTests.cs" />
+    <Compile Include="Models\CreditCardAuthorizationAuthorityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

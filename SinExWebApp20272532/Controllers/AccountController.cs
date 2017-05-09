@@ -266,7 +266,7 @@ namespace SinExWebApp20272532.Controllers
                         }
                         mail.Body += "with username " + model.LoginInformation.UserName + ". If you have not created such a account please reply immediately! Thank you!";
                         // Send the message.
-                        emailServer.Send(mail);
+                        //emailServer.Send(mail);
 
                         return RedirectToAction("Index", "Home");
                     }

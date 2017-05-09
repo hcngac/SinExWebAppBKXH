@@ -17,5 +17,6 @@ namespace SinExWebApp20272532.Models
         public virtual string Destination { get; set; }
         public virtual string ServiceType { get; set; }
         public virtual decimal InvoiceAmount { get; set; }
+        public virtual int ShippingAccountId { get; set; }
     }
 }

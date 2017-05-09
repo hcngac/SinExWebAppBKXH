@@ -122,6 +122,7 @@ namespace SinExWebApp20272532.Controllers
                 {
                     rec = shipment.Sender;
                 }
+                invoice.ShippingAccountId = rec.ShippingAccountId;
                 try
                 {
                     BusinessShippingAccount BSA = (BusinessShippingAccount)rec;

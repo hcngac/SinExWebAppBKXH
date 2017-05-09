@@ -23,7 +23,18 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Services<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Shipment Activity", "Index", "TrackingSystemRecords")</li>
+                            <li>@Html.ActionLink("Shipment Pickup", "EnterFeeAndWeight", "Shipments")</li>
+                            <li>@Html.ActionLink("Add City", "Create", "Destinations")</li>
+                            <li>@Html.ActionLink("Change Fees", "Index", "ServicePackageFees")</li>
+                            <li>@Html.ActionLink("Shipment Activity", "Index", "TrackingSystemRecords")</li>
+                        </ul>
+                    </li>
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -38,10 +49,6 @@
                                 <li>@Html.ActionLink("Manage Your Shipments", "Index", "Shipments")</li>
                                 <li>@Html.ActionLink("My Recipient Addresses", "Index", "Addresses", routeValues: new { AddressType = "RecipientAddress" }, htmlAttributes: new { })</li>
                                 <li>@Html.ActionLink("My Pickup Addresses", "Index", "Addresses", routeValues: new { AddressType = "PickupAddress" }, htmlAttributes: new { })</li>
-                            }
-                            @if (User.IsInRole("Employee"))
-                            {
-                                <li>@Html.ActionLink("Enter Shipment Fee and Weight", "EnterFeeAndWeight", "Shipments")</li>
                             }
                         </ul>
                     </li>
@@ -64,7 +71,7 @@
                         </li>
                     }
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Currency<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Change Currency<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             @{
                                 var currencyCodeList = SinExWebApp20272532.Models.Currency.getCurrencyCodeList();
@@ -74,12 +81,6 @@
                                 }
                             }
 
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Test Tools<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Enter Tracking Records", "Index", "TrackingSystemRecords")</li>
                         </ul>
                     </li>
 
