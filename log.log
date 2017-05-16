@@ -1,0 +1,114 @@
+befa6c5 was Ben NG Hok Chun, 7 days ago, message: Fix shipment fee calculator |
+99b57ad was Ben NG Hok Chun, 7 days ago, message: Invoice Report |
+12a8575 was Ben NG Hok Chun, 7 days ago, message: Package and Shipment fix |
+0112b20 was Ben NG Hok Chun, 7 days ago, message: There is shipment report |
+60a4e0c was Ben NG Hok Chun, 7 days ago, message: Fix packages |
+96d4127 was Ben NG Hok Chun, 7 days ago, message: Merge pull request #26 from hcngac/feature-shipment-waybill |
+020ea0b was Ben NG Hok Chun, 7 days ago, message: A |
+93626ad was Ben NG Hok Chun, 11 days ago, message: Disappeared Files |
+7fecac5 was Ben NG Hok Chun, 11 days ago, message: Merge pull request #25 from hcngac/feature-shipment-waybill |
+f930edb was Ben NG Hok Chun, 11 days ago, message: Disabled shipmment fee |
+8b459b4 was Ben NG Hok Chun, 11 days ago, message: Merge pull request #24 from hcngac/feature-shipment-waybill |
+3671c54 was Ben NG Hok Chun, 11 days ago, message: Invoice |
+012d652 was Ben NG Hok Chun, 11 days ago, message: Merge pull request #23 from hcngac/bugfix-fee-enquiry-2 |
+4191363 was Ben NG Hok Chun, 11 days ago, message: Merge pull request #22 from hcngac/feature-shipment-waybill |
+2c67945 was Ben NG Hok Chun, 11 days ago, message: Invoice model half done |
+6bcfa86 was Ben NG Hok Chun, 11 days ago, message: Shipment Fee |
+6be2de5 was Ben NG Hok Chun, 12 days ago, message: Shipment Tracking |
+29b5628 was Ben NG Hok Chun, 12 days ago, message: cancel shipment |
+c376a50 was Ben NG Hok Chun, 12 days ago, message: Fix emmployee action |
+6afb608 was Ben NG Hok Chun, 12 days ago, message: Fix package currency |
+b6b6407 was Ben NG Hok Chun, 12 days ago, message: Merge pull request #21 from hcngac/feature-shipment-waybill |
+cd1990a was Ben NG Hok Chun, 12 days ago, message: Finished confirm shipment |
+220938b was Ben NG Hok Chun, 12 days ago, message: LOADS OF THINGS |
+faaaca0 was Ken, 12 days ago, message: UI fix: Manage Shipment |
+7dfebd7 was Ken, 12 days ago, message: Fix bug: Weight <= 0 not add package |
+1f2d93d was Ben NG Hok Chun, 12 days ago, message: This is driving me crazy. I don't want to say what this comit is about. Because I can't say it. #taoism |
+958cd71 was Ben NG Hok Chun, 12 days ago, message: Remove pickup model |
+8dbe3e9 was Ben NG Hok Chun, 12 days ago, message: Fix Package model |
+9e96b6a was Ben NG Hok Chun, 12 days ago, message: Merge pull request #20 from hcngac/feature-shipment-tracking-record |
+9cf07a0 was Ben NG Hok Chun, 12 days ago, message: Merge branch 'feature-shipment-waybill' into feature-shipment-tracking-record |
+d5414b0 was Ben NG Hok Chun, 12 days ago, message: Add layout entry for tracking record entering |
+70a52cd was Ben NG Hok Chun, 12 days ago, message: Change model name form TrackingRecord to TrackingSystemRecord Generate view and controller |
+95ceefc was Ben NG Hok Chun, 12 days ago, message: TrackingRecord model |
+113244f was Ben NG Hok Chun, 12 days ago, message: Fix saving of pickup and recipient addresses |
+8bd2a6d was Ben NG Hok Chun, 12 days ago, message: Merge pull request #19 from hcngac/bugfix-fee-enquiry |
+6bc5f6a was Ben NG Hok Chun, 12 days ago, message: Service Package Fee Fixed |
+4a8d132 was Ben NG Hok Chun, 12 days ago, message: Merge pull request #18 from hcngac/bugfix-shipping-account |
+cdeea62 was Ben NG Hok Chun, 12 days ago, message: Merge pull request #17 from hcngac/bugfix-fee-enquiry |
+27dc05f was Ben NG Hok Chun, 12 days ago, message: Merge pull request #16 from hcngac/feature-shipment-waybill |
+184b38b was Ben NG Hok Chun, 12 days ago, message: Merge branch 'master' into feature-shipment-waybill |
+fea6349 was Ben NG Hok Chun, 12 days ago, message: Merge pull request #15 from hcngac/master |
+a8b1844 was Ben NG Hok Chun, 12 days ago, message: Merge pull request #14 from hcngac/master |
+f1bce5c was Ben NG Hok Chun, 12 days ago, message: Merge pull request #13 from hcngac/bugfix-shipping-account |
+8c95c6e was Ben NG Hok Chun, 12 days ago, message: Error fixing of fee enquiry + Shipping account show ID |
+86c85bd was Ben NG Hok Chun, 12 days ago, message: Merge pull request #12 from hcngac/OtherReq-Employee |
+42b4aaa was xanthe, 12 days ago, message: Added employee actions |
+5a0edc3 was Ben NG Hok Chun, 13 days ago, message: Added Comfirm shipment link |
+290ce72 was Ben NG Hok Chun, 13 days ago, message: Merge pull request #11 from hcngac/bugfix-shipping-account |
+bd61f1a was Ben NG Hok Chun, 13 days ago, message: Merge pull request #9 from hcngac/master |
+2390fe6 was Ben NG Hok Chun, 13 days ago, message: Merge pull request #7 from hcngac/bugfix-issue#6 |
+3f1ad8d was Ben NG Hok Chun, 13 days ago, message: Merge pull request #3 from hcngac/feature_arrange-package-shipping |
+b5fb8f5 was Ben NG Hok Chun, 13 days ago, message: Merge pull request #4 from hcngac/feature_shipment-fee-enquiry |
+2edd724 was Ben NG Hok Chun, 13 days ago, message: Merge pull request #5 from hcngac/Feature-ShipmentTracking |
+b215901 was Ben NG Hok Chun, 13 days ago, message: Moved position of address list links in layout |
+06488f6 was Ben NG Hok Chun, 13 days ago, message: Hide shippingAccountId at addresses |
+a891ea0 was Ben NG Hok Chun, 13 days ago, message: Deals with Recipient Addresses and Pickup Addresses Added layout link, modified address model |
+ec07662 was Ben NG Hok Chun, 13 days ago, message: Email confirmation of creating shipping account |
+4cdb9d1 was Ken, 13 days ago, message: Change Shipping Account Information (Personal): Dropdown list for ProvinceCode and Credit Card Type |
+57cad1c was Ben NG Hok Chun, 13 days ago, message: Do not require unique email |
+9f18a36 was Ken, 13 days ago, message: Change Shipping Account Information: Dropdown list for ProvinceCode and Credit Card Type |
+0d25362 was Ben NG Hok Chun, 13 days ago, message: Bugfix for issue #10 |
+4c1645f was Ben NG Hok Chun, 13 days ago, message: Added constrain to username |
+de150a1 was Ken, 13 days ago, message: Fix Bug: Change Shipping Account Information (Business) |
+bffdb12 was Ken, 2 weeks ago, message: Fix Bug: Change Shipping Account Information (Personal) |
+cbb4288 was Ben NG Hok Chun, 2 weeks ago, message: Base of Shipmment Edit(No link yet) |
+1242cb8 was Ben NG Hok Chun, 2 weeks ago, message: Added Pickup controller and view |
+4a3babe was Ben NG Hok Chun, 2 weeks ago, message: Create Shipment without pickup arangement |
+66330f7 was Ben NG Hok Chun, 2 weeks ago, message: Handle Shipment Packages with Session |
+96484c4 was Ben NG Hok Chun, 2 weeks ago, message: Partial finish on Shipment creation |
+3fc6e6a was Ben NG Hok Chun, 2 weeks ago, message: Added Package controller and views, changed name of Package in fee enquiry to DummmyPackage |
+8aca225 was Ben NG Hok Chun, 2 weeks ago, message: Address managing in Shipment creation |
+36ed9b4 was Ben NG Hok Chun, 2 weeks ago, message: Added Address controller and view |
+3a08f25 was Ben NG Hok Chun, 3 weeks ago, message: Merge pull request #2 from hcngac/feature_arrange-package-shipping |
+f50f129 was Ben NG Hok Chun, 3 weeks ago, message: Added pickup to shipment model |
+4e1c9c6 was Ben NG Hok Chun, 3 weeks ago, message: Added taxes and duties to shipment model |
+4c4e2e9 was Ben NG Hok Chun, 3 weeks ago, message: Basics of create shipmment |
+be9e95d was Ben NG Hok Chun, 3 weeks ago, message: Added address model and modified shipment model |
+3da07d4 was Ben NG Hok Chun, 3 weeks ago, message: Add Pickup model |
+b09ce41 was Ben NG Hok Chun, 3 weeks ago, message: Refine Shipment Model |
+9a07cb4 was Ben NG Hok Chun, 3 weeks ago, message: Added Package Model. Modified Shipment model to cope withh Package model. |
+92c0eca was Ben NG Hok Chun, 3 weeks ago, message: Reopen create shipment |
+4c276dc was Ben NG Hok Chun, 3 weeks ago, message: Caching for ShippingAccount |
+0a0c0ca was Ken, 3 weeks ago, message: Shipment Tracking Feature |
+5a2b364 was Ben NG Hok Chun, 5 weeks ago, message: Caching |
+58d220b was Ben NG Hok Chun, 5 weeks ago, message: Caching of Currency, PackageType and ServiceType |
+8de7510 was hcngac, 5 weeks ago, message: Remake Test Project |
+bc793b9 was hcngac, 5 weeks ago, message: Added Test Case for BaseController CurrencyExchange |
+818cb1f was hcngac, 5 weeks ago, message: Add BaseController Contains CurrencyExchange method |
+5f3aaf9 was Ben NG Hok Chun, 6 weeks ago, message: Merge pull request #1 from hcngac/Feature--ArrangePackageShipping |
+a33cc2e was Ben NG Hok Chun, 6 weeks ago, message: Remove Problematic Code |
+f977ba3 was Ben NG Hok Chun, 8 weeks ago, message: Activity 1 Inject Data |
+6e60729 was Ben NG Hok Chun, 8 weeks ago, message: Activity 1 Refined |
+8ec17dd was Ben NG Hok Chun, 8 weeks ago, message: Activity 1 Done |
+193f549 was Ben NG Hok Chun, 8 weeks ago, message: Last Commit |
+4ab819d was Ben NG Hok Chun, 8 weeks ago, message: Activity 1 Half Finish Finished Items: 2, 3, 8a |
+54a725f was hcngac, 9 weeks ago, message: Lab 6 Inclass |
+a12ed0b was hcngac, 9 weeks ago, message: Lab 5 Homework |
+2b375f7 was hcngac, 2 months ago, message: Lab 5 inclass |
+ba4d82f was Ben NG Hok Chun, 2 months ago, message: Lab 4 Added Shipment history date range search (lab 4 finished) |
+156a6af was Ben NG Hok Chun, 3 months ago, message: Lab 4 Add Create Business Account |
+0296d2a was Ben NG Hok Chun, 3 months ago, message: Lab 4 Homework (not finished) |
+c2f445e was hcngac, 3 months ago, message: Lab 4 Inclass Finished |
+7ce3fd0 was hcngac, 3 months ago, message: Lab 3 Homework & Some Lab 4 Inclass |
+3bf176f was hcngac, 3 months ago, message: Merge |
+57a3d48 was Ben NG Hok Chun, 3 months ago, message: Lab 3 Homework (Not Finished) |
+c7881b5 was Ben NG Hok Chun, 3 months ago, message: Lab 3 Homework (not finished) |
+6c1e835 was Ben NG Hok Chun, 3 months ago, message: Lab 3 inclass |
+200198b was hcngac, 3 months ago, message: Lab 3 inclass |
+5e6ebde was Ben NG Hok Chun, 3 months ago, message: Lab 2 Homework |
+bb3ca21 was Ben NG Hok Chun, 3 months ago, message: Lab 2 Homework (not finished yet) |
+2458174 was Ben NG Hok Chun, 3 months ago, message: lab2 in class |
+834c00b was Ben NG Hok Chun, 3 months ago, message: lab 1 |
+12eadce was Ben NG Hok Chun, 3 months ago, message: Add project files. |
+9c50ce8 was Ben NG Hok Chun, 3 months ago, message: Add .gitignore and .gitattributes. |

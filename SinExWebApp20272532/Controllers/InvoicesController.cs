@@ -15,7 +15,7 @@ namespace SinExWebApp20272532.Controllers
         private SinExDatabaseContext db = new SinExDatabaseContext();
 
         // GET: Invoices
-        public ActionResult Index(int? ShippingAccountId, DateTime? DateFrom, DateTime? DateTo, string sortOrder, int? currentShippingAccountId)
+        public ActionResult Index(int? ShippingAccountId, DateTime? DateFrom, DateTime? DateTo, string sortOrder, int? currentShippingAccountId, int? waybillId)
         {
             ViewBag.CurrentSort = sortOrder;
 
@@ -102,6 +102,10 @@ namespace SinExWebApp20272532.Controllers
                     default:
                         invoiceQuery = invoiceQuery.OrderBy(s => s.WaybillId);
                         break;
+                }
+                if (waybillId != null)
+                {
+                    invoiceQuery = invoiceQuery.Where(s => s.WaybillId == waybillId);
                 }
             }
             else

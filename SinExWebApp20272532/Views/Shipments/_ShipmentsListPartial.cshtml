@@ -59,6 +59,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Destination)
             </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.WaybillId}) | 
+                @Html.ActionLink("Invoices", "Index", "Invoices", new { waybillId = item.WaybillId},new { })
+            </td>
         </tr>
     }
 
