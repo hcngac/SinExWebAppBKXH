@@ -60,6 +60,45 @@ namespace SinExWebApp20272532.Migrations
                 manager.Create(user, "employee##");
                 manager.AddToRole(user.Id, "Employee");
             }
+            
+            
+            
+            
+            
+            
+            /***** Sample data*****/
+            // Create user vincent
+            if (!context.Users.Any(u => u.UserName == "vincent"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "vincent" };
+                manager.Create(user, "vincent##");
+                manager.AddToRole(user.Id, "Customer");
+            }
+            // Create user monica
+            if (!context.Users.Any(u => u.UserName == "monica"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "monica" };
+                manager.Create(user, "monica##");
+                manager.AddToRole(user.Id, "Customer");
+            }
+            // Create user igearcomp
+            if (!context.Users.Any(u => u.UserName == "igearcomp"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "igearcomp" };
+                manager.Create(user, "igearcomp##");
+                manager.AddToRole(user.Id, "Customer");
+            }
+            /***** Sample data*****/
+            
+            
+            
+            
 
 
         }
