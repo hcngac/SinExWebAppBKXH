@@ -18,7 +18,16 @@ namespace SinExWebApp20272532.Models
         public SinExDatabaseContext() : base("name=SinExDatabaseContext")
         {
         }
+        
+        
+        /****** for sample data ******/
+        public System.Data.Entity.DbSet<SinExWebApp20272532.Models.ShippingAccount> PersonalShippingAccounts { get; set; }
 
+        public System.Data.Entity.DbSet<SinExWebApp20272532.Models.ShippingAccount> BusinessShippingAccounts { get; set; }
+        /****** for sample data ******/
+        
+        
+        
         public System.Data.Entity.DbSet<SinExWebApp20272532.Models.PackageType> PackageTypes { get; set; }
 
         public System.Data.Entity.DbSet<SinExWebApp20272532.Models.ServiceType> ServiceTypes { get; set; }
