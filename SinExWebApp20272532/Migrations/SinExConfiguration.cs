@@ -179,7 +179,7 @@ namespace SinExWebApp20272532.Migrations
                 new PackageTypeSize { PackageTypeSizeID = 7, Size = "large - 500x450x350mm", WeightLimit = 30, PackageTypeID = 4 },
                 new PackageTypeSize { PackageTypeSizeID = 8, Size = "no size limit", WeightLimit = 0, PackageTypeID = 5 }
                 );
-            
+
             /*
             // Add shipment data.
             context.Shipments.AddOrUpdate(
@@ -211,79 +211,189 @@ namespace SinExWebApp20272532.Migrations
                 new Shipment { WaybillId = 25, ReferenceNumber = "386456", ServiceType = "Same Day", ShippedDate = new DateTime(2017, 01, 05), DeliveredDate = new DateTime(2017, 01, 05), RecipientName = "Jerry Jia", NumberOfPackages = 1, Origin = "Beijing", Destination = "Hangzhou", Status = "Delivered", ShippingAccountId = 2 }
             );
 
-           
-           
-           
-           
-           
-           /***** Sample data*****/
-            context.PersonalShippingAccounts.AddOrUpdate(
+           */
+
+            try
+            {
+/***** Sample data*****/
+            context.ShippingAccounts.AddOrUpdate(
                p => p.ShippingAccountId,
-               new PersonalShippingAccount { ShippingAccountId = unchecked((int)1111111111111111), FirstName = "Vicent", LastName = "Au", PhoneNumber = "85229649911", Email = "comp3111_team109@cse.ust.hk", Building = "Flat A 20/F Tower A Galaxia", Street = "275 Fung Tak Road", City = "Hong Kong", ProvinceCode = "HK", CreditCardType = "Visa", CreditCardNumber = "4988233518923326", CreditCardSecurityNumber = "222", CreditCardCardholderName = "Vicent Au", CreditCardExpiryMonth = "02", CreditCardExpiryYear = "2020", UserName = "vincent" },
-               new PersonalShippingAccount { ShippingAccountId = unchecked((int)2222222222222222), FirstName = "Monica", LastName = "Mok", PhoneNumber = "862167890123", Email = "comp3111_team109@cse.ust.hk", Building = "Flat A 15/F Tower 2 Golden Estate", Street = "12 Mandarin Drive", City = "Shanghai", ProvinceCode = "SH", PostalCode = "207345", CreditCardType = "MasterCard", CreditCardNumber = "5567890123456780", CreditCardSecurityNumber = "861", CreditCardCardholderName = "Monica Mok", CreditCardExpiryMonth = "10", CreditCardExpiryYear = "2021", UserName = "monica" }
-               );
-            context.BusinessShippingAccounts.AddOrUpdate(
-               p => p.ShippingAccountId,
-               new BusinessShippingAccount { ShippingAccountId = unchecked((int)3333333333333333), CompanyName = "iGear Computing", DepartmentName = "Sales", ContactPersonName = "Felix Fong", PhoneNumber = " 862722873754", Email = "comp3311_team109@cse.ust.hk", Street = "18 Huaubaishu Road", City = "Wuhan", ProvinceCode = "HB", PostalCode = "433456", CreditCardType = "America Experss", CreditCardNumber = "349293478845325", CreditCardSecurityNumber = "9251", CreditCardCardholderName = "Felix Fong", CreditCardExpiryMonth = "06", CreditCardExpiryYear = "2022", UserName = "igearcomp" }
+               new PersonalShippingAccount { ShippingAccountId = 1, FirstName = "Vicent", LastName = "Au", PhoneNumber = "85229649911", Email = "comp3111_team109@cse.ust.hk", Building = "Flat A 20/F Tower A Galaxia", Street = "275 Fung Tak Road", City = "Hong Kong", ProvinceCode = "HK", CreditCardType = "Visa", CreditCardNumber = "4988233518923326", CreditCardSecurityNumber = "222", CreditCardCardholderName = "Vicent Au", CreditCardExpiryMonth = "02", CreditCardExpiryYear = "20", UserName = "vincent" },
+               new PersonalShippingAccount { ShippingAccountId = 2, FirstName = "Monica", LastName = "Mok", PhoneNumber = "862167890123", Email = "comp3111_team109@cse.ust.hk", Building = "Flat A 15/F Tower 2 Golden Estate", Street = "12 Mandarin Drive", City = "Shanghai", ProvinceCode = "SH", PostalCode = "207345", CreditCardType = "MasterCard", CreditCardNumber = "5567890123456780", CreditCardSecurityNumber = "861", CreditCardCardholderName = "Monica Mok", CreditCardExpiryMonth = "10", CreditCardExpiryYear = "21", UserName = "monica" },
+               new BusinessShippingAccount { ShippingAccountId = 3, CompanyName = "iGear Computing", DepartmentName = "Sales", ContactPersonName = "Felix Fong", PhoneNumber = "862722873754", Email = "comp3311_team109@cse.ust.hk", Street = "18 Huaubaishu Road", City = "Wuhan", ProvinceCode = "HB", PostalCode = "433456", CreditCardType = "American Express", CreditCardNumber = "349293478845325", CreditCardSecurityNumber = "9251", CreditCardCardholderName = "Felix Fong", CreditCardExpiryMonth = "06", CreditCardExpiryYear = "22", UserName = "igearcomp" }
                );
 
-            context.Addresses.AddOrUpdate(p => p.AddressId, new Address { AddressId = 1, Building = "Flat A 20/F Tower A Galaxia", Street = "275 Fung Tak Road", City = "Hong Kong", ProvinceCode = "HK", ShippingAccountId = unchecked((int)1111111111111111), isRecipientAddress = false },
-                new Address { AddressId = 2, Building = "Flat A 15/F Tower 2 Golden Estate", Street = "12 Mandarin Drive", City = "Shanghai", ProvinceCode = "SH", PostalCode = "207345", isRecipientAddress = true, ShippingAccountId = unchecked((int)1111111111111111) },
-                new Address { AddressId = 3, Street = "333 Golden Terrace", City = "Lanzhou", ProvinceCode = "GS", ShippingAccountId = unchecked((int)1111111111111111), isRecipientAddress = true, PostalCode = "737373" },
-                new Address { AddressId = 4, Street = "12 Blossom Drive", City = "Fuzhou", ProvinceCode = "JX", ShippingAccountId = unchecked((int)1111111111111111), isRecipientAddress = true, PostalCode = "356655" },
-                new Address { AddressId = 5, Street = "18 Huaubaishu Road", City = "Wuhan", ProvinceCode = "HB", ShippingAccountId = unchecked((int)1111111111111111), isRecipientAddress = true, PostalCode = "433456" });
+            context.Addresses.AddOrUpdate(
+                p => p.AddressId, 
+                new Address { AddressId = 1, AddressName = "Pickup", Building = "Flat A 20/F Block A Galaxia", Street = "275 Fung Tak Road", City = "Hong Kong", ProvinceCode = "HK", ShippingAccountId = 1, isRecipientAddress = false },
+                new Address { AddressId = 2, AddressName = "Monica Mok", Building = "Flat A 15/F Tower 2 Golden Estate", Street = "12 Mandarin Drive", City = "Shanghai", ProvinceCode = "SH", PostalCode = "207345", isRecipientAddress = true, ShippingAccountId = 1 },
+                new Address { AddressId = 3, AddressName = "George Guo", Street = "333 Golden Terrace", City = "Lanzhou", ProvinceCode = "GS", ShippingAccountId = 1, isRecipientAddress = true, PostalCode = "737373" },
+                new Address { AddressId = 4, AddressName = "Sammy So", Street = "12 Blossom Drive", City = "Fuzhou", ProvinceCode = "JX", ShippingAccountId = 1, isRecipientAddress = true, PostalCode = "356655" },
+                new Address { AddressId = 5, AddressName = "iGear Computing", Street = "18 Huaubaishu Road", City = "Wuhan", ProvinceCode = "HB", ShippingAccountId = 1, isRecipientAddress = true, PostalCode = "433456" });
 
-            context.Packages.AddOrUpdate(p => p.PackageId, new Package { PackageId = 1, ContentCurrency = "HKD", Description = "Correspondence", ValueOfContent = 10, WaybillId = unchecked((int)1111111111111111), PackageTypeSizeId = 1 },
-                new Package { PackageId = 2, ContentCurrency = "HKD", Description = "Correspondence", ValueOfContent = 10, WaybillId = unchecked((int)1111111111111111), PackageTypeSizeId = 1 },
-                new Package { PackageId = 3, ContentCurrency = "HKD", Description = "Apple iPad mini", ValueOfContent = 2600, WaybillId = unchecked((int)2222222222222222), EstimatedWeight = 0.4m, PackageTypeSizeId = 2, Weight = 0.5m },
-                new Package { PackageId = 4, ContentCurrency = "HKD", Description = "Painting", ValueOfContent = 1000, WaybillId = unchecked((int)3333333333333333), EstimatedWeight = 0.6m, PackageTypeSizeId = 4, Weight = 0.5m },
-                new Package { PackageId = 5, ContentCurrency = "HKD", Description = "Perfume", ValueOfContent = 1500, WaybillId = unchecked((int)3333333333333333), EstimatedWeight = 2.3m, PackageTypeSizeId = 5, Weight = 2.3m },
-                new Package { PackageId = 6, ContentCurrency = "HKD", Description = "Manual", ValueOfContent = 50, WaybillId = unchecked((int)4444444444444444), PackageTypeSizeId = 1 },
-                new Package { PackageId = 7, ContentCurrency = "HKD", Description = "Samples", ValueOfContent = 200, WaybillId = unchecked((int)4444444444444444), EstimatedWeight = 1.5m, PackageTypeSizeId = 2, Weight = 1.4m },
-                new Package { PackageId = 8, ContentCurrency = "HKD", Description = "Samples", ValueOfContent = 200, WaybillId = unchecked((int)4444444444444444), EstimatedWeight = 4.6m, PackageTypeSizeId = 3, Weight = 4.6m },
-                new Package { PackageId = 9, ContentCurrency = "HKD", Description = "Design specifications", ValueOfContent = 50, WaybillId = unchecked((int)4444444444444444), EstimatedWeight = 1.0m, PackageTypeSizeId = 4, Weight = 1.0m });
-
-            context.Shipments.AddOrUpdate(
-                p => p.WaybillId,
-                new Shipment { WaybillId = unchecked((int)1111111111111111), SenderId = unchecked((int)1111111111111111), ServiceType = "Next Day 10:30", RecipientId = 1, RecipientName = "Monica Mok", DeliveryAddress = 1, Destination = "Shanghai", DeliveryEmailNotification = false, EmailAddress = "comp3111_team109@cse.ust.hk", isConfirmed = true, IsImmediatePickup = true, NumberOfPackages = 2, Origin = "Hong Kong", Packages = new List<Package> { new Package { PackageId = 1 }, new Package { PackageId = 2 } }, PhoneNumber = "862167890123", PickupAddress = 1, PickupEmailNotification = false, PickupTime = new DateTime(2017, 04, 06, 12, 55, 00), RecipientPaysShipment = true, RecipientPaysTaxesDuties = true, ShipmentFee = 280, TotalDuties = 0, TotalTaxes = 0, Status = "Delivered", ShippedDate = new DateTime(2017, 04, 06, 18, 05, 00), DeliveredDate = new DateTime(2017, 04, 07, 08, 48, 00) },
-                new Shipment { WaybillId = unchecked((int)2222222222222222), SenderId = unchecked((int)1111111111111111), ServiceType = "2nd Day", DeliveredDate = new DateTime(2017, 04, 12, 10, 13, 00), DeliveryAddress = 3, DeliveryEmailNotification = false, Destination = "Lanzhou", EmailAddress = "comp3111_team109@cse.ust.hk", isConfirmed = true, IsImmediatePickup = true, NumberOfPackages = 1, Origin = "Hong Kong", Packages = new List<Package> { new Package { PackageId = 3 } }, PhoneNumber = "8693177770123", PickupAddress = 1, PickupEmailNotification = false, PickupTime = new DateTime(2017, 04, 10, 14, 35, 00), RecipientName = "George Guo", RecipientPaysShipment = false, RecipientPaysTaxesDuties = false, ShipmentFee = 50, ShippedDate = new DateTime(2017, 04, 11, 10, 18, 00), Status = "Delivered", TotalDuties = 100, TotalTaxes = 0, RecipientId = 2 },
-                new Shipment { WaybillId = unchecked((int)3333333333333333), SenderId = unchecked((int)1111111111111111), ServiceType = "Same Day", DeliveredDate = new DateTime(2017, 04, 14, 16, 53, 00), DeliveryAddress = 4, DeliveryEmailNotification = false, Destination = "Fuzhou", EmailAddress = "comp3111_team109@cse.ust.hk", isConfirmed = true, IsImmediatePickup = true, NumberOfPackages = 2, Origin = "Hong Kong", Packages = new List<Package> { new Package { PackageId = 4 }, new Package { PackageId = 5 } }, PhoneNumber = "8659166660123", PickupAddress = 1, PickupEmailNotification = false, PickupTime = new DateTime(2017, 04, 14, 07, 30, 00), RecipientName = "Sammy So", RecipientPaysShipment = false, RecipientPaysTaxesDuties = false, ShipmentFee = 413, ShippedDate = new DateTime(2017, 04, 14, 10, 18, 00), Status = "Delivered", TotalDuties = 250, TotalTaxes = 125, RecipientId = 3 },
-                new Shipment { WaybillId = unchecked((int)4444444444444444), SenderId = unchecked((int)1111111111111111), ServiceType = "Ground", DeliveryAddress = 5, DeliveryEmailNotification = false, Destination = "Wuhan", EmailAddress = "comp3111_team109@cse.ust.hk", isConfirmed = true, IsImmediatePickup = true, NumberOfPackages = 4, Origin = "Hong Kong", Packages = new List<Package> { new Package { PackageId = 6 }, new Package { PackageId = 7 }, new Package { PackageId = 8 }, new Package { PackageId = 9 } }, PhoneNumber = "8659166660123", PickupAddress = 1, PickupEmailNotification = false, PickupTime = new DateTime(2017, 05, 02, 08, 00, 00), RecipientName = "Felix Fong", RecipientPaysShipment = true, RecipientPaysTaxesDuties = true, ShipmentFee = 190, ShippedDate = new DateTime(2017, 05, 02, 10, 35, 00), Status = "Delivered", TotalDuties = 0, TotalTaxes = 0, CompanyName = "iGear Computing", DepartmentName = "Sales", RecipientId = 4 }
+                context.Shipments.AddOrUpdate(
+                    p => p.WaybillId,
+                    new Shipment {
+                        WaybillId = 1,
+                        SenderId = 1,
+                        RecipientName = "Monica Mok",
+                        DeliveryAddress = 2,
+                        PhoneNumber = "862167890123",
+                        EmailAddress = "comp3111_team109@cse.ust.hk",
+                        RecipientId = 2,
+                        ServiceType = "Next Day 10:30",
+                        RecipientPaysShipment = true,
+                        RecipientPaysTaxesDuties = true,
+                        NumberOfPackages = 2,
+                        PickupTime = new DateTime(2017, 04, 06, 12, 55, 00),
+                        IsImmediatePickup = true,
+                        PickupAddress = 1,
+                        isConfirmed = true,
+                        TotalDuties = 0,
+                        TotalTaxes = 0,
+                        ShippedDate = new DateTime(2017, 04, 06, 18, 05, 00),
+                        DeliveredDate = new DateTime(2017, 04, 07, 08, 48, 00),
+                        Origin = "Hong Kong",
+                        Destination = "Shanghai",
+                        Status = "Delivered",
+                        PickupEmailNotification = false,
+                        DeliveryEmailNotification = false,
+                        ShipmentFee = 280,
+                    },
+                    new Shipment {
+                        WaybillId = 2,
+                        SenderId = 1,
+                        RecipientName = "George Guo",
+                        DeliveryAddress = 3,
+                        PhoneNumber = "8693177770123",
+                        EmailAddress = "comp3111_team109@cse.ust.hk",
+                        RecipientId = 2,
+                        ServiceType = "2nd Day",
+                        RecipientPaysShipment = false,
+                        RecipientPaysTaxesDuties = false,
+                        NumberOfPackages = 1,
+                        PickupTime = new DateTime(2017, 04, 10, 14, 35, 00),
+                        IsImmediatePickup = true,
+                        PickupAddress = 1,
+                        isConfirmed = true,
+                        TotalTaxes = 0,
+                        TotalDuties = 100,
+                        ShippedDate = new DateTime(2017, 04, 11, 10, 18, 00),
+                        DeliveredDate = new DateTime(2017, 04, 12, 10, 13, 00),
+                        Origin = "Hong Kong",
+                        Destination = "Lanzhou",
+                        Status = "Delivered",
+                        PickupEmailNotification = false,
+                        DeliveryEmailNotification = false,
+                        ShipmentFee = 50,
+                    },
+                    new Shipment {
+                        WaybillId = 3,
+                        SenderId = 1,
+                        RecipientName = "Sammy So",
+                        DeliveryAddress = 4,
+                        PhoneNumber = "8659166660123",
+                        EmailAddress = "comp3111_team109@cse.ust.hk",
+                        RecipientId = 3,
+                        ServiceType = "Same Day",
+                        RecipientPaysShipment = false,
+                        RecipientPaysTaxesDuties = false,
+                        NumberOfPackages = 2,
+                        PickupTime = new DateTime(2017, 04, 14, 07, 30, 00),
+                        IsImmediatePickup = true,
+                        PickupAddress = 1,
+                        isConfirmed = true,
+                        TotalTaxes = 125,
+                        TotalDuties = 250,
+                        ShippedDate = new DateTime(2017, 04, 14, 10, 18, 00),
+                        DeliveredDate = new DateTime(2017, 04, 14, 16, 53, 00),
+                        Origin = "Hong Kong",
+                        Destination = "Fuzhou",
+                        Status = "Delivered",
+                        PickupEmailNotification = false,
+                        DeliveryEmailNotification = false,
+                        ShipmentFee = 413,
+                    },
+                    new Shipment {
+                        WaybillId = 4,
+                        SenderId = 1,
+                        RecipientName = "Felix Fong",
+                        CompanyName = "iGear Computing",
+                        DepartmentName = "Sales",
+                        DeliveryAddress = 5,
+                        PhoneNumber = "8659166660123",
+                        EmailAddress = "comp3111_team109@cse.ust.hk",
+                        RecipientId = 4,
+                        ServiceType = "Ground",
+                        RecipientPaysShipment = true,
+                        RecipientPaysTaxesDuties = true,
+                        NumberOfPackages = 4,
+                        PickupTime = new DateTime(2017, 05, 02, 08, 00, 00),
+                        IsImmediatePickup = true,
+                        PickupAddress = 1,
+                        isConfirmed = true,
+                        TotalTaxes = 0,
+                        TotalDuties = 0,
+                        ShippedDate = new DateTime(2017, 05, 02, 10, 35, 00),
+                        DeliveredDate = new DateTime(1990, 01, 01),
+                        Origin = "Hong Kong",
+                        Destination = "Wuhan",
+                        Status = "Left origin",
+                        PickupEmailNotification = false,
+                        DeliveryEmailNotification = false,
+                        ShipmentFee = 190,
+                    }
                 );
 
-            context.PersonalShippingAccounts.AddOrUpdate(
-               p => p.ShippingAccountId,
-               new PersonalShippingAccount { ShippingAccountId = unchecked((int)1111111111111111), Shipments = new List<Shipment> { new Shipment { WaybillId = unchecked((int)1111111111111111) }, new Shipment { WaybillId = unchecked((int)2222222222222222) }, new Shipment { WaybillId = unchecked((int)3333333333333333) }, new Shipment { WaybillId = unchecked((int)444444444444) } } }
-               );
+            context.Packages.AddOrUpdate(
+                p => p.PackageId, 
+                new Package { PackageId = 1, WaybillId = 1, PackageTypeSizeId = 1, Description = "Correspondence",         ValueOfContent = 50,   ContentCurrency = "HKD"                                           },
+                new Package { PackageId = 2, WaybillId = 1, PackageTypeSizeId = 1, Description = "Correspondence",         ValueOfContent = 50,   ContentCurrency = "HKD"                                           },
+                new Package { PackageId = 3, WaybillId = 2, PackageTypeSizeId = 2, Description = "Apple iPad mini",        ValueOfContent = 2600, ContentCurrency = "HKD",  EstimatedWeight = 0.4m, Weight = 0.5m   },
+                new Package { PackageId = 4, WaybillId = 3, PackageTypeSizeId = 4, Description = "Painting",               ValueOfContent = 1000, ContentCurrency = "HKD",  EstimatedWeight = 0.6m, Weight = 0.5m   },
+                new Package { PackageId = 5, WaybillId = 3, PackageTypeSizeId = 5, Description = "Perfume",                ValueOfContent = 1500, ContentCurrency = "HKD",  EstimatedWeight = 2.3m, Weight = 2.3m   },
+                new Package { PackageId = 6, WaybillId = 4, PackageTypeSizeId = 1, Description = "Manual",                 ValueOfContent = 50,   ContentCurrency = "HKD"                                           },
+                new Package { PackageId = 7, WaybillId = 4, PackageTypeSizeId = 2, Description = "Samples",                ValueOfContent = 200,  ContentCurrency = "HKD",  EstimatedWeight = 1.5m, Weight = 1.4m   },
+                new Package { PackageId = 8, WaybillId = 4, PackageTypeSizeId = 3, Description = "Samples",                ValueOfContent = 200,  ContentCurrency = "HKD",  EstimatedWeight = 4.6m, Weight = 4.6m   },
+                new Package { PackageId = 9, WaybillId = 4, PackageTypeSizeId = 4, Description = "Design specifications",  ValueOfContent = 50,   ContentCurrency = "HKD",  EstimatedWeight = 1.0m, Weight = 1.0m   }
+                );
 
-            context.TrackingSystemRecords.AddOrUpdate(p => p.TrackingSystemRecordId, new TrackingSystemRecord { TrackingSystemRecordId = 1, Activity = "Picked up", DateTimeOfRecord = new DateTime(2017, 04, 06, 13, 35, 00), DeliveredAt = "Front door", DeliveredTo = "Monica Mok", Location = "Hong Kong", Remarks = "Vehicle 34", Status = "Delivered", WaybillId = unchecked((int)1111111111111111) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 2, Activity = "At local sort facility", DateTimeOfRecord = new DateTime(2017, 04, 06, 16, 15, 00), DeliveredAt = "Front door", DeliveredTo = "Monica Mok", Location = "Tung Chung", Remarks = "", Status = "Delivered", WaybillId = unchecked((int)1111111111111111) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 3, Activity = "Left origin", DateTimeOfRecord = new DateTime(2017, 04, 06, 18, 05, 00), DeliveredAt = "Front door", DeliveredTo = "Monica Mok", Location = "HKIA", Remarks = "CX0123", Status = "Delivered", WaybillId = unchecked((int)1111111111111111) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 4, Activity = "At local sort facility", DateTimeOfRecord = new DateTime(2017, 04, 06, 20, 18, 00), DeliveredAt = "Front door", DeliveredTo = "Monica Mok", Location = "Pudong", Remarks = "", Status = "Delivered", WaybillId = unchecked((int)1111111111111111) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 5, Activity = "On vehicle for delivery", DateTimeOfRecord = new DateTime(2017, 04, 07, 06, 38, 00), DeliveredAt = "Front door", DeliveredTo = "Monica Mok", Location = "Pudong", Remarks = "Vehicle 1032", Status = "Delivered", WaybillId = unchecked((int)1111111111111111) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 6, Activity = "Delivered", DateTimeOfRecord = new DateTime(2017, 04, 07, 08, 48, 00), Location = "Shanghai", Remarks = "", DeliveredAt = "Front door", DeliveredTo = "Monica Mok", Status = "Delivered", WaybillId = unchecked((int)1111111111111111) },
-
-               new TrackingSystemRecord { TrackingSystemRecordId = 7, Activity = "Picked up", DateTimeOfRecord = new DateTime(2017, 04, 10, 16, 45, 00), Location = "Hong Kong", Remarks = "Vehicle 12", DeliveredAt = "Front door", DeliveredTo = "George Guo", Status = "Delivered", WaybillId = unchecked((int)2222222222222222) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 8, Activity = "At local sort facility", DateTimeOfRecord = new DateTime(2017, 04, 10, 20, 10, 00), Location = "Tung Chung", Remarks = "", DeliveredAt = "Front door", DeliveredTo = "George Guo", Status = "Delivered", WaybillId = unchecked((int)2222222222222222) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 9, Activity = "Left origin", DateTimeOfRecord = new DateTime(2017, 04, 11, 10, 18, 00), Location = "HKIA", Remarks = "KA3845", DeliveredAt = "Front door", DeliveredTo = "George Guo", Status = "Delivered", WaybillId = unchecked((int)2222222222222222) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 10, Activity = "At local sort facility", DateTimeOfRecord = new DateTime(2017, 04, 11, 15, 28, 00), Location = "Lanzhou", Remarks = "", DeliveredAt = "Front door", DeliveredTo = "George Guo", Status = "Delivered", WaybillId = unchecked((int)2222222222222222) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 11, Activity = "On vehicle for delivery", DateTimeOfRecord = new DateTime(2017, 04, 12, 07, 38, 00), Location = "Lanzhou", Remarks = "Vehicle 82", DeliveredAt = "Front door", DeliveredTo = "George Guo", Status = "Delivered", WaybillId = unchecked((int)2222222222222222) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 12, Activity = "Delivered", DateTimeOfRecord = new DateTime(2017, 04, 12, 10, 13, 00), Location = "Lanzhou", Remarks = "", DeliveredAt = "Front door", DeliveredTo = "George Guo", Status = "Delivered", WaybillId = unchecked((int)2222222222222222) },
-
-
-               new TrackingSystemRecord { TrackingSystemRecordId = 13, Activity = "Picked up", DateTimeOfRecord = new DateTime(2017, 04, 14, 07, 55, 00), Location = "Hong Kong", Remarks = "Vehicle 13", DeliveredAt = "Front door", DeliveredTo = "Sammy So", Status = "Delivered", WaybillId = unchecked((int)3333333333333333) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 14, Activity = "At local sort facility", DateTimeOfRecord = new DateTime(2017, 04, 14, 09, 08, 00), Location = "Tung Chung", Remarks = "", DeliveredAt = "Front door", DeliveredTo = "Sammy So", Status = "Delivered", WaybillId = unchecked((int)3333333333333333) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 15, Activity = "Left origin", DateTimeOfRecord = new DateTime(2017, 04, 14, 10, 18, 00), Location = "HKIA", Remarks = "KA3845", DeliveredAt = "Front door", DeliveredTo = "Sammy So", Status = "Delivered", WaybillId = unchecked((int)3333333333333333) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 16, Activity = "At local sort facility", DateTimeOfRecord = new DateTime(2017, 04, 14, 15, 28, 00), Location = "Fuzhou", Remarks = "", DeliveredAt = "Front door", DeliveredTo = "Sammy So", Status = "Delivered", WaybillId = unchecked((int)3333333333333333) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 17, Activity = "On vehicle for delivery", DateTimeOfRecord = new DateTime(2017, 04, 14, 15, 50, 00), Location = "Fuzhou", Remarks = "Vehicle 82", DeliveredAt = "Front door", DeliveredTo = "Sammy So", Status = "Delivered", WaybillId = unchecked((int)3333333333333333) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 18, Activity = "Delivered", DateTimeOfRecord = new DateTime(2017, 04, 16, 16, 53, 00), Location = "Fuzhou", Remarks = "", DeliveredAt = "Front door", DeliveredTo = "Sammy So", Status = "Delivered", WaybillId = unchecked((int)3333333333333333) },
-
-               new TrackingSystemRecord { TrackingSystemRecordId = 19, Activity = "Picked up", DateTimeOfRecord = new DateTime(2017, 05, 02, 08, 30, 00), Location = "Hong Kong", Remarks = "Vehicle 12", DeliveredAt = "", DeliveredTo = "", Status = "Picked up", WaybillId = unchecked((int)4444444444444444) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 20, Activity = "At local sort facility", DateTimeOfRecord = new DateTime(2017, 05, 02, 10, 00, 00), Location = "Shatin", Remarks = "", DeliveredAt = "", DeliveredTo = "", Status = "Picked up", WaybillId = unchecked((int)4444444444444444) },
-               new TrackingSystemRecord { TrackingSystemRecordId = 21, Activity = "Left origin", DateTimeOfRecord = new DateTime(2017, 05, 02, 10, 35, 00), Location = "Shatin", Remarks = "Vehicle 667", DeliveredAt = "", DeliveredTo = "", Status = "Picked up", WaybillId = unchecked((int)4444444444444444) }
+            context.TrackingSystemRecords.AddOrUpdate(p => p.TrackingSystemRecordId, 
+               new TrackingSystemRecord { TrackingSystemRecordId = 1,  Activity = "Picked up",                  DateTimeOfRecord = new DateTime(2017, 04, 06, 13, 35, 00), Location = "Hong Kong",     Remarks = "Vehicle 34",     DeliveredAt = "Front door", DeliveredTo = "Monica Mok",  Status = "Picked up",           WaybillId = 1 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 2,  Activity = "At local sort facility",     DateTimeOfRecord = new DateTime(2017, 04, 06, 16, 15, 00), Location = "Tung Chung",    Remarks = "",               DeliveredAt = "Front door", DeliveredTo = "Monica Mok",  Status = "Weighting",           WaybillId = 1 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 3,  Activity = "Left origin",                DateTimeOfRecord = new DateTime(2017, 04, 06, 18, 05, 00), Location = "HKIA",          Remarks = "CX0123",         DeliveredAt = "Front door", DeliveredTo = "Monica Mok",  Status = "On road",             WaybillId = 1 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 4,  Activity = "At local sort facility",     DateTimeOfRecord = new DateTime(2017, 04, 06, 20, 18, 00), Location = "Pudong",        Remarks = "",               DeliveredAt = "Front door", DeliveredTo = "Monica Mok",  Status = "Arrived Destination", WaybillId = 1 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 5,  Activity = "On vehicle for delivery",    DateTimeOfRecord = new DateTime(2017, 04, 07, 06, 38, 00), Location = "Pudong",        Remarks = "Vehicle 1032",   DeliveredAt = "Front door", DeliveredTo = "Monica Mok",  Status = "Delivering",          WaybillId = 1 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 6,  Activity = "Delivered",                  DateTimeOfRecord = new DateTime(2017, 04, 07, 08, 48, 00), Location = "Shanghai",      Remarks = "",               DeliveredAt = "Front door", DeliveredTo = "Monica Mok",  Status = "Delivered",           WaybillId = 1 },
+                                                                                                                                                                                                                                                                                                        
+               new TrackingSystemRecord { TrackingSystemRecordId = 7,  Activity = "Picked up",                  DateTimeOfRecord = new DateTime(2017, 04, 10, 16, 45, 00), Location = "Hong Kong",     Remarks = "Vehicle 12",     DeliveredAt = "Front door", DeliveredTo = "George Guo",  Status = "Picked up",           WaybillId = 2 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 8,  Activity = "At local sort facility",     DateTimeOfRecord = new DateTime(2017, 04, 10, 20, 10, 00), Location = "Tung Chung",    Remarks = "",               DeliveredAt = "Front door", DeliveredTo = "George Guo",  Status = "Weighting",           WaybillId = 2 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 9,  Activity = "Left origin",                DateTimeOfRecord = new DateTime(2017, 04, 11, 10, 18, 00), Location = "HKIA",          Remarks = "KA3845",         DeliveredAt = "Front door", DeliveredTo = "George Guo",  Status = "On road",             WaybillId = 2 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 10, Activity = "At local sort facility",     DateTimeOfRecord = new DateTime(2017, 04, 11, 15, 28, 00), Location = "Lanzhou",       Remarks = "",               DeliveredAt = "Front door", DeliveredTo = "George Guo",  Status = "Arrived Destination", WaybillId = 2 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 11, Activity = "On vehicle for delivery",    DateTimeOfRecord = new DateTime(2017, 04, 12, 07, 38, 00), Location = "Lanzhou",       Remarks = "Vehicle 82",     DeliveredAt = "Front door", DeliveredTo = "George Guo",  Status = "Delivering",          WaybillId = 2 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 12, Activity = "Delivered",                  DateTimeOfRecord = new DateTime(2017, 04, 12, 10, 13, 00), Location = "Lanzhou",       Remarks = "",               DeliveredAt = "Front door", DeliveredTo = "George Guo",  Status = "Delivered",           WaybillId = 2 },                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                      
+               new TrackingSystemRecord { TrackingSystemRecordId = 13, Activity = "Picked up",                  DateTimeOfRecord = new DateTime(2017, 04, 14, 07, 55, 00), Location = "Hong Kong",     Remarks = "Vehicle 13",     DeliveredAt = "Front door", DeliveredTo = "Sammy So",    Status = "Picked up",           WaybillId = 3 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 14, Activity = "At local sort facility",     DateTimeOfRecord = new DateTime(2017, 04, 14, 09, 08, 00), Location = "Tung Chung",    Remarks = "",               DeliveredAt = "Front door", DeliveredTo = "Sammy So",    Status = "Weighting",           WaybillId = 3 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 15, Activity = "Left origin",                DateTimeOfRecord = new DateTime(2017, 04, 14, 10, 18, 00), Location = "HKIA",          Remarks = "KA3845",         DeliveredAt = "Front door", DeliveredTo = "Sammy So",    Status = "On road",             WaybillId = 3 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 16, Activity = "At local sort facility",     DateTimeOfRecord = new DateTime(2017, 04, 14, 15, 28, 00), Location = "Fuzhou",        Remarks = "",               DeliveredAt = "Front door", DeliveredTo = "Sammy So",    Status = "Arrived Destination", WaybillId = 3 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 17, Activity = "On vehicle for delivery",    DateTimeOfRecord = new DateTime(2017, 04, 14, 15, 50, 00), Location = "Fuzhou",        Remarks = "Vehicle 82",     DeliveredAt = "Front door", DeliveredTo = "Sammy So",    Status = "Delivering",          WaybillId = 3 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 18, Activity = "Delivered",                  DateTimeOfRecord = new DateTime(2017, 04, 16, 16, 53, 00), Location = "Fuzhou",        Remarks = "",               DeliveredAt = "Front door", DeliveredTo = "Sammy So",    Status = "Delivered",           WaybillId = 3 },
+                                                                                                                                                                                                                                                                                            
+               new TrackingSystemRecord { TrackingSystemRecordId = 19, Activity = "Picked up",                  DateTimeOfRecord = new DateTime(2017, 05, 02, 08, 30, 00), Location = "Hong Kong",     Remarks = "Vehicle 12",     DeliveredAt = "",           DeliveredTo = "",            Status = "Picked up",           WaybillId = 4 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 20, Activity = "At local sort facility",     DateTimeOfRecord = new DateTime(2017, 05, 02, 10, 00, 00), Location = "Shatin",        Remarks = "",               DeliveredAt = "",           DeliveredTo = "",            Status = "Weighting",           WaybillId = 4 },
+               new TrackingSystemRecord { TrackingSystemRecordId = 21, Activity = "Left origin",                DateTimeOfRecord = new DateTime(2017, 05, 02, 10, 35, 00), Location = "Shatin",        Remarks = "Vehicle 667",    DeliveredAt = "",           DeliveredTo = "",            Status = "On road",             WaybillId = 4 }
                );
 
             /***** Sample data*****/
+           
+            }
+            catch (Exception ex)
+            {
+                ;
+            }
+            
+           
            
            
            

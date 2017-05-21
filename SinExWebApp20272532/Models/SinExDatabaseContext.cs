@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace SinExWebApp20272532.Models
@@ -18,13 +20,6 @@ namespace SinExWebApp20272532.Models
         public SinExDatabaseContext() : base("name=SinExDatabaseContext")
         {
         }
-        
-        
-        /****** for sample data ******/
-        public System.Data.Entity.DbSet<SinExWebApp20272532.Models.ShippingAccount> PersonalShippingAccounts { get; set; }
-
-        public System.Data.Entity.DbSet<SinExWebApp20272532.Models.ShippingAccount> BusinessShippingAccounts { get; set; }
-        /****** for sample data ******/
         
         
         
@@ -53,5 +48,32 @@ namespace SinExWebApp20272532.Models
         public System.Data.Entity.DbSet<SinExWebApp20272532.Models.TrackingSystemRecord> TrackingSystemRecords { get; set; }
 
         public System.Data.Entity.DbSet<SinExWebApp20272532.Models.Invoice> Invoices { get; set; }
+
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var sb = new StringBuilder();
+
+                foreach (var failure in ex.EntityValidationErrors)
+                {
+                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                    foreach (var error in failure.ValidationErrors)
+                    {
+                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                        sb.AppendLine();
+                    }
+                }
+
+                throw new DbEntityValidationException(
+                    "Entity Validation Failed - errors follow:\n" +
+                    sb.ToString(), ex
+                    ); // Add the original exception as the innerException
+            }
+        }
     }
 }
